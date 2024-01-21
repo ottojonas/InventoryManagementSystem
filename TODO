@@ -22,17 +22,15 @@ Browse Stock Movement Page:
   ☐ Utilise the movementOptionMenu @high / @low 
 
 Editing Stock Movement Page: 
-  ☐ Create the widgets for the editing frame @critical @est(2 hours)
   ☐ Create the methods for updating and saving the updated for to database @critical @est(4 hours)
 
 Transfers Page: 
   ☐ Transfering Stock method @critical @est(3 hours) 
   ☐ Not showing item name and item size on itemScrollFrame when cell selected @high @est(1 hour) 
 
-Formatting: 
-  ☐ Table foramtting for the Browse Stock Moving page so that the cells and text are readable and user friendly
-
-  Archive:
+Archive:
+  ✘ Create the widgets for the editing frame @critical @est(2 hours) @started(24-01-21 17:14) @cancelled(24-01-21 17:17) @wasted(3m24s) @project(Editing Stock Movement Page)
+  ✘ Table foramtting for the Browse Stock Moving page so that the cells and text are readable and user friendly @cancelled(24-01-21 17:13) @project(Formatting)
   ✔ Retrieving the selected stock movement number to be able to edit it @critical @done(24-01-21 16:55) @project(Transfers Page)
   ✔ Update and Cancel buttons not lining up on x-axis @low @est(1 hour) @started(24-01-21 16:43) @done(24-01-21 16:43) @lasted(20s) @project(Formatting)
   ✔ Create information labels for all of the needed information of the stock movement @critical @est(2 hours) @started(24-01-21 13:40) @done(24-01-21 13:49) @lasted(9m7s) @project(Editing Stock Movement Page)

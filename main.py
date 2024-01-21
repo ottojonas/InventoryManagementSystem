@@ -1545,6 +1545,14 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             side="right", anchor="center", padx=(10, 10), pady=(10, 10)
         )
 
+        self.editItemsLabel = customtkinter.CTkLabel(
+            self.editingInformationFrame,
+            text="Edit Quantity Here",
+            text_color="black",
+            font=self.FONT,
+        )
+        self.editItemsLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
 
 class PurchaseOrderPage(BasePage):
     def __init__(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass):
