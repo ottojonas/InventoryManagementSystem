@@ -1,3 +1,10 @@
 /.vscode
 /database
 /__pycache__
+/csvFiles
+/csvTestData
+/pageFiles
+/registerWindows
+/main.html
+/randomTestCode
+/TODO
