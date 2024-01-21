@@ -15,6 +15,9 @@ Pages to Create:
   ☐ Hire
   ☐ Settings
 
+Home Page: 
+  ☐ notificationButton not being updated when there are notifications @low
+
 Browse Stock Movement Page: 
   ☐ Utilise the movementOptionMenu @critical
 
@@ -24,6 +27,7 @@ Transfers Page:
   ☐ Retrieving the selected stock movement number to be able to edit it @critical
 
 Archive:
+  ✔ Search function to only populate table with one of each number @critical @est(1 hour) @started(24-01-21 13:13) @done(24-01-21 13:18) @lasted(5m10s) @project(Browse Stock Movement Page)
   ✔ Delete reminders button @high @est(1 hour) @started(24-01-21 12:12) @done(24-01-21 13:03) @lasted(51m4s) @project(Home Page)
   ✔ Create GitHub repo for project @critical @est(1 hour) @started(24-01-21 12:19) @done(24-01-21 12:25) @lasted(6m51s) @project(Code)
   ✔ Check reminders function - checkNotifications and updating notificationButton @low @done(24-01-21 12:12) @project(Home Page)

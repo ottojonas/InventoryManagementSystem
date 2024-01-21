@@ -178,11 +178,11 @@ class SQLiteWrapper:
         return [row[0] for row in self.myCursor.fetchall()]
 
     def fetchUniqueCategoryNames(self):
-        self.myCursor.execute("SELECT DISTINCT categoryname from Categories")
+        self.myCursor.execute("SELECT DISTINCT categoryName from Categories")
         return [row[0] for row in self.myCursor.fetchall()]
 
-    def fetchCustomers(self):
-        self.myCursor.execute("SELECT customerName from Customers")
+    def fetchUniquePurchaseOrderNumbers(self):
+        self.myCursor.execute("SELECT DISTINCT purchaseOrderNumber FROM PurchaseOrder")
         return [row[0] for row in self.myCursor.fetchall()]
 
     def executeDatabaseQuery(self, query, params):
@@ -460,7 +460,6 @@ class BasePage:
             pady=(10, 10),
         )
 
-        # TODO Fix Hover Frame = Frame to disappear when it is meant to and not disappear when it is not meant to. Paradox
         # * Hover in and out functions for StockMovementHoverFrame
         def showHoverFrame(event):
             """
@@ -1253,13 +1252,10 @@ class BrowseStockMovementsPage(BasePage):
             "database/inventoryDatabaseUpdated.db",
         )
         ic("PurchaseOrderListPage Initialized")
-        self.fetchingDefaultValues = self.db.executeDatabaseQuery(
-            "SELECT purchaseOrderNumber FROM PurchaseOrder", ()
-        )
-        defaultTableValues = [
-            [purchaseorderNumbers]
-            for purchaseorderNumbers in self.fetchingDefaultValues
-        ]
+
+        defaultTableValues = self.db.fetchUniquePurchaseOrderNumbers()
+        tableValues = [[number] for number in defaultTableValues]
+
         self.pageSearchContainer = customtkinter.CTkFrame(
             self.widgetFrame,
             fg_color="transparent",
@@ -1317,13 +1313,15 @@ class BrowseStockMovementsPage(BasePage):
 
         self.tableOfContents = CTkTable(
             self.itemTableScrollFrame,
-            values=defaultTableValues,
+            values=tableValues,
             colors=["#ffffff", "#ffffff"],
             hover_color="grey",
             text_color="black",
             header_color=False,
             justify="center",
             corner_radius=0,
+            font=self.FONT,
+            command=mainApplicationClass.openPurchaseOrderAndTransferEditingPage,
         )
         self.tableOfContents.grid_propagate(False)
         self.tableOfContents.grid(sticky="nsew")
@@ -1380,6 +1378,7 @@ class BrowseStockMovementsPage(BasePage):
                 header_color=False,
                 justify="center",
                 corner_radius=0,
+                font=self.FONT,
                 command=mainApplicationClass.openPurchaseOrderAndTransferEditingPage,
             )
             self.tableOfContents.pack_propagate(False)
@@ -1404,6 +1403,7 @@ class BrowseStockMovementsPage(BasePage):
                 header_color=False,
                 justify="center",
                 corner_radius=0,
+                font=self.FONT,
                 command=mainApplicationClass.openPurchaseOrderAndTransferEditingPage,
             )
             self.tableOfContents.pack_propagate(False)
@@ -1415,6 +1415,71 @@ class BrowseStockMovementsPage(BasePage):
         :return: The method `getOptionMovement` is returning the value of `self.movementOptionMenu`.
         """
         return self.movementOptionMenu.get()
+
+
+class PurchaseOrderAndTransferEditingPage(BasePage):
+    def __init__(
+        self, mainWindow, mainFrame, imageWrapper, mainApplicationClass, cellValue
+    ):
+        super().__init__(mainWindow, mainFrame, imageWrapper, mainApplicationClass)
+        self.db = SQLiteWrapper(
+            "database/inventoryDatabase.db",
+            "database/loginInfoDatabase.db",
+            "database/remindersDatabase.db",
+            "database/inventoryDatabaseUpdated.db",
+        )
+        ic("PurchaseOrderAndTransferEditingPage Initialized")
+        ic(f"cellValue: {cellValue}")
+
+        self.informationFrame = customtkinter.CTkFrame(
+            self.widgetFrame,
+            fg_color="white",
+            width=950,
+            height=1000,
+        )
+        self.informationFrame.pack_propagate(False)
+        self.informationFrame.pack(
+            side="left", anchor="center", padx=(10, 10), pady=(10, 10)
+        )
+
+        self.stockMovementNumberLabel = customtkinter.CTkLabel(
+            self.informationFrame,
+            text=f"{cellValue['value']}",
+            text_color="black",
+            font=self.FONT,
+        )
+        self.stockMovementNumberLabel.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10)
+        )
+
+        self.expectedDeliveryDateLabel = customtkinter.CTkLabel(
+            self.informationFrame,
+            text="Expected Delivery Date Placeholder",
+            text_color="black",
+            font=self.FONT,
+        )
+        self.expectedDeliveryDateLabel.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10)
+        )
+
+        self.supplierLabel = customtkinter.CTkLabel(
+            self.informationFrame,
+            text="Supplier Placeholder",
+            text_color="black",
+            font=self.FONT,
+        )
+        self.supplierLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
+        self.editingInformationFrame = customtkinter.CTkFrame(
+            self.widgetFrame,
+            fg_color="white",
+            width=950,
+            height=1000,
+        )
+        self.editingInformationFrame.pack_propagate(False)
+        self.editingInformationFrame.pack(
+            side="right", anchor="center", padx=(10, 10), pady=(10, 10)
+        )
 
 
 class PurchaseOrderPage(BasePage):
@@ -2136,71 +2201,6 @@ class TransfersPage(BasePage):
             font=self.FONT,
         )
         self.itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
-
-
-class PurchaseOrderAndTransferEditingPage(BasePage):
-    def __init__(
-        self, mainWindow, mainFrame, imageWrapper, mainApplicationClass, cellValue
-    ):
-        super().__init__(mainWindow, mainFrame, imageWrapper, mainApplicationClass)
-        self.db = SQLiteWrapper(
-            "database/inventoryDatabase.db",
-            "database/loginInfoDatabase.db",
-            "database/remindersDatabase.db",
-            "database/inventoryDatabaseUpdated.db",
-        )
-        ic("PurchaseOrderAndTransferEditingPage Initialized")
-        ic(f"cellValue: {cellValue}")
-
-        self.informationFrame = customtkinter.CTkFrame(
-            self.widgetFrame,
-            fg_color="white",
-            width=950,
-            height=1000,
-        )
-        self.informationFrame.pack_propagate(False)
-        self.informationFrame.pack(
-            side="left", anchor="center", padx=(10, 10), pady=(10, 10)
-        )
-
-        self.stockMovementNumberLabel = customtkinter.CTkLabel(
-            self.informationFrame,
-            text=f"{cellValue['value']}",
-            text_color="black",
-            font=self.FONT,
-        )
-        self.stockMovementNumberLabel.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10)
-        )
-
-        self.expectedDeliveryDateLabel = customtkinter.CTkLabel(
-            self.informationFrame,
-            text="Expected Delivery Date Placeholder",
-            text_color="black",
-            font=self.FONT,
-        )
-        self.expectedDeliveryDateLabel.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10)
-        )
-
-        self.supplierLabel = customtkinter.CTkLabel(
-            self.informationFrame,
-            text="Supplier Placeholder",
-            text_color="black",
-            font=self.FONT,
-        )
-        self.supplierLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
-
-        self.editingInformationFrame = customtkinter.CTkFrame(
-            self.widgetFrame,
-            fg_color="white",
-            width=950,
-            height=1000,
-        )
-        self.editingInformationFrame.pack_propagate(False)
-        self.editingInformationFrame.pack(
-            side="right", anchor="center", padx=(10, 10), pady=(10, 10)
-        )
 
 
 class ReportsPage(BasePage):
