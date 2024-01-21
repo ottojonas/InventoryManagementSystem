@@ -1,0 +1,9 @@
+onlineOrderID,customerName,totalPrice,fulfilmentStatus,deliveryMethod,tags,itemID
+1,customterName,totalPrice,fulfilmentStatus,deliveryMethod,,itemID
+2,Jeremy ,300.0,Confirmed ,Collection ,,3
+3,Catherine ,300.0,Cancelled ,Collection ,,4
+4,Peter ,250.0,In Transit ,Shipping ,,6
+5,Tanya ,300.0,Delivered ,Collection ,,3
+6,John ,250.0,Pending Payment,Shipping ,,8
+7,Jeaneth ,150.0,Pending Payment ,Shipping ,,9
+8,Poppy ,300.0,Delivered ,Collection ,,5

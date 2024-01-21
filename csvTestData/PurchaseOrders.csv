@@ -1,0 +1,91 @@
+purchaseOrderID,purchaseOrderNumber,itemID,manufacturerID,sku,price,createdBy,updatedBy,createdAt,updatedAt,sizes,deliveryDate,quantity
+55,1,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,,,34,1.11.11,1
+56,1,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,,,36,1.11.11,1
+57,1,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,,,38,1.11.11,1
+58,1,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,,,40,1.11.11,1
+59,1,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,,,42,1.11.11,1
+60,1,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,,,44,1.11.11,1
+61,1,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,,,46,1.11.11,1
+62,1,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,,,48,1.11.11,1
+63,1,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,,,50,1.11.11,1
+64,2,Black Trousers,3,suittest07,1350.0,Otto Jonas,,,,34,1.11.24,1
+65,2,Black Trousers,3,suittest07,1350.0,Otto Jonas,,,,36,1.11.24,1
+66,2,Black Trousers,3,suittest07,1350.0,Otto Jonas,,,,38,1.11.24,1
+67,2,Black Trousers,3,suittest07,1350.0,Otto Jonas,,,,40,1.11.24,1
+68,2,Black Trousers,3,suittest07,1350.0,Otto Jonas,,,,42,1.11.24,1
+69,2,Black Trousers,3,suittest07,1350.0,Otto Jonas,,,,44,1.11.24,1
+70,2,Black Trousers,3,suittest07,1350.0,Otto Jonas,,,,46,1.11.24,1
+71,2,Black Trousers,3,suittest07,1350.0,Otto Jonas,,,,48,1.11.24,1
+72,2,Black Trousers,3,suittest07,1350.0,Otto Jonas,,,,50,1.11.24,1
+73,3,Blue Jacket ,6,suittest04,2250.0,Otto Jonas,,2023-12-08,,34,2023-12-27,1
+74,3,Blue Jacket ,6,suittest04,2250.0,Otto Jonas,,2023-12-08,,36,2023-12-27,1
+75,3,Blue Jacket ,6,suittest04,2250.0,Otto Jonas,,2023-12-08,,38,2023-12-27,1
+76,3,Blue Jacket ,6,suittest04,2250.0,Otto Jonas,,2023-12-08,,40,2023-12-27,1
+77,3,Blue Jacket ,6,suittest04,2250.0,Otto Jonas,,2023-12-08,,42,2023-12-27,1
+78,3,Blue Jacket ,6,suittest04,2250.0,Otto Jonas,,2023-12-08,,44,2023-12-27,1
+79,3,Blue Jacket ,6,suittest04,2250.0,Otto Jonas,,2023-12-08,,46,2023-12-27,1
+80,3,Blue Jacket ,6,suittest04,2250.0,Otto Jonas,,2023-12-08,,48,2023-12-27,1
+81,3,Blue Jacket ,6,suittest04,2250.0,Otto Jonas,,2023-12-08,,50,2023-12-27,1
+82,4,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,34,2023-12-28,1
+83,4,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,36,2023-12-28,1
+84,4,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,38,2023-12-28,1
+85,4,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,40,2023-12-28,1
+86,4,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,42,2023-12-28,1
+87,4,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,44,2023-12-28,1
+88,4,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,46,2023-12-28,1
+89,4,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,48,2023-12-28,1
+90,4,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,50,2023-12-28,1
+91,5,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,34,2023-12-28,1
+92,5,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,36,2023-12-28,1
+93,5,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,38,2023-12-28,1
+94,5,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,40,2023-12-28,1
+95,5,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,42,2023-12-28,1
+96,5,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,44,2023-12-28,1
+97,5,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,46,2023-12-28,1
+98,5,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,48,2023-12-28,1
+99,5,Black Jacket ,5,suittest06,2250.0,Otto Jonas,,2023-12-08,,50,2023-12-28,1
+100,6,Black Jacket ,5,suittest06,2000.0,Otto Jonas,,2023-12-08,,34,2023-12-29,1
+101,6,Black Jacket ,5,suittest06,2000.0,Otto Jonas,,2023-12-08,,36,2023-12-29,1
+102,6,Black Jacket ,5,suittest06,2000.0,Otto Jonas,,2023-12-08,,38,2023-12-29,1
+103,6,Black Jacket ,5,suittest06,2000.0,Otto Jonas,,2023-12-08,,40,2023-12-29,1
+104,6,Black Jacket ,5,suittest06,2000.0,Otto Jonas,,2023-12-08,,42,2023-12-29,1
+105,6,Black Jacket ,5,suittest06,2000.0,Otto Jonas,,2023-12-08,,44,2023-12-29,1
+106,6,Black Jacket ,5,suittest06,2000.0,Otto Jonas,,2023-12-08,,46,2023-12-29,1
+107,6,Black Jacket ,5,suittest06,2000.0,Otto Jonas,,2023-12-08,,48,2023-12-29,1
+108,6,Black Jacket ,5,suittest06,2000.0,Otto Jonas,,2023-12-08,,50,2023-12-29,1
+109,7,Black Suit ,4,suittest02,2700.0,Otto Jonas,,2023-12-09,,34,2023-12-28,1
+110,7,Black Suit ,4,suittest02,2700.0,Otto Jonas,,2023-12-09,,36,2023-12-28,1
+111,7,Black Suit ,4,suittest02,2700.0,Otto Jonas,,2023-12-09,,38,2023-12-28,1
+112,7,Black Suit ,4,suittest02,2700.0,Otto Jonas,,2023-12-09,,40,2023-12-28,1
+113,7,Black Suit ,4,suittest02,2700.0,Otto Jonas,,2023-12-09,,42,2023-12-28,1
+114,7,Black Suit ,4,suittest02,2700.0,Otto Jonas,,2023-12-09,,44,2023-12-28,1
+115,7,Black Suit ,4,suittest02,2700.0,Otto Jonas,,2023-12-09,,46,2023-12-28,1
+116,7,Black Suit ,4,suittest02,2700.0,Otto Jonas,,2023-12-09,,48,2023-12-28,1
+117,7,Black Suit ,4,suittest02,2700.0,Otto Jonas,,2023-12-09,,50,2023-12-28,1
+118,8,Blue Trousers,3,suittest05,1350.0,Otto Jonas,,2023-12-09,,34,2023-12-30,1
+119,8,Blue Trousers,3,suittest05,1350.0,Otto Jonas,,2023-12-09,,36,2023-12-30,1
+120,8,Blue Trousers,3,suittest05,1350.0,Otto Jonas,,2023-12-09,,38,2023-12-30,1
+121,8,Blue Trousers,3,suittest05,1350.0,Otto Jonas,,2023-12-09,,40,2023-12-30,1
+122,8,Blue Trousers,3,suittest05,1350.0,Otto Jonas,,2023-12-09,,42,2023-12-30,1
+123,8,Blue Trousers,3,suittest05,1350.0,Otto Jonas,,2023-12-09,,44,2023-12-30,1
+124,8,Blue Trousers,3,suittest05,1350.0,Otto Jonas,,2023-12-09,,46,2023-12-30,1
+125,8,Blue Trousers,3,suittest05,1350.0,Otto Jonas,,2023-12-09,,48,2023-12-30,1
+126,8,Blue Trousers,3,suittest05,1350.0,Otto Jonas,,2023-12-09,,50,2023-12-30,1
+127,9,Black Trousers,3,suittest07,1350.0,Otto Jonas,,2023-12-09,,34,2023-12-29,1
+128,9,Black Trousers,3,suittest07,1350.0,Otto Jonas,,2023-12-09,,36,2023-12-29,1
+129,9,Black Trousers,3,suittest07,1350.0,Otto Jonas,,2023-12-09,,38,2023-12-29,1
+130,9,Black Trousers,3,suittest07,1350.0,Otto Jonas,,2023-12-09,,40,2023-12-29,1
+131,9,Black Trousers,3,suittest07,1350.0,Otto Jonas,,2023-12-09,,42,2023-12-29,1
+132,9,Black Trousers,3,suittest07,1350.0,Otto Jonas,,2023-12-09,,44,2023-12-29,1
+133,9,Black Trousers,3,suittest07,1350.0,Otto Jonas,,2023-12-09,,46,2023-12-29,1
+134,9,Black Trousers,3,suittest07,1350.0,Otto Jonas,,2023-12-09,,48,2023-12-29,1
+135,9,Black Trousers,3,suittest07,1350.0,Otto Jonas,,2023-12-09,,50,2023-12-29,1
+136,10,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,2023-12-12,,34,2023-12-29,1
+137,10,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,2023-12-12,,36,2023-12-29,1
+138,10,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,2023-12-12,,38,2023-12-29,1
+139,10,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,2023-12-12,,40,2023-12-29,1
+140,10,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,2023-12-12,,42,2023-12-29,1
+141,10,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,2023-12-12,,44,2023-12-29,1
+142,10,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,2023-12-12,,46,2023-12-29,1
+143,10,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,2023-12-12,,48,2023-12-29,1
+144,10,Grey Suit ,7,suittest03,2700.0,Otto Jonas,,2023-12-12,,50,2023-12-29,1

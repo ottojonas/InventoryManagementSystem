@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module main</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">main</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cottob%5Conedrive%5Cdocuments%5Cschool%5Ccoursework%5Ccourseworkcode%5Cmain.py">c:\users\ottob\onedrive\documents\school\coursework\courseworkcode\main.py</a></td></tr></table>
+    <p><span class="code">#&nbsp;main.py<br>
+#&nbsp;*&nbsp;Standard&nbsp;Library&nbsp;Imports</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="PIL.Image.html">PIL.Image</a><br>
+<a href="csv.html">csv</a><br>
+</td><td class="multicolumn"><a href="customtkinter.html">customtkinter</a><br>
+<a href="os.html">os</a><br>
+</td><td class="multicolumn"><a href="matplotlib.pyplot.html">matplotlib.pyplot</a><br>
+<a href="sqlite3.html">sqlite3</a><br>
+</td><td class="multicolumn"><a href="tkinter.messagebox.html">tkinter.messagebox</a><br>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="main.html#ApplicationState">ApplicationState</a>
+</dt><dt class="heading-text"><a href="main.html#BasePage">BasePage</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="main.html#BrowseStockMovementsPage">BrowseStockMovementsPage</a>
+</dt><dt class="heading-text"><a href="main.html#HomePage">HomePage</a>
+</dt><dt class="heading-text"><a href="main.html#InventoryManagementSystemApplication">InventoryManagementSystemApplication</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="main.html#MainApplicationClass">MainApplicationClass</a>(<a href="main.html#InventoryManagementSystemApplication">InventoryManagementSystemApplication</a>, <a href="main.html#RegisterPages">RegisterPages</a>)
+</dt></dl>
+</dd>
+<dt class="heading-text"><a href="main.html#OpeningPage">OpeningPage</a>
+</dt><dt class="heading-text"><a href="main.html#PurchaseOrderAndTransferEditingPage">PurchaseOrderAndTransferEditingPage</a>
+</dt><dt class="heading-text"><a href="main.html#PurchaseOrderPage">PurchaseOrderPage</a>
+</dt><dt class="heading-text"><a href="main.html#ReportsPage">ReportsPage</a>
+</dt><dt class="heading-text"><a href="main.html#TransfersPage">TransfersPage</a>
+</dt></dl>
+</dd>
+<dt class="heading-text"><a href="main.html#Factory">Factory</a>
+</dt><dt class="heading-text"><a href="main.html#ImageWrapper">ImageWrapper</a>
+</dt><dt class="heading-text"><a href="main.html#Observer">Observer</a>
+</dt><dt class="heading-text"><a href="main.html#RegisterBasePage">RegisterBasePage</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="main.html#LogInPage">LogInPage</a>
+</dt><dt class="heading-text"><a href="main.html#RegisterPages">RegisterPages</a>
+</dt><dt class="heading-text"><a href="main.html#SignUpPage">SignUpPage</a>
+</dt></dl>
+</dd>
+<dt class="heading-text"><a href="main.html#SQLiteWrapper">SQLiteWrapper</a>
+</dt><dt class="heading-text"><a href="main.html#Subject">Subject</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="ApplicationState">class <strong>ApplicationState</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#ApplicationState">ApplicationState</a>(<a href="#SQLiteWrapper">SQLiteWrapper</a>)<br>
+&nbsp;<br>
+#&nbsp;TODO&nbsp;Add&nbsp;more&nbsp;state&nbsp;variables&nbsp;and&nbsp;methods&nbsp;to&nbsp;manipulate&nbsp;the&nbsp;state.<br>
+#&nbsp;*&nbsp;Application&nbsp;State&nbsp;Managament&nbsp;Classes<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="ApplicationState-__init__"><strong>__init__</strong></a>(self, SQLiteWrapper)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="ApplicationState-getCurrentUser"><strong>getCurrentUser</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ApplicationState-login"><strong>login</strong></a>(self, email, password)</dt><dd><span class="code">#&nbsp;*&nbsp;Methods&nbsp;to&nbsp;manipulate&nbsp;the&nbsp;state</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="BasePage">class <strong>BasePage</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#BasePage">BasePage</a>(mainWindow,&nbsp;mainFrame,&nbsp;imageWrapper,&nbsp;mainApplicationClass)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="BasePage-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="BasePage-animateSideBar"><strong>animateSideBar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BasePage-toggleSideBar"><strong>toggleSideBar</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>FGCOLOR</strong> = 'white'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = 'grey'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+<dl><dt><strong>safeTimeString</strong> = '2024-01-19_10-03-49'</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="BrowseStockMovementsPage">class <strong>BrowseStockMovementsPage</strong></a>(<a href="main.html#BasePage">BasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#BrowseStockMovementsPage">BrowseStockMovementsPage</a>(mainWindow,&nbsp;mainFrame,&nbsp;imageWrapper,&nbsp;mainApplicationClass)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#BrowseStockMovementsPage">BrowseStockMovementsPage</a></dd>
+<dd><a href="main.html#BasePage">BasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="BrowseStockMovementsPage-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="BrowseStockMovementsPage-getOptionMovement"><strong>getOptionMovement</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BrowseStockMovementsPage-search"><strong>search</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><a name="BrowseStockMovementsPage-animateSideBar"><strong>animateSideBar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BrowseStockMovementsPage-toggleSideBar"><strong>toggleSideBar</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = 'white'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = 'grey'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+<dl><dt><strong>safeTimeString</strong> = '2024-01-19_10-03-49'</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Factory">class <strong>Factory</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">#&nbsp;TODO&nbsp;Fill&nbsp;in&nbsp;the&nbsp;design&nbsp;pattern&nbsp;functions.&nbsp;Need&nbsp;time&nbsp;to&nbsp;do&nbsp;this&nbsp;as&nbsp;well&nbsp;as&nbsp;will&nbsp;need&nbsp;to&nbsp;look&nbsp;at&nbsp;code&nbsp;and&nbsp;work&nbsp;out&nbsp;what&nbsp;can&nbsp;be&nbsp;implemented&nbsp;into&nbsp;the&nbsp;<a href="#Factory">Factory</a>&nbsp;and&nbsp;<a href="#Observer">Observer</a>&nbsp;Classes<br>
+#&nbsp;*&nbsp;Design&nbsp;Pattern&nbsp;Classes<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="HomePage">class <strong>HomePage</strong></a>(<a href="main.html#BasePage">BasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#HomePage">HomePage</a>(mainWindow,&nbsp;mainFrame,&nbsp;imageWrapper,&nbsp;mainApplicationClass)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#HomePage">HomePage</a></dd>
+<dd><a href="main.html#BasePage">BasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="HomePage-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="HomePage-addReminder"><strong>addReminder</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="HomePage-addReminderFromEntry"><strong>addReminderFromEntry</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="HomePage-checkReminder"><strong>checkReminder</strong></a>(self, reminders)</dt><dd><span class="code">#&nbsp;TODO&nbsp;Need&nbsp;to&nbsp;look&nbsp;at&nbsp;this&nbsp;function</span></dd></dl>
+
+<dl><dt><a name="HomePage-deleteRow"><strong>deleteRow</strong></a>(self, event)</dt></dl>
+
+<dl><dt><a name="HomePage-drawGraph"><strong>drawGraph</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="HomePage-fetchReminders"><strong>fetchReminders</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="HomePage-reminderNotifications"><strong>reminderNotifications</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="HomePage-updateRemindersTable"><strong>updateRemindersTable</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><a name="HomePage-animateSideBar"><strong>animateSideBar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="HomePage-toggleSideBar"><strong>toggleSideBar</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = 'white'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = 'grey'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+<dl><dt><strong>safeTimeString</strong> = '2024-01-19_10-03-49'</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="ImageWrapper">class <strong>ImageWrapper</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor"><span class="code">&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn">Static methods defined here:<br>
+<dl><dt><a name="ImageWrapper-loadImage"><strong>loadImage</strong></a>(iconName, size=None)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>ICONDICT</strong> = {'activeNotificationBellIcon': 'images/activeNotificationIcon.png', 'customerIcon': 'images/customerIcon.png', 'downloadIcon': 'images/downloadIcon.png', 'emailIcon': 'images/emailIcon.png', 'homeIcon': 'images/homeIcon.png', 'inventoryIcon': 'images/inventoryIcon.png', 'notificationBellIcon': 'images/notificationBellIcon.png', 'orderIcon': 'images/orderIcon.png', 'passwordIcon': 'images/passwordIcon.png', 'presentationIcon': 'images/presentation.png', ...}</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="InventoryManagementSystemApplication">class <strong>InventoryManagementSystemApplication</strong></a>(<a href="main.html#BasePage">BasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#InventoryManagementSystemApplication">InventoryManagementSystemApplication</a>(mainWindow,&nbsp;mainFrame,&nbsp;imageWrapper,&nbsp;mainApplicationClass)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#InventoryManagementSystemApplication">InventoryManagementSystemApplication</a></dd>
+<dd><a href="main.html#BasePage">BasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="InventoryManagementSystemApplication-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Methods inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><a name="InventoryManagementSystemApplication-animateSideBar"><strong>animateSideBar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="InventoryManagementSystemApplication-toggleSideBar"><strong>toggleSideBar</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = 'white'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = 'grey'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+<dl><dt><strong>safeTimeString</strong> = '2024-01-19_10-03-49'</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="LogInPage">class <strong>LogInPage</strong></a>(<a href="main.html#RegisterBasePage">RegisterBasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#LogInPage">LogInPage</a>(mainWindow,&nbsp;mainFrame,&nbsp;mainApplicationClass)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#LogInPage">LogInPage</a></dd>
+<dd><a href="main.html#RegisterBasePage">RegisterBasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="LogInPage-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame, mainApplicationClass)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#RegisterBasePage">RegisterBasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#RegisterBasePage">RegisterBasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = '#37443d'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = '#5e6963'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="MainApplicationClass">class <strong>MainApplicationClass</strong></a>(<a href="main.html#InventoryManagementSystemApplication">InventoryManagementSystemApplication</a>, <a href="main.html#RegisterPages">RegisterPages</a>)</td></tr>
+    
+<tr><td class="decor title-decor"><span class="code">&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#MainApplicationClass">MainApplicationClass</a></dd>
+<dd><a href="main.html#InventoryManagementSystemApplication">InventoryManagementSystemApplication</a></dd>
+<dd><a href="main.html#BasePage">BasePage</a></dd>
+<dd><a href="main.html#RegisterPages">RegisterPages</a></dd>
+<dd><a href="main.html#RegisterBasePage">RegisterBasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MainApplicationClass-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="MainApplicationClass-clearMainWindow"><strong>clearMainWindow</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-loadImage"><strong>loadImage</strong></a>(self, iconName, size=None)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-openHomePage"><strong>openHomePage</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-openLogInPage"><strong>openLogInPage</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-openOpeningPage"><strong>openOpeningPage</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-openPurchaseOrderAndTransferEditingPage"><strong>openPurchaseOrderAndTransferEditingPage</strong></a>(self, cellValue)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-openPurchaseOrderListPage"><strong>openPurchaseOrderListPage</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-openPurchaseOrderPage"><strong>openPurchaseOrderPage</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-openReportsPage"><strong>openReportsPage</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-openSignUpPage"><strong>openSignUpPage</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-openTransfersPage"><strong>openTransfersPage</strong></a>(self, cellValue=None)</dt></dl>
+
+<hr>
+Methods inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><a name="MainApplicationClass-animateSideBar"><strong>animateSideBar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="MainApplicationClass-toggleSideBar"><strong>toggleSideBar</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = 'white'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = 'grey'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+<dl><dt><strong>safeTimeString</strong> = '2024-01-19_10-03-49'</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Observer">class <strong>Observer</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor"><span class="code">&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn">Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="OpeningPage">class <strong>OpeningPage</strong></a>(<a href="main.html#BasePage">BasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#OpeningPage">OpeningPage</a>(mainWindow,&nbsp;mainFrame,&nbsp;imageWrapper,&nbsp;mainApplicationClass)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#OpeningPage">OpeningPage</a></dd>
+<dd><a href="main.html#BasePage">BasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="OpeningPage-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Methods inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><a name="OpeningPage-animateSideBar"><strong>animateSideBar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="OpeningPage-toggleSideBar"><strong>toggleSideBar</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = 'white'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = 'grey'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+<dl><dt><strong>safeTimeString</strong> = '2024-01-19_10-03-49'</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="PurchaseOrderAndTransferEditingPage">class <strong>PurchaseOrderAndTransferEditingPage</strong></a>(<a href="main.html#BasePage">BasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#PurchaseOrderAndTransferEditingPage">PurchaseOrderAndTransferEditingPage</a>(mainWindow,&nbsp;mainFrame,&nbsp;imageWrapper,&nbsp;mainApplicationClass,&nbsp;cellValue)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#PurchaseOrderAndTransferEditingPage">PurchaseOrderAndTransferEditingPage</a></dd>
+<dd><a href="main.html#BasePage">BasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="PurchaseOrderAndTransferEditingPage-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass, cellValue)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Methods inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><a name="PurchaseOrderAndTransferEditingPage-animateSideBar"><strong>animateSideBar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PurchaseOrderAndTransferEditingPage-toggleSideBar"><strong>toggleSideBar</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = 'white'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = 'grey'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+<dl><dt><strong>safeTimeString</strong> = '2024-01-19_10-03-49'</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="PurchaseOrderPage">class <strong>PurchaseOrderPage</strong></a>(<a href="main.html#BasePage">BasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#PurchaseOrderPage">PurchaseOrderPage</a>(mainWindow,&nbsp;mainFrame,&nbsp;imageWrapper,&nbsp;mainApplicationClass)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#PurchaseOrderPage">PurchaseOrderPage</a></dd>
+<dd><a href="main.html#BasePage">BasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="PurchaseOrderPage-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="PurchaseOrderPage-calculateTotalPrice"><strong>calculateTotalPrice</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PurchaseOrderPage-clearListOfItemsFrame"><strong>clearListOfItemsFrame</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PurchaseOrderPage-onItemSelect"><strong>onItemSelect</strong></a>(self, event)</dt></dl>
+
+<dl><dt><a name="PurchaseOrderPage-resetAttributes"><strong>resetAttributes</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PurchaseOrderPage-savePurchaseOrder"><strong>savePurchaseOrder</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PurchaseOrderPage-updateDate"><strong>updateDate</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PurchaseOrderPage-updateLabel"><strong>updateLabel</strong></a>(self, *args)</dt></dl>
+
+<dl><dt><a name="PurchaseOrderPage-updateSupplierLabel"><strong>updateSupplierLabel</strong></a>(self, *args)</dt></dl>
+
+<dl><dt><a name="PurchaseOrderPage-updateTotalPrice"><strong>updateTotalPrice</strong></a>(self, event)</dt></dl>
+
+<hr>
+Methods inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><a name="PurchaseOrderPage-animateSideBar"><strong>animateSideBar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PurchaseOrderPage-toggleSideBar"><strong>toggleSideBar</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = 'white'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = 'grey'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+<dl><dt><strong>safeTimeString</strong> = '2024-01-19_10-03-49'</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="RegisterBasePage">class <strong>RegisterBasePage</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#RegisterBasePage">RegisterBasePage</a>(mainWindow,&nbsp;mainFrame)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="RegisterBasePage-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>FGCOLOR</strong> = '#37443d'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = '#5e6963'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="RegisterPages">class <strong>RegisterPages</strong></a>(<a href="main.html#RegisterBasePage">RegisterBasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#RegisterPages">RegisterPages</a>(mainWindow,&nbsp;mainFrame)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#RegisterPages">RegisterPages</a></dd>
+<dd><a href="main.html#RegisterBasePage">RegisterBasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="RegisterPages-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#RegisterBasePage">RegisterBasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#RegisterBasePage">RegisterBasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = '#37443d'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = '#5e6963'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="ReportsPage">class <strong>ReportsPage</strong></a>(<a href="main.html#BasePage">BasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#ReportsPage">ReportsPage</a>(mainFrame,&nbsp;mainWindow,&nbsp;imageWrapper,&nbsp;mainApplicationClass)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#ReportsPage">ReportsPage</a></dd>
+<dd><a href="main.html#BasePage">BasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ReportsPage-__init__"><strong>__init__</strong></a>(self, mainFrame, mainWindow, imageWrapper, mainApplicationClass)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="ReportsPage-drawGraph"><strong>drawGraph</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ReportsPage-drawPieChart"><strong>drawPieChart</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ReportsPage-exportReportFileFunction"><strong>exportReportFileFunction</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><a name="ReportsPage-animateSideBar"><strong>animateSideBar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ReportsPage-toggleSideBar"><strong>toggleSideBar</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = 'white'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = 'grey'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+<dl><dt><strong>safeTimeString</strong> = '2024-01-19_10-03-49'</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="SQLiteWrapper">class <strong>SQLiteWrapper</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#SQLiteWrapper">SQLiteWrapper</a>(inventoryDatabase,&nbsp;inventoryDatabaseUpdated,&nbsp;loginInfoDatabase,&nbsp;remindersDatabase)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="SQLiteWrapper-__init__"><strong>__init__</strong></a>(self, inventoryDatabase, inventoryDatabaseUpdated, loginInfoDatabase, remindersDatabase)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="SQLiteWrapper-commit"><strong>commit</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-executeDatabaseQuery"><strong>executeDatabaseQuery</strong></a>(self, query, params)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-executeLogInQuery"><strong>executeLogInQuery</strong></a>(self, query, params)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-executeRemindersQuery"><strong>executeRemindersQuery</strong></a>(self, query, params)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-fetchCustomers"><strong>fetchCustomers</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-fetchOrders"><strong>fetchOrders</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-fetchPurchaseOrderNumber"><strong>fetchPurchaseOrderNumber</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-fetchPurchaseorderInformation"><strong>fetchPurchaseorderInformation</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-fetchTransferNumber"><strong>fetchTransferNumber</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-fetchUniqueCategoryNames"><strong>fetchUniqueCategoryNames</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-fetchUniqueItemNames"><strong>fetchUniqueItemNames</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-fetchUniqueLocationNames"><strong>fetchUniqueLocationNames</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-getNumberOfItems"><strong>getNumberOfItems</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-loginCommit"><strong>loginCommit</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-remindersCommit"><strong>remindersCommit</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="SQLiteWrapper-searchDatabase"><strong>searchDatabase</strong></a>(self, tableName, columnName, searchText)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="SignUpPage">class <strong>SignUpPage</strong></a>(<a href="main.html#RegisterBasePage">RegisterBasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#SignUpPage">SignUpPage</a>(mainWindow,&nbsp;mainFrame,&nbsp;mainApplicationClass)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#SignUpPage">SignUpPage</a></dd>
+<dd><a href="main.html#RegisterBasePage">RegisterBasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SignUpPage-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame, mainApplicationClass)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#RegisterBasePage">RegisterBasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#RegisterBasePage">RegisterBasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = '#37443d'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = '#5e6963'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Subject">class <strong>Subject</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor"><span class="code">&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn">Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="TransfersPage">class <strong>TransfersPage</strong></a>(<a href="main.html#BasePage">BasePage</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#TransfersPage">TransfersPage</a>(mainWindow,&nbsp;mainFrame,&nbsp;imageWrapper,&nbsp;mainApplicationClass,&nbsp;cellValue)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#TransfersPage">TransfersPage</a></dd>
+<dd><a href="main.html#BasePage">BasePage</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="TransfersPage-__init__"><strong>__init__</strong></a>(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass, cellValue)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="TransfersPage-onCellSelect"><strong>onCellSelect</strong></a>(self, cellValue)</dt></dl>
+
+<dl><dt><a name="TransfersPage-search"><strong>search</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><a name="TransfersPage-animateSideBar"><strong>animateSideBar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="TransfersPage-toggleSideBar"><strong>toggleSideBar</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="main.html#BasePage">BasePage</a>:<br>
+<dl><dt><strong>FGCOLOR</strong> = 'white'</dl>
+
+<dl><dt><strong>FONT</strong> = ('Aptos', 15, 'bold')</dl>
+
+<dl><dt><strong>HOVERCOLOR</strong> = 'grey'</dl>
+
+<dl><dt><strong>LABELFONT</strong> = ('Aptos', 24, 'bold')</dl>
+
+<dl><dt><strong>safeTimeString</strong> = '2024-01-19_10-03-49'</dl>
+
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-adaptDatetime"><strong>adaptDatetime</strong></a>(ts)</dt></dl>
+ <dl><dt><a name="-convertDatetime"><strong>convertDatetime</strong></a>(ts)</dt></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>ic</strong> = &lt;icecream.icecream.IceCreamDebugger object&gt;</td></tr></table>
+</body></html>

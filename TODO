@@ -1,0 +1,40 @@
+Code: 
+  ☐ Generate tests for system @high
+  ☐ Data validation @high
+  ☐ Debugging more in depth and more througout the system @low
+  ☐ Fill in the design pattern functions. Need time to do this as well as will need to look at code and work out what can be implemented into the Factory and Observer Classes @low
+  ☐ Create GitHub repo for project @critical @est(1 hour) @started(24-01-21 12:19)
+Testing: 
+  ☐ Create unit tests @high
+
+Pages to Create: 
+  ☐ Sales
+  ☐ Inventory
+  ☐ Stock Control 
+  ☐ Customers
+  ☐ Hire
+  ☐ Settings
+
+Home Page:
+  ☐ Delete reminders button @high @est(1 hour) @started(24-01-21 12:12)
+
+Browse Stock Movement Page: 
+  ☐ Utilise the movementOptionMenu @critical
+
+Transfers Page: 
+  ☐ Transfering Stock method @critical
+  ☐ Not showing item name and item size on itemScrollFrame when cell selected @high 
+  ☐ Retrieving the selected stock movement number to be able to edit it @critical
+
+Archive:
+  ✔ Check reminders function - checkNotifications and updating notificationButton @low @done(24-01-21 12:12) @project(Home Page)
+  ✔ remidnerNotification method @low @done(24-01-21 12:12) @project(Bugs / Errors.Home Page)
+  ✔ Adding reminders to the table @low @done(24-01-21 12:12) @project(Bugs / Errors.Home Page)
+  ✔ Reminders storage @high @est(1 hour) @done(24-01-21 12:11) @project(Databases.Reminders)
+  ✔ updateReminders function redo and optimisation @high @est(couple of hours) @started(24-01-21 12:08) @done(24-01-21 12:09) @lasted(1m6s) @project(Home Page)
+  ✘ Look at reminders table and formatting @low @est(1hr) @started(24-01-20 20:43) @cancelled(24-01-20 20:54) @wasted(11m45s) @project(Home Page)
+  ✔ salesTable columns are not the correct width - needs formatting so that the columns spread across the frame @high @est(1day) @started(24-01-20 20:42) @done(24-01-20 20:43) @lasted(1m21s) @project(Bugs / Errors.Home Page)
+  ✔ salesTable cell height and width formatting removed / updated with CTkTable update - causes text and cells to not be correctly fitting @critical @est(1 day) @started(24-01-20 17:50) @done(24-01-20 20:38) @lasted(2h48m7s) @project(Bugs / Errors.Home Page)
+  ✔ salesTable not being populated by sales @critical @done(24-01-20 18:39) @project(Bugs / Errors.Home Page)
+  ✔ Write comments over code - labelling and explaining code @high @done(24-01-19 12:56) @project(Code)
+  ✔ TransfersPage search method to show sizes as well @high @done(24-01-18 18:48) @project(Bugs / Errors.Transfer Page)
