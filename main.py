@@ -24,7 +24,6 @@ from tkcalendar import DateEntry
 from windows_toasts import Toast, WindowsToaster
 
 
-# TODO Add more state variables and methods to manipulate the state.
 # * Application State Management Classes
 # The `ApplicationState` class represents the state of an application and provides methods to
 # manipulate the state, such as logging in a user and retrieving the current user.
@@ -210,7 +209,6 @@ class SQLiteWrapper:
         self.remindersdb.commit()
 
 
-# TODO Fill in the design pattern functions. Need time to do this as well as will need to look at code and work out what can be implemented into the Factory and Observer Classes
 # * Design Pattern Classes
 class Factory:
     pass
@@ -1514,7 +1512,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             text=f"Price of Order: £{purchaseOrderPrice}",
             text_color="black",
             font=self.FONT,
-            width = 950, 
+            width=950,
         )
         self.priceLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
