@@ -3,7 +3,7 @@ Code:
   ☐ Data validation @high
   ☐ Debugging more in depth and more througout the system @low
   ☐ Fill in the design pattern functions. Need time to do this as well as will need to look at code and work out what can be implemented into the Factory and Observer Classes @low
-  ☐ Create GitHub repo for project @critical @est(1 hour) @started(24-01-21 12:19)
+
 Testing: 
   ☐ Create unit tests @high
 
@@ -15,9 +15,6 @@ Pages to Create:
   ☐ Hire
   ☐ Settings
 
-Home Page:
-  ☐ Delete reminders button @high @est(1 hour) @started(24-01-21 12:12)
-
 Browse Stock Movement Page: 
   ☐ Utilise the movementOptionMenu @critical
 
@@ -27,6 +24,8 @@ Transfers Page:
   ☐ Retrieving the selected stock movement number to be able to edit it @critical
 
 Archive:
+  ✔ Delete reminders button @high @est(1 hour) @started(24-01-21 12:12) @done(24-01-21 13:03) @lasted(51m4s) @project(Home Page)
+  ✔ Create GitHub repo for project @critical @est(1 hour) @started(24-01-21 12:19) @done(24-01-21 12:25) @lasted(6m51s) @project(Code)
   ✔ Check reminders function - checkNotifications and updating notificationButton @low @done(24-01-21 12:12) @project(Home Page)
   ✔ remidnerNotification method @low @done(24-01-21 12:12) @project(Bugs / Errors.Home Page)
   ✔ Adding reminders to the table @low @done(24-01-21 12:12) @project(Bugs / Errors.Home Page)

@@ -45,8 +45,17 @@ class ApplicationState:
         self.currentTransfer = None
         self.currentSale = None
 
-    # * Methods to manipulate the state
     def login(self, email, password):
+        """
+        The `login` function takes an email and password as input, retrieves the user from the database,
+        sets the current user if found, and returns a boolean indicating whether the login was successful.
+
+        :param email: The email parameter is the email address entered by the user during the login process
+        :param password: The `password` parameter is the password entered by the user during the login
+        process
+        :return: The login method returns a boolean value. If the user is successfully logged in, it returns
+        True. If the login fails, it returns False.
+        """
         user = self.databaseWrapper.get_user(email, password)
         if user is not None:
             self.currentUser = user
@@ -1182,6 +1191,7 @@ class HomePage(BasePage):
         )
         self.remindersTable.grid_propagate(False)
         self.remindersTable.grid(sticky="nsew")
+        self.remindersTable.bind("<Button-1>", self.completeReminderTask)
         self.reminderNotifications()
 
     def addReminderFromEntry(self):
@@ -1213,8 +1223,15 @@ class HomePage(BasePage):
                         image=self.activeNotificationBellIcon
                     )
 
-    def completeReminderTask(self):
-        pass
+    def completeReminderTask(self, event):
+        selectedTask = self.remindersTable.get_selected_row()
+        ic(f"selectedTask: {selectedTask}")
+        reminderTask = selectedTask["values"][0]
+        self.db.remindersCursor.execute(
+            "DELETE FROM Reminders WHERE reminderTask = ?", (reminderTask,)
+        )
+        self.db.remindersCommit()
+        self.updateRemindersTable()
 
 
 class BrowseStockMovementsPage(BasePage):
