@@ -1568,13 +1568,21 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         items = self.retrievingItemsFromStockMovement(cellValue)
         for item in items:
             itemSize, quantity = item
-            itemLabel = customtkinter.CTkLabel(
+            self.itemLabel = customtkinter.CTkLabel(
                 self.editingInformationFrame,
                 text=f"Item Size: {itemSize}, Quantity: {quantity}",
                 text_color="black",
                 font=self.FONT,
             )
-            itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+            self.itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
+            self.itemEntry = customtkinter.CTkEntry(
+                self.editingInformationFrame,
+                text_color="black",
+                fg_color="white",
+                font=self.FONT,
+            )
+            self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
 
 class PurchaseOrderPage(BasePage):
