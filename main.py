@@ -1555,7 +1555,15 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
 
         self.displayItems(cellValue)
 
-    def retrievingItemsFromStockMovement(self, cellValue):
+    def retrievingItemsFromPurchaseOrder(self, cellValue):
+        """
+        The function retrieves item size and quantity information from the PurchaseOrderInformation table
+        based on a given purchase order number.
+        :param cellValue: The `cellValue` parameter is a dictionary that contains a key called "value". The
+        value of this key is used in the SQL query to retrieve information from the database
+        :return: The function `retrievingItemsFromStockMovement` returns the `informationResults`, which is
+        a list of tuples containing the item size and quantity retrieved from the database.
+        """
         self.db.myCursor.execute(
             "SELECT PurchaseOrderInformation.itemSize, PurchaseOrderInformation.quantity FROM PurchaseOrderInformation INNER JOIN PurchaseOrder ON PurchaseOrderInformation.PurchaseOrderID = PurchaseOrder.purchaseOrderNumber WHERE purchaseOrderNumber = ? ",
             (cellValue["value"],),
@@ -1565,7 +1573,13 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         return informationResults
 
     def displayItems(self, cellValue):
-        items = self.retrievingItemsFromStockMovement(cellValue)
+        """
+        The `displayItems` function retrieves items from stock movement and displays them along with their
+        size and quantity in a customtkinter GUI.
+        :param cellValue: The parameter `cellValue` is the value of a cell in a spreadsheet or table. It is
+        used as input to the `retrievingItemsFromStockMovement` method to retrieve a list of items
+        """
+        items = self.retrievingItemsFromPurchaseOrder(cellValue)
         for item in items:
             itemSize, quantity = item
             self.itemLabel = customtkinter.CTkLabel(
@@ -1583,6 +1597,13 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                 font=self.FONT,
             )
             self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
+    def updatingPurchaseOrderInformation(self, cellValue, itemSize, newQuantity):
+        newQuantity = int(self.itemEntry.get())
+        self.db.myCursor.execute(
+            "UPDATE PurchaseOrderInformation SET quantity = ? WHERE purchaseOrderID = ? AND size = ?",
+            (newQuantity, cellValue["value"], itemSize),
+        )
 
 
 class PurchaseOrderPage(BasePage):
