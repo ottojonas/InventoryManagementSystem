@@ -25,7 +25,7 @@ from windows_toasts import Toast, WindowsToaster
 
 
 # TODO Add more state variables and methods to manipulate the state.
-# * Application State Managament Classes
+# * Application State Management Classes
 # The `ApplicationState` class represents the state of an application and provides methods to
 # manipulate the state, such as logging in a user and retrieving the current user.
 class ApplicationState:
@@ -1431,6 +1431,45 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         ic("PurchaseOrderAndTransferEditingPage Initialized")
         ic(f"cellValue: {cellValue}")
 
+        self.db.myCursor.execute(
+            "SELECT deliveryDate FROM PurchaseOrder where purchaseOrderNumber = ?",
+            (cellValue["value"],),
+        )
+        deliveryDate = self.db.myCursor.fetchone()[0]
+        self.db.myCursor.execute(
+            "SELECT manufacturer FROM PurchaseOrder WHERE purchaseOrderNumber = ? ",
+            (cellValue["value"],),
+        )
+        manufacturerID = self.db.myCursor.fetchone()[0]
+        self.db.myCursor.execute(
+            "SELECT manufacturerName FROM Manufacturers WHERE manufacturerID = ?",
+            (manufacturerID,),
+        )
+        manufacturerName = self.db.myCursor.fetchone()[0]
+
+        self.db.myCursor.execute(
+            "SELECT price FROM PurchaseOrder WHERE purchaseOrderNumber = ?",
+            (cellValue["value"],),
+        )
+        purchaseOrderPrice = self.db.myCursor.fetchone()[0]
+
+        self.db.myCursor.execute(
+            "SELECT purchaseOrderID FROM PurchaseOrder WHERE purchaseOrderNumber = ? ",
+            (cellValue["value"],),
+        )
+        purchaseOrderID = self.db.myCursor.fetchone()[0]
+
+        self.db.myCursor.execute(
+            "SELECT itemID FROM PurchaseOrderInformation WHERE purchaseOrderID = ?",
+            (purchaseOrderID,),
+        )
+        itemID = self.db.myCursor.fetchone()[0]
+
+        self.db.myCursor.execute(
+            "SELECT itemName FROM Items WHERE itemID = ?", (itemID,)
+        )
+        itemName = self.db.myCursor.fetchone()[0]
+
         self.informationFrame = customtkinter.CTkFrame(
             self.widgetFrame,
             fg_color="white",
@@ -1444,7 +1483,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
 
         self.stockMovementNumberLabel = customtkinter.CTkLabel(
             self.informationFrame,
-            text=f"{cellValue['value']}",
+            text=f"{cellValue['value']}: Item: {itemName}",
             text_color="black",
             font=self.FONT,
         )
@@ -1454,7 +1493,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
 
         self.expectedDeliveryDateLabel = customtkinter.CTkLabel(
             self.informationFrame,
-            text="Expected Delivery Date Placeholder",
+            text=f"Expected Delivery Date: {deliveryDate}",
             text_color="black",
             font=self.FONT,
         )
@@ -1464,11 +1503,38 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
 
         self.supplierLabel = customtkinter.CTkLabel(
             self.informationFrame,
-            text="Supplier Placeholder",
+            text=f"Supplier: {manufacturerName}",
             text_color="black",
             font=self.FONT,
         )
         self.supplierLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
+        self.priceLabel = customtkinter.CTkLabel(
+            self.informationFrame,
+            text=f"Price of Order: £{purchaseOrderPrice}",
+            text_color="black",
+            font=self.FONT,
+            width = 950, 
+        )
+        self.priceLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
+        self.updateButton = customtkinter.CTkButton(
+            self.informationFrame,
+            fg_color="black",
+            text="Update",
+            text_color="white",
+            font=self.FONT,
+        )
+        self.updateButton.pack(side="right")
+
+        self.cancelButton = customtkinter.CTkButton(
+            self.informationFrame,
+            fg_color="black",
+            text="Cancel",
+            text_color="white",
+            font=self.FONT,
+        )
+        self.cancelButton.pack(side="left")
 
         self.editingInformationFrame = customtkinter.CTkFrame(
             self.widgetFrame,

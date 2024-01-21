@@ -19,7 +19,11 @@ Home Page:
   ☐ notificationButton not being updated when there are notifications @low
 
 Browse Stock Movement Page: 
-  ☐ Utilise the movementOptionMenu @critical
+  ☐ Utilise the movementOptionMenu @high / @low 
+
+Editing Stock Movement Page: 
+  ☐ Create the widgets for the editing frame @critical @est(2 hours)
+  ☐ Create the methods for updating and saving the updated for to database @critical @est(4 hours)
 
 Transfers Page: 
   ☐ Transfering Stock method @critical
@@ -27,6 +31,8 @@ Transfers Page:
   ☐ Retrieving the selected stock movement number to be able to edit it @critical
 
 Archive:
+  ✔ Update and Cancel buttons not lining up on x-axis @low @est(1 hour) @started(24-01-21 16:43) @done(24-01-21 16:43) @lasted(20s) @project(Formatting)
+  ✔ Create information labels for all of the needed information of the stock movement @critical @est(2 hours) @started(24-01-21 13:40) @done(24-01-21 13:49) @lasted(9m7s) @project(Editing Stock Movement Page)
   ✔ Search function to only populate table with one of each number @critical @est(1 hour) @started(24-01-21 13:13) @done(24-01-21 13:18) @lasted(5m10s) @project(Browse Stock Movement Page)
   ✔ Delete reminders button @high @est(1 hour) @started(24-01-21 12:12) @done(24-01-21 13:03) @lasted(51m4s) @project(Home Page)
   ✔ Create GitHub repo for project @critical @est(1 hour) @started(24-01-21 12:19) @done(24-01-21 12:25) @lasted(6m51s) @project(Code)
