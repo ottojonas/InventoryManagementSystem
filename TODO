@@ -21,14 +21,15 @@ Home Page:
 Browse Stock Movement Page: 
   ☐ Utilise the movementOptionMenu @high / @low 
 
-Editing Stock Movement Page: 
-  ☐ Create the methods for updating and saving the updated for to database @critical @est(4 hours)
+Editing Stock Movements Page: 
+  ☐ Create the entry points to update and change the quantity on order @critical @est(1 hour)
 
 Transfers Page: 
   ☐ Transfering Stock method @critical @est(3 hours) 
   ☐ Not showing item name and item size on itemScrollFrame when cell selected @high @est(1 hour) 
 
 Archive:
+  ✔ Create the methods for retrieving the quantity of each item in stock movement order @critical @est(4 hours) @started(24-01-21 17:21) @done(24-01-21 18:12) @lasted(51m57s) @project(Editing Stock Movement Page)
   ✘ Create the widgets for the editing frame @critical @est(2 hours) @started(24-01-21 17:14) @cancelled(24-01-21 17:17) @wasted(3m24s) @project(Editing Stock Movement Page)
   ✘ Table foramtting for the Browse Stock Moving page so that the cells and text are readable and user friendly @cancelled(24-01-21 17:13) @project(Formatting)
   ✔ Retrieving the selected stock movement number to be able to edit it @critical @done(24-01-21 16:55) @project(Transfers Page)

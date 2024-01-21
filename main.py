@@ -1553,6 +1553,29 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         )
         self.editItemsLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
+        self.displayItems(cellValue)
+
+    def retrievingItemsFromStockMovement(self, cellValue):
+        self.db.myCursor.execute(
+            "SELECT PurchaseOrderInformation.itemSize, PurchaseOrderInformation.quantity FROM PurchaseOrderInformation INNER JOIN PurchaseOrder ON PurchaseOrderInformation.PurchaseOrderID = PurchaseOrder.purchaseOrderNumber WHERE purchaseOrderNumber = ? ",
+            (cellValue["value"],),
+        )
+        informationResults = self.db.myCursor.fetchall()
+        ic(f"informationResults: {informationResults}")
+        return informationResults
+
+    def displayItems(self, cellValue):
+        items = self.retrievingItemsFromStockMovement(cellValue)
+        for item in items:
+            itemSize, quantity = item
+            itemLabel = customtkinter.CTkLabel(
+                self.editingInformationFrame,
+                text=f"Item Size: {itemSize}, Quantity: {quantity}",
+                text_color="black",
+                font=self.FONT,
+            )
+            itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
 
 class PurchaseOrderPage(BasePage):
     def __init__(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass):
