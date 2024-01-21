@@ -1224,6 +1224,15 @@ class HomePage(BasePage):
                     )
 
     def completeReminderTask(self, event):
+        """
+        The `completeReminderTask` function deletes a selected reminder task from the database and updates
+        the reminders table.
+
+        :param event: The `event` parameter is likely an event object that is passed to the
+        `completeReminderTask` method. This object may contain information about the event that triggered
+        the method, such as the user's interaction with a button or a timer event. The specific details of
+        the `event` object would depend
+        """
         selectedTask = self.remindersTable.get_selected_row()
         ic(f"selectedTask: {selectedTask}")
         reminderTask = selectedTask["values"][0]
