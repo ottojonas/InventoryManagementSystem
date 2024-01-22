@@ -3,6 +3,7 @@ Code:
   ☐ Data validation @high
   ☐ Debugging more in depth and more througout the system @low
   ☐ Fill in the design pattern functions. Need time to do this as well as will need to look at code and work out what can be implemented into the Factory and Observer Classes @low
+  ☐ Format SQL queries (New line for each query statement) @high
 
 Testing: 
   ☐ Create unit tests @high
@@ -22,7 +23,7 @@ Browse Stock Movement Page:
   ☐ Utilise the movementOptionMenu @high / @low 
 
 Stock Movement Editing Page: 
-  ☐ Saving updated information to database, without changing data that the user has not changed or updated @critical @est(1hour) 
+  ☐ Saving updated information to database, without changing data that the user has not changed or updated @critical @est(1hour) @started(24-01-22 15:38)
   ☐ Create the method for retrieving data of transfer from data base @critical @est(1hour)
   ☐ Saving updated information to database, without changing data that the user has not changed or updated @critical @est(1hour) 
 

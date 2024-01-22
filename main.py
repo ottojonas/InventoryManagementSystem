@@ -17,7 +17,6 @@ from icecream import ic
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import date2num
 from matplotlib.figure import Figure
-
 # * Related Third Party Imports
 from PIL import Image
 from tkcalendar import DateEntry
@@ -1522,6 +1521,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             text="Update",
             text_color="white",
             font=self.FONT,
+            command=self.updatingPurchaseOrderInformation(cellValue),
         )
         self.updateButton.pack(side="right")
 
@@ -1568,9 +1568,9 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             "SELECT PurchaseOrderInformation.itemSize, PurchaseOrderInformation.quantity FROM PurchaseOrderInformation INNER JOIN PurchaseOrder ON PurchaseOrderInformation.PurchaseOrderID = PurchaseOrder.purchaseOrderNumber WHERE purchaseOrderNumber = ? ",
             (cellValue["value"],),
         )
-        informationResults = self.db.myCursor.fetchall()
-        ic(f"informationResults: {informationResults}")
-        return informationResults
+        self.informationResults = self.db.myCursor.fetchall()
+        ic(f"informationResults: {self.informationResults}")
+        return self.informationResults
 
     def displayItems(self, cellValue):
         """
@@ -1581,10 +1581,10 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         """
         items = self.retrievingItemsFromPurchaseOrder(cellValue)
         for item in items:
-            itemSize, quantity = item
+            self.itemSize, self.quantity = item
             self.itemLabel = customtkinter.CTkLabel(
                 self.editingInformationFrame,
-                text=f"Item Size: {itemSize}, Quantity: {quantity}",
+                text=f"Item Size: {self.itemSize}, Quantity: {self.quantity}",
                 text_color="black",
                 font=self.FONT,
             )
@@ -1598,12 +1598,28 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             )
             self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
-    def updatingPurchaseOrderInformation(self, cellValue, itemSize, newQuantity):
-        newQuantity = int(self.itemEntry.get())
+    def clearWidgets(self):
+        """
+        The 'clearWidget' function clears the widgets on the editingInformationFrame, it should be called 
+        when the user either saves or cancels their changes. 
+        """
+        for widget in self.editingInformationFrame.winfo_children(): 
+            widget.destroy()
+
+    def updatingPurchaseOrderInformation(self, cellValue):
+        """
+        The 'updatingPurchaseOrderInformation' function retrieves the user input and updates the data in the
+        database to the data inputted by the user.
+        """
+        items = self.retrievingItemsFromPurchaseOrder(cellValue)
+        for item in items:
+            self.itemSize, self.newQuantity = item
         self.db.myCursor.execute(
             "UPDATE PurchaseOrderInformation SET quantity = ? WHERE purchaseOrderID = ? AND size = ?",
-            (newQuantity, cellValue["value"], itemSize),
+            (self.newQuantity, cellValue["value"], self.itemSize),
         )
+        ic(f"newQuantity: {self.newQuantity}")
+        ic(f"itemSize: {self.itemSize}")
 
 
 class PurchaseOrderPage(BasePage):
