@@ -1485,7 +1485,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
 
         self.stockMovementNumberLabel = customtkinter.CTkLabel(
             self.informationFrame,
-            text=f"{cellValue['value']}: Item: {itemName}",
+            text=f"Stock Movement Number: {cellValue['value']}, Item: {itemName}",
             text_color="black",
             font=self.FONT,
         )
@@ -1526,7 +1526,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             text="Update",
             text_color="white",
             font=self.FONT,
-            command=self.updatingPurchaseOrderInformation(cellValue),
+            command=lambda: self.updatingPurchaseOrderInformation(cellValue),
         )
         self.updateButton.pack(side="right")
 
@@ -1589,6 +1589,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         :param cellValue: The parameter `cellValue` is the value of a cell in a spreadsheet or table. It is
         used as input to the `retrievingItemsFromStockMovement` method to retrieve a list of items
         """
+        self.itemEntry = []
         items = self.retrievingItemsFromPurchaseOrder(cellValue)
         for item in items:
             self.itemSize, self.quantity = item
@@ -1599,17 +1600,16 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                 text_color="black",
                 font=self.FONT,
             )
-            ic(f"Item Label: {self.itemLabel}")
             self.itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
-            self.itemEntry = customtkinter.CTkEntry(
+            itemEntry = customtkinter.CTkEntry(
                 self.editingInformationFrame,
                 text_color="black",
                 fg_color="white",
                 font=self.FONT,
             )
-            ic(f"Item Entry: {self.itemEntry}")
-            self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+            itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+            self.itemEntry.append(itemEntry)
 
     def clearWidgets(self):
         """
@@ -1625,17 +1625,29 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         database to the data inputted by the user.
         """
         items = self.retrievingItemsFromPurchaseOrder(cellValue)
-        for item in items:
-            self.itemSize, self.newQuantity = item
-            self.db.myCursor.execute(
-                "UPDATE PurchaseOrderInformation SET quantity = ? WHERE purchaseOrderID = ? AND itemSize = ?",
-                (self.newQuantity, cellValue["value"], self.itemSize),
-            )
-            self.db.commit()
-
+        ic(f"items: {items}")
+        for i, item in enumerate(items):
+            self.itemSize, _ = item
+            self.newQuantity = self.itemEntry[i].get()
+            ic([entry.get() for entry in self.itemEntry])
+            for _ in range(len(items)):
+                if self.newQuantity:
+                    self.db.myCursor.execute(
+                        """
+                        UPDATE PurchaseOrderInformation 
+                        SET quantity = ? 
+                        WHERE itemSize = ? AND purchaseOrderID IN (
+                            SELECT purchaseOrderID
+                            FROM PurchaseOrder
+                            WHERE purchaseOrderNumber = ?
+                        )
+                        """,
+                        (self.newQuantity, self.itemSize, cellValue["value"]),
+                    )
+                    self.db.commit()
             ic(f"newQuantity: {self.newQuantity}")
             ic(f"itemSize: {self.itemSize}")
-        self.clearWidgets
+        self.clearWidgets()
 
 
 class PurchaseOrderPage(BasePage):

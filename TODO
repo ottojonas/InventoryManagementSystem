@@ -12,6 +12,7 @@ Pages to Create:
   ☐ Sales
   ☐ Inventory
   ☐ Stock Control 
+  ☐ Checking in Transfers and Purchase Orders
   ☐ Customers
   ☐ Hire
   ☐ Settings
@@ -23,15 +24,15 @@ Browse Stock Movement Page:
   ☐ Utilise the movementOptionMenu @high / @low 
 
 Stock Movement Editing Page: 
-  ☐ Saving updated information to database, without changing data that the user has not changed or updated @critical @est(1hour) @started(24-01-22 15:38)
   ☐ Create the method for retrieving data of transfer from data base @critical @est(1hour)
-  ☐ Saving updated information to database, without changing data that the user has not changed or updated @critical @est(1hour) 
+  ☐ Saving updated information to database, without changing data that the user has not changed or updated @critical @est(1hour)
 
 Transfers Page: 
   ☐ Transfering Stock method @critical @est(3 hours) 
   ☐ Not showing item name and item size on itemScrollFrame when cell selected @high @est(1 hour) 
 
 Archive:
+  ✔ Saving updated information to database, without changing data that the user has not changed or updated @critical @est(1hour) @started(24-01-22 15:38) @done(24-01-25 21:23) @lasted(3d5h45m32s) @project(Stock Movement Editing Page)
   ✔ Not adding each size to the page to edit, adding the same size over and over again @critical @est(1hour) @started(24-01-25 20:25) @done(24-01-25 20:25) @lasted(7s) @project(Stock Movement Editing Page)
   ✔ Create the entry points to update and change the quantity on order @critical @est(1 hour) @started(24-01-21 18:19) @done(24-01-21 18:19) @lasted(25s) @project(Editing Stock Movements Page)
   ✔ Create the methods for retrieving the quantity of each item in stock movement order @critical @est(4 hours) @started(24-01-21 17:21) @done(24-01-21 18:12) @lasted(51m57s) @project(Editing Stock Movement Page)
