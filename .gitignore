@@ -1,9 +1,9 @@
 /.vscode
 /database
 /__pycache__
-TODO
-/csvFiles
-/csvTestData
-/pageFiles
-/registerWindows
+/TODO
 /randomTestCode.py
+/registerWindows
+/pageFiles
+/csvTestData
+/csvFiles

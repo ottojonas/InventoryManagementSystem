@@ -17,7 +17,6 @@ from icecream import ic
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import date2num
 from matplotlib.figure import Figure
-
 # * Related Third Party Imports
 from PIL import Image
 from tkcalendar import DateEntry
@@ -1558,7 +1557,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         )
         self.editItemsLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
-        self.displayItems(cellValue)
+        self.displayItems(cellValue, self.movementOptionMenuStringVar.get())
 
     def retrievingItemsFromPurchaseOrder(self, cellValue):
         """
@@ -1578,11 +1577,29 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             """,
             (cellValue["value"],),
         )
-        self.informationResults = self.db.myCursor.fetchall()
-        ic(f"informationResults: {self.informationResults}")
-        return self.informationResults
+        self.purchaseOrderInformationResults = self.db.myCursor.fetchall()
+        ic(f"purchaseOrderInformationResults: {self.purchaseOrderInformationResults}")
+        return self.purchaseOrderInformationResults
 
-    def displayItems(self, cellValue):
+    def retrievingItemsFromTransfer(self, cellValue):
+        """
+        The function retrieves item information from a database table based on a given transfer number.
+        :param cellValue: The `cellValue` parameter is a dictionary that contains the value of a cell. It is
+        used to retrieve items from a transfer based on the transfer number. The transfer number is obtained
+        from the `cellValue["value"]` key in the dictionary
+        """
+        self.db.myCursor.execute(
+            """
+        SELECT itemName, itemSize, quantity 
+        FROM Transfers
+        WHERE transferNumber = ? 
+        """,
+            (cellValue["value"],),
+        )
+        self.transferInformationResults = self.db.myCursor.fetchall()
+        ic(f"transferInformationResults: {self.transferInformationResults}")
+
+    def displayItems(self, cellValue, movementType):
         """
         The `displayItems` function retrieves items from stock movement and displays them along with their
         size and quantity in a customtkinter GUI.
@@ -1590,7 +1607,10 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         used as input to the `retrievingItemsFromStockMovement` method to retrieve a list of items
         """
         self.itemEntry = []
-        items = self.retrievingItemsFromPurchaseOrder(cellValue)
+        if movementType == "Purchase Order":
+            items = self.retrievingItemsFromPurchaseOrder(cellValue)
+        else:
+            items = self.retrievingItemsFromTransfer(cellValue)
         for item in items:
             self.itemSize, self.quantity = item
             ic(f"Item Size: {self.itemSize}, Quantity: {self.quantity}")
