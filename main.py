@@ -17,6 +17,7 @@ from icecream import ic
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import date2num
 from matplotlib.figure import Figure
+
 # * Related Third Party Imports
 from PIL import Image
 from tkcalendar import DateEntry
@@ -24,8 +25,8 @@ from windows_toasts import Toast, WindowsToaster
 
 
 # * Application State Management Classes
-# The `ApplicationState` class represents the state of an application and provides methods to
-# manipulate the state, such as logging in a user and retrieving the current user.
+# The `ApplicationState` class represents the state of an application and contains various state
+# variables.
 class ApplicationState:
     def __init__(self, SQLiteWrapper):
         # * State Variables
@@ -1465,7 +1466,11 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         self.db.myCursor.execute(
             "SELECT itemName FROM Items WHERE itemID = ?", (itemID,)
         )
-        itemName = self.db.myCursor.fetchone()[0]
+        result = self.db.myCursor.fetchone()
+        if result is not None:
+            itemName = result[0]
+        else:
+            itemName = None
 
         self.informationFrame = customtkinter.CTkFrame(
             self.widgetFrame,
@@ -1565,7 +1570,12 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         a list of tuples containing the item size and quantity retrieved from the database.
         """
         self.db.myCursor.execute(
-            "SELECT PurchaseOrderInformation.itemSize, PurchaseOrderInformation.quantity FROM PurchaseOrderInformation INNER JOIN PurchaseOrder ON PurchaseOrderInformation.PurchaseOrderID = PurchaseOrder.purchaseOrderNumber WHERE purchaseOrderNumber = ? ",
+            """        
+            SELECT PurchaseOrderInformation.itemSize, PurchaseOrderInformation.quantity 
+            FROM PurchaseOrder 
+            JOIN PurchaseOrderInformation ON PurchaseOrder.purchaseOrderID = PurchaseOrderInformation.purchaseOrderID 
+            WHERE PurchaseOrder.purchaseOrderNumber = ?
+            """,
             (cellValue["value"],),
         )
         self.informationResults = self.db.myCursor.fetchall()
@@ -1582,12 +1592,14 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         items = self.retrievingItemsFromPurchaseOrder(cellValue)
         for item in items:
             self.itemSize, self.quantity = item
+            ic(f"Item Size: {self.itemSize}, Quantity: {self.quantity}")
             self.itemLabel = customtkinter.CTkLabel(
                 self.editingInformationFrame,
                 text=f"Item Size: {self.itemSize}, Quantity: {self.quantity}",
                 text_color="black",
                 font=self.FONT,
             )
+            ic(f"Item Label: {self.itemLabel}")
             self.itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
             self.itemEntry = customtkinter.CTkEntry(
@@ -1596,14 +1608,15 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                 fg_color="white",
                 font=self.FONT,
             )
+            ic(f"Item Entry: {self.itemEntry}")
             self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
     def clearWidgets(self):
         """
-        The 'clearWidget' function clears the widgets on the editingInformationFrame, it should be called 
-        when the user either saves or cancels their changes. 
+        The 'clearWidget' function clears the widgets on the editingInformationFrame, it should be called
+        when the user either saves or cancels their changes.
         """
-        for widget in self.editingInformationFrame.winfo_children(): 
+        for widget in self.editingInformationFrame.winfo_children():
             widget.destroy()
 
     def updatingPurchaseOrderInformation(self, cellValue):
@@ -1614,12 +1627,15 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         items = self.retrievingItemsFromPurchaseOrder(cellValue)
         for item in items:
             self.itemSize, self.newQuantity = item
-        self.db.myCursor.execute(
-            "UPDATE PurchaseOrderInformation SET quantity = ? WHERE purchaseOrderID = ? AND size = ?",
-            (self.newQuantity, cellValue["value"], self.itemSize),
-        )
-        ic(f"newQuantity: {self.newQuantity}")
-        ic(f"itemSize: {self.itemSize}")
+            self.db.myCursor.execute(
+                "UPDATE PurchaseOrderInformation SET quantity = ? WHERE purchaseOrderID = ? AND itemSize = ?",
+                (self.newQuantity, cellValue["value"], self.itemSize),
+            )
+            self.db.commit()
+
+            ic(f"newQuantity: {self.newQuantity}")
+            ic(f"itemSize: {self.itemSize}")
+        self.clearWidgets
 
 
 class PurchaseOrderPage(BasePage):

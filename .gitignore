@@ -1,10 +1,10 @@
 /.vscode
 /database
 /__pycache__
-csvFiles
-csvTestData
-pageFiles
-registerWindows
-main.html
-randomTestCode.py
 TODO
+"/csvFiles"
+"/csvTestData"
+"/pageFiles"
+"/registerWindows"
+"/randomTestCode.py"
+"/TODO"

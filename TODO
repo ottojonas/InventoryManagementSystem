@@ -32,6 +32,7 @@ Transfers Page:
   ☐ Not showing item name and item size on itemScrollFrame when cell selected @high @est(1 hour) 
 
 Archive:
+  ✔ Not adding each size to the page to edit, adding the same size over and over again @critical @est(1hour) @started(24-01-25 20:25) @done(24-01-25 20:25) @lasted(7s) @project(Stock Movement Editing Page)
   ✔ Create the entry points to update and change the quantity on order @critical @est(1 hour) @started(24-01-21 18:19) @done(24-01-21 18:19) @lasted(25s) @project(Editing Stock Movements Page)
   ✔ Create the methods for retrieving the quantity of each item in stock movement order @critical @est(4 hours) @started(24-01-21 17:21) @done(24-01-21 18:12) @lasted(51m57s) @project(Editing Stock Movement Page)
   ✘ Create the widgets for the editing frame @critical @est(2 hours) @started(24-01-21 17:14) @cancelled(24-01-21 17:17) @wasted(3m24s) @project(Editing Stock Movement Page)
