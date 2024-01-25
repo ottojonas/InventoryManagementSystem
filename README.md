@@ -20,19 +20,16 @@ This system is designed to manage inventory in a warehouse or similar environmen
 
 To use this system, run the `main.py` file. 
 
-```bash
-python main.py
-
-Dependencies
+## Dependencies
 This system uses the customtkinter library for the GUI. Make sure to install it before running the system.
 
 python -m pip install customtkinter
 
-Contributing
+## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate.
 
-License
-MIT
+```bash
+python main.py
 
 ```
 
