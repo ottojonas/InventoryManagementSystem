@@ -1687,7 +1687,7 @@ class PurchaseOrderPage(BasePage):
             width=965,
             height=990,
         )
-        self.itemInformationFrame.pack_propagate(False),
+        (self.itemInformationFrame.pack_propagate(False),)
         self.itemInformationFrame.place(x=10, y=10)
         purchaseOrderNumber = self.db.fetchPurchaseOrderNumber()
         uniqueItems = self.db.fetchUniqueItemNames()
@@ -2150,7 +2150,7 @@ class TransfersPage(BasePage):
             width=930,
             height=990,
         )
-        self.transferInformationFrame.pack_propagate(False),
+        (self.transferInformationFrame.pack_propagate(False),)
         self.transferInformationFrame.place(x=10, y=10)
 
         self.transferNumberLabel = customtkinter.CTkLabel(
@@ -2243,7 +2243,7 @@ class TransfersPage(BasePage):
 
         self.searchedItemScrollFrame = customtkinter.CTkScrollableFrame(
             self.transferInformationFrame,
-            fg_color="white",
+            fg_color="red",
             width=900,
             height=680,
         )
@@ -2257,11 +2257,13 @@ class TransfersPage(BasePage):
             hover_color="grey",
             text_color="black",
             header_color=False,
-            justify="center",
             corner_radius=0,
         )
-        self.itemListTable.grid_propagate(False)
-        self.itemListTable.grid(sticky="nsew")
+        ic(f"itemListTable Created: {self.itemListTable}")
+        self.itemListTable.edit_row(0, text_color="black", hover_color="grey")
+        self.itemListTable.pack_propagate(False)
+        self.itemListTable.pack(fill="both", expand=True)
+        ic(f"itemListTable Packed: {self.itemListTable}")
 
         self.confirmButton = customtkinter.CTkButton(
             master=self.transferInformationFrame,
@@ -2320,12 +2322,14 @@ class TransfersPage(BasePage):
         """
         searchTerm = self.itemSearchEntry.get()
         results = self.db.searchDatabase("Items", "itemName", searchTerm)
-        values = [[value for value in row] for row in results]
+        values = []
         if not values:
             ic("No data retrieved from database")
         else:
             ic(f"Data retrieved from database: {values}")
-        self.itemListTable.grid_forget()
+        if hasattr(self, "itemListTable"):
+            self.itemListTable.pack_forget()
+            self.itemListTable.destroy()
         values = []
         for result in results:
             ic(f"Item: {result}")
@@ -2341,12 +2345,14 @@ class TransfersPage(BasePage):
             hover_color="grey",
             text_color="black",
             header_color=False,
-            justify="center",
             corner_radius=0,
             command=self.onCellSelect,
         )
+        ic(f"itemListTable Created:{self.itemListTable}")
+        self.itemListTable.edit_row(0, text_color="black", hover_color="grey")
         self.itemListTable.pack_propagate(False)
-        self.itemListTable.grid(sticky="nsew")
+        self.itemListTable.pack(expand=True, fill="both")
+        ic(f"itemListTable Packed: {self.itemListTable}")
 
     def onCellSelect(self, cellValue):
         """
@@ -2364,6 +2370,7 @@ class TransfersPage(BasePage):
             selectedRowValues = [selectedRowValues]
         else:
             ic(f"selectedRowValues is not a list: {selectedRowValues}")
+
         selectedRowValuesString = ", ".join(map(str, selectedRowValues))
         ic(f"selectedRowValues: {selectedRowValues}")
         ic(f"selectedRowValuesString: {selectedRowValuesString}")
@@ -2375,6 +2382,14 @@ class TransfersPage(BasePage):
             font=self.FONT,
         )
         self.itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
+        self.itemEntry = customtkinter.CTkEntry(
+            self.itemsScrollFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
+        )
+        self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
     def transferingStock(self):
         pass
