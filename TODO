@@ -22,6 +22,7 @@ Home Page:
 
 Browse Stock Movement Page: 
   ☐ Utilise the movementOptionMenu @high / @low
+    ☐ Need to make an instance of the origin page and then call it from there (subtask) @high
 
 Stock Movement Editing Page: 
   ☐ Create the method for retrieving data of transfer from data base @critical @est(1hour)
@@ -30,7 +31,7 @@ Stock Movement Editing Page:
 
 Transfers Page: 
   ☐ Transfering Stock method @critical @est(3 hours) 
-  ☐ Search table formatting goes off when only searching for part of an item while showing all of the items with that word in @critical @est(2 hours) @started(24-01-26 13:17)
+  ☐ Search table formatting goes off when only searching for part of an item while showing all of the items with that word in @critical @est(2 hours)
 
 Archive:
   ✔ Not showing item name and item size on itemScrollFrame when cell selected @high @est(1 hour) @started(24-01-26 09:50) @done(24-01-26 10:17) @lasted(27m46s) @project(Transfers Page)
