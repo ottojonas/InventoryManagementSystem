@@ -1754,24 +1754,6 @@ class PurchaseOrderPage(BasePage):
             pady=(10, 10),
         )
 
-        self.purchaseOrderImage = customtkinter.CTkImage(
-            Image.open("images/obfcLogoBG.JPG"), size=(274, 366)
-        )
-        self.purchaseOrderImageTest = customtkinter.CTkImage(
-            Image.open("images/oliverBrownLogoWhiteBGBlackText.png")
-        )
-
-        self.imageLabel = customtkinter.CTkLabel(
-            master=self.itemInformationFrame,
-            image=self.purchaseOrderImage,
-            text="",
-        )
-        self.imageLabel.pack(
-            anchor="center",
-            padx=(10, 10),
-            pady=(10, 10),
-        )
-
         self.supplierLabel = customtkinter.CTkLabel(
             master=self.itemInformationFrame,
             text="Supplier:",
@@ -2351,7 +2333,7 @@ class TransfersPage(BasePage):
             itemSize = result[-2].split(",")
             if searchTerm.lower() in itemName:
                 sizes = ", ".join([size.strip() for size in itemSize])
-                values.append([result[1], sizes])
+                values.append([f"{result[1]}: {sizes}"])
         self.itemListTable = CTkTable(
             self.searchedItemScrollFrame,
             values=values,
@@ -2388,11 +2370,17 @@ class TransfersPage(BasePage):
 
         self.itemLabel = customtkinter.CTkLabel(
             self.itemsScrollFrame,
-            text=f"Item: {selectedRowValuesString}",
+            text=f"{selectedRowValuesString}",
             text_color="black",
             font=self.FONT,
         )
         self.itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
+    def transferingStock(self):
+        pass
+
+    def savingTransferToDatabase(self):
+        pass
 
 
 class ReportsPage(BasePage):
