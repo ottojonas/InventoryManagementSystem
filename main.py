@@ -17,6 +17,7 @@ from icecream import ic
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import date2num
 from matplotlib.figure import Figure
+
 # * Related Third Party Imports
 from PIL import Image
 from tkcalendar import DateEntry
@@ -1694,7 +1695,10 @@ class PurchaseOrderPage(BasePage):
             myCursor = db.cursor()
             for item in uniqueItems:
                 myCursor.execute(
-                    "UPDATE Items SET purchaseOrderNumber = ? WHERE itemName = ?",
+                    """
+                    UPDATE Items
+                    SET purchaseOrderNumber = ? 
+                    WHERE itemName = ?""",
                     (purchaseOrderNumber, item),
                 )
 
@@ -2606,41 +2610,121 @@ class ReportsPage(BasePage):
                 if reportType == "daily":
                     if selectedCategory == "All":
                         self.db.myCursor.execute(
-                            "SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale FROM Sales JOIN Items ON Sales.itemID = Items.itemID JOIN Categories ON Items.categoryID = Categories.categoryID WHERE Sales.dateOfSale = CURRENT_DATE"
+                            """
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
+                            FROM Sales 
+                            JOIN Items 
+                            ON Sales.itemID = Items.itemID 
+                            JOIN 
+                            Categories 
+                            ON Items.categoryID = Categories.categoryID 
+                            WHERE Sales.dateOfSale = CURRENT_DATE
+                            """
                         )
                     else:
                         self.db.myCursor.execute(
-                            f"SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale FROM Sales JOIN Items ON Sales.itemID = Items.itemID JOIN Categories ON Items.categoryID = Categories.categoryID WHERE Categories.categoryName = '{selectedCategory}' AND Sales.dateOfSale = CURRENT_DATE"
+                            f"""
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
+                            FROM Sales 
+                            JOIN Items 
+                            ON Sales.itemID = Items.itemID 
+                            JOIN Categories 
+                            ON Items.categoryID = Categories.categoryID 
+                            WHERE Categories.categoryName = '{selectedCategory}' 
+                            AND Sales.dateOfSale = CURRENT_DATE
+                            """
                         )
 
                 elif reportType == "weekly":
                     if selectedCategory == "All":
                         self.db.myCursor.execute(
-                            f"SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale FROM Sales JOIN Items ON Sales.itemID = Items.itemID JOIN Categories ON Items.categoryID = Categories.categoryID WHERE Sales.dateOfSale BETWEEN '{startOfLastWeek}' AND '{endOfLastWeek}'"
+                            f"""
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
+                            FROM Sales 
+                            JOIN Items 
+                            ON Sales.itemID = Items.itemID 
+                            JOIN Categories 
+                            ON Items.categoryID = Categories.categoryID 
+                            WHERE Sales.dateOfSale 
+                            BETWEEN '{startOfLastWeek}' 
+                            AND '{endOfLastWeek}'
+                            """
                         )
                     else:
                         self.db.myCursor.execute(
-                            f"SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale FROM Sales JOIN Items ON Sales.itemID = Items.itemID JOIN Categories ON Items.categoryID = Categories.categoryID WHERE Categories.categoryName = '{selectedCategory}' AND Sales.dateOfSale BETWEEN '{startOfLastWeek}' AND '{endOfLastWeek}'"
+                            f"""
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
+                            FROM Sales 
+                            JOIN Items 
+                            ON Sales.itemID = Items.itemID 
+                            JOIN Categories ON Items.categoryID = Categories.categoryID 
+                            WHERE Categories.categoryName = '{selectedCategory}' 
+                            AND Sales.dateOfSale 
+                            BETWEEN '{startOfLastWeek}' 
+                            AND '{endOfLastWeek}'
+                            """
                         )
 
                 elif reportType == "monthly":
                     if selectedCategory == "All":
                         self.db.myCursor(
-                            f"SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale FROM Sales JOIN Items ON Sales.itemID = Items.itemID JOIN Categories ON Items.categoryID = Categories.categoryID WHERE Sales.dateOfSale BETWEEN '{startOfLastMonth}' AND '{endOfLastMonth}'"
+                            f"""
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
+                            FROM Sales 
+                            JOIN Items 
+                            ON Sales.itemID = Items.itemID 
+                            JOIN Categories 
+                            ON Items.categoryID = Categories.categoryID 
+                            WHERE Sales.dateOfSale 
+                            BETWEEN '{startOfLastMonth}' 
+                            AND '{endOfLastMonth}'
+                            """
                         )
                     else:
                         self.db.myCursor.execute(
-                            f"SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale FROM Sales JOIN Items ON Sales.itemID = Items.itemID JOIN Categories ON Items.categoryID = Categories.categoryID WHERE Categories.categoryName = '{selectedCategory}' AND Sales.dateOfSale BETWEEN '{startOfLastMonth}' AND '{endOfLastMonth}'"
+                            f"""
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
+                            FROM Sales 
+                            JOIN Items 
+                            ON Sales.itemID = Items.itemID 
+                            JOIN Categories 
+                            ON Items.categoryID = Categories.categoryID 
+                            WHERE Categories.categoryName = '{selectedCategory}' 
+                            AND Sales.dateOfSale 
+                            BETWEEN '{startOfLastMonth}' 
+                            AND '{endOfLastMonth}'
+                            """
                         )
 
                 elif reportType == "yearly":
                     if selectedCategory == "All":
                         self.db.myCursor.execute(
-                            f"SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale FROM Sales JOIN Items ON Sales.itemID = Items.itemID JOIN Categories ON Items.categoryID = Categories.categoryID WHERE Sales.dateOfSale BETWEEN '{startOfLastYear}' AND '{endOfLastYear}'"
+                            f"""
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
+                            FROM Sales 
+                            JOIN Items 
+                            ON Sales.itemID = Items.itemID 
+                            JOIN Categories 
+                            ON Items.categoryID = Categories.categoryID 
+                            WHERE Sales.dateOfSale 
+                            BETWEEN '{startOfLastYear}' 
+                            AND '{endOfLastYear}'
+                            """
                         )
                     else:
                         self.db.myCursor.execute(
-                            f"SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale FROM Sales JOIN Items ON Sales.itemID = Items.itemID JOIN Categories ON Items.categoryID = Categories.categoryID WHERE Categories.categoryName = '{selectedCategory}' AND Sales.dateOfSale BETWEEN '{startOfLastYear}' AND '{endOfLastYear}'"
+                            f"""
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
+                            FROM Sales 
+                            JOIN Items 
+                            ON Sales.itemID = Items.itemID 
+                            JOIN Categories 
+                            ON Items.categoryID = Categories.categoryID 
+                            WHERE Categories.categoryName = '{selectedCategory}' 
+                            AND Sales.dateOfSale 
+                            BETWEEN '{startOfLastYear}' 
+                            AND '{endOfLastYear}'
+                            """
                         )
                 rows = self.db.myCursor.fetchall()
                 ic(f"ReportType: {reportType}")
@@ -2675,7 +2759,12 @@ class ReportsPage(BasePage):
         and displays it in a tkinter window.
         """
         self.db.myCursor.execute(
-            "SELECT locationOfSale, COUNT(*) FROM Sales GROUP BY locationOfSale"
+            """
+            SELECT locationOfSale, 
+            COUNT(*) 
+            FROM Sales 
+            GROUP BY locationOfSale
+            """
         )
         locationOfSales = self.db.myCursor.fetchall()
 
@@ -2694,7 +2783,12 @@ class ReportsPage(BasePage):
         and then plots the data on a graph using matplotlib.
         """
         self.db.myCursor.execute(
-            "SELECT DATE(dateOfSale), COUNT(*) FROM Sales GROUP BY DATE(dateOfSale)"
+            """
+            SELECT DATE(dateOfSale), 
+            COUNT(*) 
+            FROM Sales 
+            GROUP BY DATE(dateOfSale)
+            """
         )
         data = self.db.myCursor.fetchall()
         dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d")) for row in data]
