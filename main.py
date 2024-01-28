@@ -2148,6 +2148,9 @@ class TransfersPage(BasePage):
         ic("TransfersPage Initialized")
         transferNumber = self.db.fetchTransferNumber()
 
+        # The below code is fetching all items and their sizes from a database and storing them in the
+        # `self.allItems` variable. It then creates a list of lists called `values`, where each inner list
+        # contains a string representation of an item and its size.
         self.allItems = self.db.fetchAllItemsAndSizes()
         values = [[f"{itemInfo[0]} {itemInfo[1]}"] for itemInfo in self.allItems]
 
