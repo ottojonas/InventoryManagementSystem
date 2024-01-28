@@ -29,9 +29,10 @@ Stock Movement Editing Page:
   ☐ Label for which store is the sending and receiving store for transfers @critical @est(2hours)
 
 Transfers Page: 
-  ☐ Transfering Stock method @critical @est(3 hours) 
+  ☐ Transfering Stock method @critical @est(3hours) 
 
 Archive:
+  ✔ Initial itemListTable values to involve sizes for all of the items instead of just name @critical @est(1hour) @started(24-01-28 17:02) @done(24-01-28 17:21) @lasted(19m5s) @project(Transfers Page)
   ✔ Search table formatting goes off when only searching for part of an item while showing all of the items with that word in @critical @est(2 hours) @started(24-01-28 17:00) @done(24-01-28 17:00) @lasted(30s) @project(Transfers Page)
   ✔ Format SQL queries (New line for each query statement) @high @started(24-01-28 16:48) @done(24-01-28 16:48) @lasted(47s) @project(Code)
   ✔ Not showing item name and item size on itemScrollFrame when cell selected @high @est(1 hour) @started(24-01-26 09:50) @done(24-01-26 10:17) @lasted(27m46s) @project(Transfers Page)

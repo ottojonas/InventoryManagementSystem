@@ -140,6 +140,16 @@ class SQLiteWrapper:
         numberOfRows = self.myCursor.fetchone()[0]
         return numberOfRows
 
+    def fetchAllItemsAndSizes(self):
+        self.myCursor.execute(
+            """
+            SELECT itemName, sizes 
+            FROM Items
+            """
+        )
+        self.allItems = self.myCursor.fetchall()
+        return self.allItems
+
     def searchDatabase(self, tableName, columnName, searchText):
         query = f"SELECT * FROM {tableName} WHERE {columnName} LIKE ?"
         searchText = "%" + searchText + "%"
@@ -2137,12 +2147,9 @@ class TransfersPage(BasePage):
         )
         ic("TransfersPage Initialized")
         transferNumber = self.db.fetchTransferNumber()
-        self.uniqueItemNames = self.db.fetchUniqueItemNames()
-        values = [[itemNames] for itemNames in self.uniqueItemNames]
-        if not values:
-            ic("No data retrieved from database")
-            values = [[]]
-        self.numberOfItems = self.db.getNumberOfItems()
+
+        self.allItems = self.db.fetchAllItemsAndSizes()
+        values = [[f"{itemInfo[0]} {itemInfo[1]}"] for itemInfo in self.allItems]
 
         self.transferInformationFrame = customtkinter.CTkFrame(
             master=self.widgetFrame,
@@ -2258,7 +2265,7 @@ class TransfersPage(BasePage):
             text_color="black",
             header_color=False,
             corner_radius=0,
-            font = self.FONT, 
+            font=self.FONT,
         )
         ic(f"itemListTable Created: {self.itemListTable}")
         self.itemListTable.edit_row(0, text_color="black", hover_color="grey")
@@ -2347,7 +2354,7 @@ class TransfersPage(BasePage):
             text_color="black",
             header_color=False,
             corner_radius=0,
-            font = self.FONT, 
+            font=self.FONT,
             command=self.onCellSelect,
         )
         ic(f"itemListTable Created:{self.itemListTable}")
