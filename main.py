@@ -1676,6 +1676,14 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                         (self.newQuantity, self.itemSize, cellValue["value"]),
                     )
                     self.db.commit()
+                    self.db.myCursor.execute(
+                        """
+                        UPDATE ItemStock
+                        SET onOrder = onOrder + ? 
+                        WHERE itemID = ? 
+                        """,
+                        (self.newQuantity, self.itemSize),
+                    )
             ic(f"newQuantity: {self.newQuantity}")
             ic(f"itemSize: {self.itemSize}")
         self.clearWidgets()
@@ -2404,10 +2412,29 @@ class TransfersPage(BasePage):
         self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
     def transferingStock(self):
-        pass
+        self.sendingStore = self.sendingStoreOptionMenu.get()
+        self.receivingStore = self.receivingStoreOptionMenu.get()
+        self.itemsBeingSent = "Items selected in onCellSelect"
+        self.quantity = (
+            self.itemEntry.get()
+        )  # * User entry within the quantity entry points
+
+        if self.sendingStore == "Warehouse":
+            pass
+        if self.sendingStore == "Lower Sloane Street":
+            pass
+        if self.sendingStore == "Jermyn Street":
+            pass
+
+        if self.receivingStore == "Warehouse":
+            pass
+        if self.receivingStore == "Lower Sloane Street":
+            pass
+        if self.receivingStore == "Jermyn Street":
+            pass
 
     def savingTransferToDatabase(self):
-        pass
+        pass  # * Committing the transfer to database to be stored in both Transfers Table and ItemStock table
 
 
 class ReportsPage(BasePage):
