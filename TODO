@@ -3,7 +3,6 @@ Code:
   ☐ Data validation @high
   ☐ Debugging more in depth and more througout the system @low
   ☐ Fill in the design pattern functions. Need time to do this as well as will need to look at code and work out what can be implemented into the Factory and Observer Classes @low
-  ☐ Format SQL queries (New line for each query statement) @high
 
 Testing: 
   ☐ Create unit tests @high
@@ -31,9 +30,10 @@ Stock Movement Editing Page:
 
 Transfers Page: 
   ☐ Transfering Stock method @critical @est(3 hours) 
-  ☐ Search table formatting goes off when only searching for part of an item while showing all of the items with that word in @critical @est(2 hours)
 
 Archive:
+  ✔ Search table formatting goes off when only searching for part of an item while showing all of the items with that word in @critical @est(2 hours) @started(24-01-28 17:00) @done(24-01-28 17:00) @lasted(30s) @project(Transfers Page)
+  ✔ Format SQL queries (New line for each query statement) @high @started(24-01-28 16:48) @done(24-01-28 16:48) @lasted(47s) @project(Code)
   ✔ Not showing item name and item size on itemScrollFrame when cell selected @high @est(1 hour) @started(24-01-26 09:50) @done(24-01-26 10:17) @lasted(27m46s) @project(Transfers Page)
   ✔ Saving updated information to database, without changing data that the user has not changed or updated @critical @est(1hour) @started(24-01-22 15:38) @done(24-01-25 21:23) @lasted(3d5h45m32s) @project(Stock Movement Editing Page)
   ✔ Not adding each size to the page to edit, adding the same size over and over again @critical @est(1hour) @started(24-01-25 20:25) @done(24-01-25 20:25) @lasted(7s) @project(Stock Movement Editing Page)

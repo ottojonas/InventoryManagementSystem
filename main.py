@@ -2243,7 +2243,7 @@ class TransfersPage(BasePage):
 
         self.searchedItemScrollFrame = customtkinter.CTkScrollableFrame(
             self.transferInformationFrame,
-            fg_color="red",
+            fg_color="white",
             width=900,
             height=680,
         )
@@ -2258,11 +2258,12 @@ class TransfersPage(BasePage):
             text_color="black",
             header_color=False,
             corner_radius=0,
+            font = self.FONT, 
         )
         ic(f"itemListTable Created: {self.itemListTable}")
         self.itemListTable.edit_row(0, text_color="black", hover_color="grey")
-        self.itemListTable.pack_propagate(False)
-        self.itemListTable.pack(fill="both", expand=True)
+        self.itemListTable.grid_propagate(False)
+        self.itemListTable.grid(sticky="nsew")
         ic(f"itemListTable Packed: {self.itemListTable}")
 
         self.confirmButton = customtkinter.CTkButton(
@@ -2328,7 +2329,7 @@ class TransfersPage(BasePage):
         else:
             ic(f"Data retrieved from database: {values}")
         if hasattr(self, "itemListTable"):
-            self.itemListTable.pack_forget()
+            self.itemListTable.grid_forget()
             self.itemListTable.destroy()
         values = []
         for result in results:
@@ -2346,12 +2347,13 @@ class TransfersPage(BasePage):
             text_color="black",
             header_color=False,
             corner_radius=0,
+            font = self.FONT, 
             command=self.onCellSelect,
         )
         ic(f"itemListTable Created:{self.itemListTable}")
         self.itemListTable.edit_row(0, text_color="black", hover_color="grey")
-        self.itemListTable.pack_propagate(False)
-        self.itemListTable.pack(expand=True, fill="both")
+        self.itemListTable.grid_propagate(False)
+        self.itemListTable.grid(sticky="nsew")
         ic(f"itemListTable Packed: {self.itemListTable}")
 
     def onCellSelect(self, cellValue):
