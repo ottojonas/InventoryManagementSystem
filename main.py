@@ -2407,19 +2407,19 @@ class TransfersPage(BasePage):
         self.selectedCell = cellValue["value"]
         ic(f"self.selectedCell: {cellValue}")
 
-        selectedRowValues = cellValue.get("value", [])
-        if not isinstance(selectedRowValues, list):
-            selectedRowValues = [selectedRowValues]
+        self.selectedRowValues = cellValue.get("value", [])
+        if not isinstance(self.selectedRowValues, list):
+            self.selectedRowValues = [self.selectedRowValues]
         else:
-            ic(f"selectedRowValues is not a list: {selectedRowValues}")
+            ic(f"selectedRowValues is not a list: {self.selectedRowValues}")
 
-        selectedRowValuesString = ", ".join(map(str, selectedRowValues))
-        ic(f"selectedRowValues: {selectedRowValues}")
-        ic(f"selectedRowValuesString: {selectedRowValuesString}")
+        self.selectedRowValuesString = ", ".join(map(str, self.selectedRowValues))
+        ic(f"selectedRowValues: {self.selectedRowValues}")
+        ic(f"selectedRowValuesString: {self.selectedRowValuesString}")
 
         self.itemLabel = customtkinter.CTkLabel(
             self.itemsScrollFrame,
-            text=f"{selectedRowValuesString}",
+            text=f"{self.selectedRowValuesString}",
             text_color="black",
             font=self.FONT,
         )
@@ -2434,28 +2434,23 @@ class TransfersPage(BasePage):
         self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
     def transferringStock(self):
-        # * User selected sending location
         self.sendingStore = self.sendingStoreOptionMenu.get()
         ic(f"Sending Store: {self.sendingStore}")
 
-        # * User selected receving location
         self.receivingStore = self.receivingStoreOptionMenu.get()
         ic(f"Receving Store = {self.receivingStore}")
 
-        # * User selected items for transfer
         selectedItems = []
         for child in self.itemsScrollFrame.winfo_children():
             if isinstance(child, (customtkinter.CTkLabel, customtkinter.CTkEntry)):
                 if isinstance(child, customtkinter.CTkLabel):
-                    selectedItems.append(child.cget("text"))
+                    item = child.cget("text")
+                    quantity = self.itemEntry.get()
+                    selectedItems.append((item, quantity))
         self.itemsBeingSent = selectedItems
         ic(f"Items being sent: {self.itemsBeingSent}")
 
-        # * User entry within the quantity entry points
-        self.quantitiesBeingSent = self.itemEntry.get()
-        ic(f"Quantities = {self.quantitiesBeingSent}")
-
-        # ! DATA VALIDATION
+        # ! DATA VALIDATION TODO
         # * Includes checking of value input, locations being sent and received are not the same, stock levels from sending store are adequate enough
 
         # * Sending locations

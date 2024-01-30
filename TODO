@@ -33,6 +33,9 @@ Transfers Page:
     ☐ Use the option menus to select which column in table to pull stock from and insert the stock into that table 
   ☐ Data validation for transferring stock @critical @est(1hour)
 
+Bugs: 
+  ☐ Transferring Method
+
 Archive:
   ✔ Initial itemListTable values to involve sizes for all of the items instead of just name @critical @est(1hour) @started(24-01-28 17:02) @done(24-01-28 17:21) @lasted(19m5s) @project(Transfers Page)
   ✔ Search table formatting goes off when only searching for part of an item while showing all of the items with that word in @critical @est(2 hours) @started(24-01-28 17:00) @done(24-01-28 17:00) @lasted(30s) @project(Transfers Page)
