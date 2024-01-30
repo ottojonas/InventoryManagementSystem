@@ -29,8 +29,9 @@ Stock Movement Editing Page:
   ☐ Label for which store is the sending and receiving store for transfers @critical @est(2hours)
 
 Transfers Page: 
-  ☐ Transfering Stock method @critical @est(3hours)
-    Use the option menus to select which column in table to pull stock from and insert the stock into that table 
+  ☐ Transfering Stock method @critical @est(3hours) @started(24-01-30 16:57)
+    ☐ Use the option menus to select which column in table to pull stock from and insert the stock into that table 
+  ☐ Data validation for transferring stock @critical @est(1hour)
 
 Archive:
   ✔ Initial itemListTable values to involve sizes for all of the items instead of just name @critical @est(1hour) @started(24-01-28 17:02) @done(24-01-28 17:21) @lasted(19m5s) @project(Transfers Page)

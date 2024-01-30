@@ -2310,7 +2310,7 @@ class TransfersPage(BasePage):
             width=300,
             height=50,
             font=self.FONT,
-            command=self.transferingStock,
+            command=self.transferringStock,
         )
         self.confirmButton.pack(
             anchor="w",
@@ -2351,6 +2351,10 @@ class TransfersPage(BasePage):
             fg_color="white",
         )
         self.itemsScrollFrame.pack(fill="both", expand=True)
+
+    def clearWidgets(self):
+        for widget in self.itemsScrollFrame.winfo_children():
+            widget.destroy
 
     def search(self):
         """
@@ -2429,7 +2433,7 @@ class TransfersPage(BasePage):
         )
         self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
-    def transferingStock(self):
+    def transferringStock(self):
         # * User selected sending location
         self.sendingStore = self.sendingStoreOptionMenu.get()
         ic(f"Sending Store: {self.sendingStore}")
@@ -2444,9 +2448,7 @@ class TransfersPage(BasePage):
             if isinstance(child, (customtkinter.CTkLabel, customtkinter.CTkEntry)):
                 if isinstance(child, customtkinter.CTkLabel):
                     selectedItems.append(child.cget("text"))
-        self.itemsBeingSent = [
-            self.itemList.get(itemIndex) for itemIndex in selectedItems
-        ]
+        self.itemsBeingSent = selectedItems
         ic(f"Items being sent: {self.itemsBeingSent}")
 
         # * User entry within the quantity entry points
@@ -2457,101 +2459,39 @@ class TransfersPage(BasePage):
         # * Includes checking of value input, locations being sent and received are not the same, stock levels from sending store are adequate enough
 
         # * Sending locations
-        if self.sendingStore == "Warehouse":
-            self.db.myCursor.execute(
-                """
-                SELECT warehouseStock 
-                FROM ItemStock 
-                WHERE itemID = ?
-                """,
-                (self.itemsBeingSent,),
-            )
-            self.currentWarehouseStock = self.db.myCursor.fetchall()
-            ic(f"Current Warehouse Stock: {self.currentWarehouseStock}")
-
-            if self.currentWarehouseStock > 0:
+        for (itemID, itemSize), quantity in zip(
+            self.itemsBeingSent, self.quantitiesBeingSent
+        ):
+            if self.sendingStore == "Warehouse":
                 self.db.myCursor.execute(
                     """
-                    UPDATE ItemStock 
-                    SET warehouseStock = warehouseStock - ? 
-                    WHERE itemID = ? 
-                    AND itemSize = ? 
-                    """
+                    SELECT warehouseStock 
+                    FROM ItemStock 
+                    WHERE itemID = ?
+                    """,
+                    (itemID, itemSize),
                 )
-            else:
-                ic("No stock available to send")
-                tkmb.showerror(
-                    title="Error",
-                    message=f"Cannot send item with 0 stock. Items with no stock: {'items being sent with no stock'}",
-                )
+                self.currentWarehouseStock = self.db.myCursor.fetchall()
+                ic(f"Current Warehouse Stock: {self.currentWarehouseStock}")
 
-        if self.sendingStore == "Lower Sloane Street":
-            self.db.myCursor.execute(
-                """
-                SELECT sloaneStock 
-                FROM ItemStock 
-                WHERE itemID = ? 
-                """,
-                (self.itemsBeingSent,),
-            )
-            self.currentSloaneStock = self.db.myCursor.fetchall()
-            ic(f"Current Sloane Stock: {self.currentSloaneStock}")
-
-            if self.currentSloaneStock > 0:
-                self.db.myCursor.execute(
-                    """
-                    UPDATE ItemStock 
-                    SET sloaneStock = sloaneStock - ? 
-                    WHERE itemID = ? 
-                    AND itemSize = ? 
-                    """
-                )
-            else:
-                ic("No stock available to send")
-                tkmb.showerror(
-                    title="Error",
-                    message=f"Cannot send item with 0 stock. Items with no stock: {'items being sent with no stock'}",
-                )
-
-        if self.sendingStore == "Jermyn Street":
-            self.db.myCursor.execute(
-                """
-                SELECT jermynStock 
-                FROM ItemStock
-                WHERE itemID = ? 
-                """,
-                (self.itemsBeingSent,),
-            )
-            self.currentJermynStock = self.db.myCursor.fetchall()
-            ic(f"Current Jermyn Stock: {self.currentJermynStock}")
-
-            if self.currentJermynStock > 0:
-                self.db.myCursor.execute(
-                    """
-                    UPDATE ItemStock 
-                    SET jermynStock = jermynStock - ? 
-                    WHERE itemID = ? 
-                    AND itemSize = ? 
-                    """
-                )
-            else:
-                ic("No stock available to send")
-                tkmb.showerror(
-                    title="Error",
-                    message=f"Cannot send item with 0 stock. Items with no stock: {'items being sent with no stock'}",
-                )
+                if self.currentWarehouseStock > 0:
+                    self.db.myCursor.execute(
+                        """
+                        UPDATE ItemStock 
+                        SET warehouseStock = warehouseStock - ? 
+                        WHERE itemID = ? 
+                        AND itemSize = ? 
+                        """,
+                        (quantity, itemID, itemSize),
+                    )
+                else:
+                    ic("No stock available to send")
+                    tkmb.showerror(
+                        title="Error",
+                        message=f"Cannot send item with 0 stock. Items with no stock: {'items being sent with no stock'}",
+                    )
 
         # * Receiving Locations
-        if self.receivingStore == "Warehouse":
-            self.db.myCursor.execute(
-                """
-                UPDATE ItemStock 
-                SET warehouseStock = warehouseStock + ? 
-                WHERE itemID = ? 
-                AND itemSize = ? 
-                """
-            )
-
         if self.receivingStore == "Lower Sloane Street":
             self.db.myCursor.execute(
                 """
@@ -2559,18 +2499,11 @@ class TransfersPage(BasePage):
                 SET sloaneStock = sloaneStock + ? 
                 WHERE itemID = ? 
                 AND itemSize = ? 
-                """
+                """,
+                (quantity, itemID, itemSize),
             )
 
-        if self.receivingStore == "Jermyn Street":
-            self.db.myCursor.execute(
-                """
-                UPDATE ItemStock 
-                SET jermynStock = jermynStock + ? 
-                WHERE itemID = ? 
-                AND itemSize = ? 
-                """
-            )
+        self.clearWidgets()
 
 
 class ReportsPage(BasePage):
