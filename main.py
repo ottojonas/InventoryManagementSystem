@@ -2129,12 +2129,28 @@ class PurchaseOrderPage(BasePage):
                 purchaseOrderID = self.db.myCursor.lastrowid
                 item["purchaseOrderID"] = purchaseOrderID
                 self.db.executeDatabaseQuery(
-                    "INSERT INTO PurchaseOrderInformation (purchaseOrderID, itemID, itemSize, quantity) VALUES(?, ?, ?, ?)",
+                    """
+                    INSERT INTO PurchaseOrderInformation (purchaseOrderID, itemID, itemSize, quantity) 
+                    VALUES(?, ?, ?, ?)
+                    """,
                     (purchaseOrderID, itemID, item["sizes"], quantity),
                 )
                 self.db.executeDatabaseQuery(
-                    "INSERT INTO ItemStock (itemID, itemSize, onOrder) VALUES(?, ?, ?)",
+                    """
+                    INSERT OR IGNORE INTO 
+                    ItemStock (itemID, itemSize, onOrder) 
+                    VALUES(?, ?, ?)
+                    """,
                     (itemID, item["sizes"], quantity),
+                )
+                self.db.executeDatabaseQuery(
+                    """
+                    UPDATE ItemStock 
+                    SET onOrder = ? 
+                    WHERE itemID = ? 
+                    AND itemSize = ?
+                    """,
+                    (quantity, itemID, item["sizes"]),
                 )
             self.db.commit()
             self.resetAttributes()
@@ -2277,6 +2293,7 @@ class TransfersPage(BasePage):
             header_color=False,
             corner_radius=0,
             font=self.FONT,
+            command=self.onCellSelect,
         )
         ic(f"itemListTable Created: {self.itemListTable}")
         self.itemListTable.edit_row(0, text_color="black", hover_color="grey")
@@ -2293,6 +2310,7 @@ class TransfersPage(BasePage):
             width=300,
             height=50,
             font=self.FONT,
+            command=self.transferingStock,
         )
         self.confirmButton.pack(
             anchor="w",
@@ -2412,29 +2430,147 @@ class TransfersPage(BasePage):
         self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
     def transferingStock(self):
+        # * User selected sending location
         self.sendingStore = self.sendingStoreOptionMenu.get()
+        ic(f"Sending Store: {self.sendingStore}")
+
+        # * User selected receving location
         self.receivingStore = self.receivingStoreOptionMenu.get()
-        self.itemsBeingSent = "Items selected in onCellSelect"
-        self.quantity = (
-            self.itemEntry.get()
-        )  # * User entry within the quantity entry points
+        ic(f"Receving Store = {self.receivingStore}")
 
+        # * User selected items for transfer
+        selectedItems = []
+        for child in self.itemsScrollFrame.winfo_children():
+            if isinstance(child, (customtkinter.CTkLabel, customtkinter.CTkEntry)):
+                if isinstance(child, customtkinter.CTkLabel):
+                    selectedItems.append(child.cget("text"))
+        self.itemsBeingSent = [
+            self.itemList.get(itemIndex) for itemIndex in selectedItems
+        ]
+        ic(f"Items being sent: {self.itemsBeingSent}")
+
+        # * User entry within the quantity entry points
+        self.quantitiesBeingSent = self.itemEntry.get()
+        ic(f"Quantities = {self.quantitiesBeingSent}")
+
+        # ! DATA VALIDATION
+        # * Includes checking of value input, locations being sent and received are not the same, stock levels from sending store are adequate enough
+
+        # * Sending locations
         if self.sendingStore == "Warehouse":
-            pass
+            self.db.myCursor.execute(
+                """
+                SELECT warehouseStock 
+                FROM ItemStock 
+                WHERE itemID = ?
+                """,
+                (self.itemsBeingSent,),
+            )
+            self.currentWarehouseStock = self.db.myCursor.fetchall()
+            ic(f"Current Warehouse Stock: {self.currentWarehouseStock}")
+
+            if self.currentWarehouseStock > 0:
+                self.db.myCursor.execute(
+                    """
+                    UPDATE ItemStock 
+                    SET warehouseStock = warehouseStock - ? 
+                    WHERE itemID = ? 
+                    AND itemSize = ? 
+                    """
+                )
+            else:
+                ic("No stock available to send")
+                tkmb.showerror(
+                    title="Error",
+                    message=f"Cannot send item with 0 stock. Items with no stock: {'items being sent with no stock'}",
+                )
+
         if self.sendingStore == "Lower Sloane Street":
-            pass
+            self.db.myCursor.execute(
+                """
+                SELECT sloaneStock 
+                FROM ItemStock 
+                WHERE itemID = ? 
+                """,
+                (self.itemsBeingSent,),
+            )
+            self.currentSloaneStock = self.db.myCursor.fetchall()
+            ic(f"Current Sloane Stock: {self.currentSloaneStock}")
+
+            if self.currentSloaneStock > 0:
+                self.db.myCursor.execute(
+                    """
+                    UPDATE ItemStock 
+                    SET sloaneStock = sloaneStock - ? 
+                    WHERE itemID = ? 
+                    AND itemSize = ? 
+                    """
+                )
+            else:
+                ic("No stock available to send")
+                tkmb.showerror(
+                    title="Error",
+                    message=f"Cannot send item with 0 stock. Items with no stock: {'items being sent with no stock'}",
+                )
+
         if self.sendingStore == "Jermyn Street":
-            pass
+            self.db.myCursor.execute(
+                """
+                SELECT jermynStock 
+                FROM ItemStock
+                WHERE itemID = ? 
+                """,
+                (self.itemsBeingSent,),
+            )
+            self.currentJermynStock = self.db.myCursor.fetchall()
+            ic(f"Current Jermyn Stock: {self.currentJermynStock}")
 
+            if self.currentJermynStock > 0:
+                self.db.myCursor.execute(
+                    """
+                    UPDATE ItemStock 
+                    SET jermynStock = jermynStock - ? 
+                    WHERE itemID = ? 
+                    AND itemSize = ? 
+                    """
+                )
+            else:
+                ic("No stock available to send")
+                tkmb.showerror(
+                    title="Error",
+                    message=f"Cannot send item with 0 stock. Items with no stock: {'items being sent with no stock'}",
+                )
+
+        # * Receiving Locations
         if self.receivingStore == "Warehouse":
-            pass
-        if self.receivingStore == "Lower Sloane Street":
-            pass
-        if self.receivingStore == "Jermyn Street":
-            pass
+            self.db.myCursor.execute(
+                """
+                UPDATE ItemStock 
+                SET warehouseStock = warehouseStock + ? 
+                WHERE itemID = ? 
+                AND itemSize = ? 
+                """
+            )
 
-    def savingTransferToDatabase(self):
-        pass  # * Committing the transfer to database to be stored in both Transfers Table and ItemStock table
+        if self.receivingStore == "Lower Sloane Street":
+            self.db.myCursor.execute(
+                """
+                UPDATE ItemStock 
+                SET sloaneStock = sloaneStock + ? 
+                WHERE itemID = ? 
+                AND itemSize = ? 
+                """
+            )
+
+        if self.receivingStore == "Jermyn Street":
+            self.db.myCursor.execute(
+                """
+                UPDATE ItemStock 
+                SET jermynStock = jermynStock + ? 
+                WHERE itemID = ? 
+                AND itemSize = ? 
+                """
+            )
 
 
 class ReportsPage(BasePage):
