@@ -2311,7 +2311,7 @@ class TransfersPage(BasePage):
             width=300,
             height=50,
             font=self.FONT,
-            command=self.savingTransferToTransfers,
+            command=self.saveTransfer,
         )
         self.confirmButton.pack(
             anchor="w",
@@ -2355,7 +2355,7 @@ class TransfersPage(BasePage):
 
     def clearWidgets(self):
         for widget in self.itemsScrollFrame.winfo_children():
-            widget.destroy
+            widget.destroy()
 
     def search(self):
         """
@@ -2371,7 +2371,6 @@ class TransfersPage(BasePage):
             ic(f"Data retrieved from database: {values}")
         if hasattr(self, "itemListTable"):
             self.itemListTable.grid_forget()
-            self.itemListTable.destroy()
         values = []
         for result in results:
             ic(f"Item: {result}")
@@ -2434,7 +2433,7 @@ class TransfersPage(BasePage):
         )
         self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
-    def savingTransferToTransfers(self):
+    def saveTransfer(self):
         self.uniqueTransferNumber = self.transferNumber
         self.sendingLocation = self.sendingStoreOptionMenu.get()
         ic(f"Sending Location: {self.sendingLocation}")
@@ -2458,6 +2457,7 @@ class TransfersPage(BasePage):
         self.itemID = self.db.myCursor.fetchall()
         ic(f"self.itemID: {self.itemID}")
         self.quantityBeingSent = self.itemEntry.get()
+        self.quantityBeingSent = int(self.quantityBeingSent)
         ic(f"self.quantitiesBeingSent: {self.quantityBeingSent}")
 
         if not self.sendingLocation:
@@ -2487,9 +2487,11 @@ class TransfersPage(BasePage):
             raise ValueError("Quantity entered is a negative number")
 
         for itemID in self.itemID:
-            self.transfersQuery = self.db.executeDatabaseQuery(
+            self.transferQuery = self.db.executeDatabaseQuery(
                 """
-                INSERT INTO Transfers (transferNumber, sendersLocation, receiversLocation, itemID, itemSize, quantity, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO Transfers
+                (transferNumber, sendersLocation, receiversLocation, itemID, itemSize, quantity, createdAt) 
+                VALUES(?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     self.uniqueTransferNumber,
@@ -2501,11 +2503,171 @@ class TransfersPage(BasePage):
                     self.createdAtDate,
                 ),
             )
+            if self.sendingLocation == "Warehouse":
+                self.db.myCursor.execute(
+                    """
+                    SELECT warehouseStock 
+                    FROM ItemStock
+                    WHERE itemID = ? 
+                    AND itemSize = ?
+                    """,
+                    (
+                        itemID[0],
+                        self.selectedItemSize,
+                    ),
+                )
+                fetchCurrentWarehouseStock = self.db.myCursor.fetchone()
+                if fetchCurrentWarehouseStock is None:
+                    self.currentWarehouseStock = 0
+                else:
+                    self.currentWarehouseStock = fetchCurrentWarehouseStock[0]
+                ic(f"self.currentWarehouseStock: {self.currentWarehouseStock}")
+                if self.currentWarehouseStock < self.quantityBeingSent:
+                    tkmb.showerror(
+                        title="Error", message="Cannot Transfer Due To A Lack of Stock"
+                    )
+                    raise ValueError("Not enough stock")
+                else:
+                    self.db.executeDatabaseQuery(
+                        """
+                        UPDATE ItemStock
+                        SET warehouseStock = warehouseStock - ? 
+                        WHERE itemID = ? 
+                        AND itemSize = ? 
+                        """,
+                        (
+                            self.quantityBeingSent,
+                            itemID[0],
+                            self.selectedItemSize,
+                        ),
+                    )
+
+            if self.sendingLocation == "Lower Sloane Street":
+                self.db.myCursor.execute(
+                    """
+                    SELECT sloaneStock 
+                    FROM ItemStock 
+                    WHERE itemID = ? 
+                    AND itemSize = ?
+                    """,
+                    (
+                        itemID[0],
+                        self.selectedItemSize,
+                    ),
+                )
+                fetchCurrentSloaneStock = self.db.myCursor.fetchone()
+                if fetchCurrentSloaneStock is None:
+                    self.currentSloaneStock = 0
+                else:
+                    self.currentSloaneStock = fetchCurrentSloaneStock[0]
+                ic(f"self.currentSloaneStock: {self.currentSloaneStock}")
+                if self.currentSloaneStock < self.quantityBeingSent:
+                    tkmb.showerror(
+                        title="Error", message="Cannot Transfer Due To A Lack of Stock"
+                    )
+                    raise ValueError("Not enough stock")
+                else:
+                    self.db.executeDatabaseQuery(
+                        """
+                        UPDATE ItemStock
+                        SET sloaneStock = sloaneStock - ? 
+                        WHERE itemID = ? 
+                        AND itemSize = ? 
+                        """,
+                        (
+                            self.quantityBeingSent,
+                            itemID[0],
+                            self.selectedItemSize,
+                        ),
+                    )
+
+            if self.sendingLocation == "Jermyn Street":
+                self.db.myCursor.execute(
+                    """
+                    SELECT jermynStock
+                    FROM ItemStock 
+                    WHERE itemID = ? 
+                    AND itemSize = ?
+                    """,
+                    (
+                        itemID[0],
+                        self.selectedItemSize,
+                    ),
+                )
+                fetchCurrentJermynStock = self.db.myCursor.fetchone()
+                if fetchCurrentJermynStock is None:
+                    self.currentJermynStock = 0
+                else:
+                    self.currentJermynStock = fetchCurrentJermynStock[0]
+                ic(f"self.currentJermynStock: {self.currentJermynStock}")
+                if self.currentJermynStock < self.quantityBeingSent:
+                    tkmb.showerror(
+                        title="Error", message="Cannot Transfer Due To A Lack of Stock"
+                    )
+                    raise ValueError("Not enough stock")
+                else:
+                    self.db.executeDatabaseQuery(
+                        """
+                        UPDATE ItemStock
+                        SET jermynStock = jermynStock - ? 
+                        WHERE itemID = ? 
+                        AND itemSize = ? 
+                        """,
+                        (
+                            self.quantityBeingSent,
+                            itemID[0],
+                            self.selectedItemSize,
+                        ),
+                    )
+
+            if self.receivingLocation == "Warehouse":
+                self.db.executeDatabaseQuery(
+                    """
+                    UPDATE ItemStock 
+                    SET warehouseStock = warehouseStock + ? 
+                    WHERE itemID = ? 
+                    AND itemSize = ? 
+                    """,
+                    (
+                        self.quantityBeingSent,
+                        itemID[0],
+                        self.selectedItemSize,
+                    ),
+                )
+
+            if self.receivingLocation == "Lower Sloane Street":
+                self.db.executeDatabaseQuery(
+                    """
+                    UPDATE ItemStock 
+                    SET sloaneStock = sloaneStock + ? 
+                    WHERE itemID = ? 
+                    AND itemSize = ? 
+                    """,
+                    (
+                        self.quantityBeingSent,
+                        itemID[0],
+                        self.selectedItemSize,
+                    ),
+                )
+
+            if self.receivingLocation == "Jermyn Street":
+                self.db.executeDatabaseQuery(
+                    """
+                    UPDATE ItemStock 
+                    SET jermynStock = jermynStock + ? 
+                    WHERE itemID = ? 
+                    AND itemSize = ? 
+                    """,
+                    (
+                        self.quantityBeingSent,
+                        itemID[0],
+                        self.selectedItemSize,
+                    ),
+                )
         self.db.commit()
-        ic("Successful Commit")
-        ic(f"self.transfersQuery: {self.transfersQuery}")
+        ic("Successfully committed transfer to database")
         self.clearWidgets()
-        ic("Widgets cleared")
+        ic("Successfully cleared widgets")
 
 
 class ReportsPage(BasePage):

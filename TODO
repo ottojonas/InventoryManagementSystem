@@ -32,15 +32,12 @@ Stock Movement Editing Page:
 Purchase Order Page: 
   ☐ Not storing itemID in ItemStock table correctly, only stores the first ID of an item instead of each item @critical
 
-Transfers Page: 
-  ☐ Transfering Stock method @critical @est(3hours) 
-    ☐ Use the option menus to select which column in table to pull stock from and insert the stock into that table 
-  ☐ Data validation for transferring stock @critical @est(1hour)
-
-Bugs: 
-  ☐ Transferring Method
-
 Archive:
+  ✘ Search method not working - not returning searches, or when it does, it is not returning them properly @critical @est(1hour) @cancelled(24-02-01 18:19) @project(Transfers Page)
+  ✔ Transferring Method @started(24-02-01 18:07) @done(24-02-01 18:07) @lasted(1s) @project(Bugs)
+  ✔ Data validation for transferring stock @critical @est(1hour) @started(24-02-01 18:06) @done(24-02-01 18:06) @lasted(44s) @project(Transfers Page)
+  ✔ Transfering Stock method @critical @est(3hours) @started(24-02-01 18:06) @done(24-02-01 18:06) @lasted(23s) @project(Transfers Page)
+  ✔ Saving to Transfers table @critical @est(1hour) @started(24-02-01 14:31) @done(24-02-01 14:31) @lasted(50s) @project(Transfers Page)
   ✔ Initial itemListTable values to involve sizes for all of the items instead of just name @critical @est(1hour) @started(24-01-28 17:02) @done(24-01-28 17:21) @lasted(19m5s) @project(Transfers Page)
   ✔ Search table formatting goes off when only searching for part of an item while showing all of the items with that word in @critical @est(2 hours) @started(24-01-28 17:00) @done(24-01-28 17:00) @lasted(30s) @project(Transfers Page)
   ✔ Format SQL queries (New line for each query statement) @high @started(24-01-28 16:48) @done(24-01-28 16:48) @lasted(47s) @project(Code)
