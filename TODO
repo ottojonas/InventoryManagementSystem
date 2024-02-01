@@ -8,13 +8,13 @@ Testing:
   ☐ Create unit tests @high
 
 Pages to Create: 
-  ☐ Sales
-  ☐ Inventory
-  ☐ Stock Control 
-  ☐ Checking in Transfers and Purchase Orders
-  ☐ Customers
-  ☐ Hire
-  ☐ Settings
+  ☐ Sales @high
+  ☐ Inventory @critical
+  ☐ Stock Control @high
+  ☐ Checking in Transfers and Purchase Orders @critical
+  ☐ Customers @high
+  ☐ Hire @low
+  ☐ Settings @low
 
 Home Page: 
   ☐ notificationButton not being updated when there are notifications @low

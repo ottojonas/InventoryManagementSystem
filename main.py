@@ -121,7 +121,6 @@ class SQLiteWrapper:
     def __init__(
         self,
         inventoryDatabase,
-        inventoryDatabaseUpdated,
         loginInfoDatabase,
         remindersDatabase,
     ):
@@ -131,8 +130,6 @@ class SQLiteWrapper:
             self.loginCursor = self.logindb.cursor()
         with sqlite3.connect("database/remindersDatabase.db") as self.remindersdb:
             self.remindersCursor = self.remindersdb.cursor()
-        with sqlite3.connect("database/inventoryDatabaseUpdated.db") as self.updateddb:
-            self.updatedCursor = self.updateddb.cursor()
 
     def getNumberOfItems(self):
         query = "SELECT COUNT(*) FROM Items"
@@ -904,7 +901,6 @@ class HomePage(BasePage):
             "database/inventoryDatabase.db",
             "database/loginInfoDatabase.db",
             "database/remindersDatabase.db",
-            "database/inventoryDatabaseUpdated.db",
         )
 
         ic("HomePage Initialized")
@@ -1257,7 +1253,6 @@ class BrowseStockMovementsPage(BasePage):
             "database/inventoryDatabase.db",
             "database/loginInfoDatabase.db",
             "database/remindersDatabase.db",
-            "database/inventoryDatabaseUpdated.db",
         )
         ic("PurchaseOrderListPage Initialized")
 
@@ -1434,7 +1429,6 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             "database/inventoryDatabase.db",
             "database/loginInfoDatabase.db",
             "database/remindersDatabase.db",
-            "database/inventoryDatabaseUpdated.db",
         )
         ic("PurchaseOrderAndTransferEditingPage Initialized")
         ic(f"cellValue: {cellValue}")
@@ -1654,9 +1648,9 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         """
         items = self.retrievingItemsFromPurchaseOrder(cellValue)
         ic(f"items: {items}")
-        for i, item in enumerate(items):
+        for index, item in enumerate(items):
             self.itemSize, _ = item
-            self.newQuantity = self.itemEntry[i].get()
+            self.newQuantity = self.itemEntry[index].get()
             ic([entry.get() for entry in self.itemEntry])
             for _ in range(len(items)):
                 if self.newQuantity:
@@ -1686,6 +1680,16 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         self.clearWidgets()
 
 
+class TransferAndPurchaseOrderCheckInPage(BasePage):
+    def __init__(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass):
+        super().__init__(mainWindow, mainFrame, imageWrapper, mainApplicationClass)
+        self.db = SQLiteWrapper(
+            "database/inventoryDatabase.db",
+            "database/loginInfoDatabase.db",
+            "database/remindersDatabase.db",
+        )
+
+
 class PurchaseOrderPage(BasePage):
     def __init__(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass):
         super().__init__(mainWindow, mainFrame, imageWrapper, mainApplicationClass)
@@ -1693,7 +1697,6 @@ class PurchaseOrderPage(BasePage):
             "database/inventoryDatabase.db",
             "database/loginInfoDatabase.db",
             "database/remindersDatabase.db",
-            "database/inventoryDatabaseUpdated.db",
         )
         ic("PurchaseOrderPage Initialized")
         self.itemInformationFrame = customtkinter.CTkFrame(
@@ -2168,7 +2171,6 @@ class TransfersPage(BasePage):
             "database/inventoryDatabase.db",
             "database/loginInfoDatabase.db",
             "database/remindersDatabase.db",
-            "database/inventoryDatabaseUpdated.db",
         )
         ic("TransfersPage Initialized")
         self.transferNumber = self.db.fetchTransferNumber()
@@ -2677,7 +2679,6 @@ class ReportsPage(BasePage):
             "database/inventoryDatabase.db",
             "database/loginInfoDatabase.db",
             "database/remindersDatabase.db",
-            "database/inventoryDatabaseUpdated.db",
         )
         ic("ReportsPage Initialized")
 
