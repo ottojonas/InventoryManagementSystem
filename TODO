@@ -27,9 +27,13 @@ Stock Movement Editing Page:
   ☐ Create the method for retrieving data of transfer from data base @critical @est(1hour)
   ☐ Saving updated information to database, without changing data that the user has not changed or updated (Transfers) @critical @est(1hour)
   ☐ Label for which store is the sending and receiving store for transfers @critical @est(2hours)
+  ☐  Not storing itemID in ItemStock table correctly, only stores the first ID of an item instead of each item @critical
+
+Purchase Order Page: 
+  ☐ Not storing itemID in ItemStock table correctly, only stores the first ID of an item instead of each item @critical
 
 Transfers Page: 
-  ☐ Transfering Stock method @critical @est(3hours) @started(24-01-30 16:57)
+  ☐ Transfering Stock method @critical @est(3hours) 
     ☐ Use the option menus to select which column in table to pull stock from and insert the stock into that table 
   ☐ Data validation for transferring stock @critical @est(1hour)
 

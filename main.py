@@ -1568,7 +1568,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         )
         self.editItemsLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
-        self.displayItems(cellValue, self.movementOptionMenuStringVar.get())
+        self.displayItems(cellValue)
 
     def retrievingItemsFromPurchaseOrder(self, cellValue):
         """
@@ -1610,7 +1610,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         self.transferInformationResults = self.db.myCursor.fetchall()
         ic(f"transferInformationResults: {self.transferInformationResults}")
 
-    def displayItems(self, cellValue, movementType):
+    def displayItems(self, cellValue):
         """
         The `displayItems` function retrieves items from stock movement and displays them along with their
         size and quantity in a customtkinter GUI.
@@ -1618,10 +1618,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         used as input to the `retrievingItemsFromStockMovement` method to retrieve a list of items
         """
         self.itemEntry = []
-        if movementType == "Purchase Order":
-            items = self.retrievingItemsFromPurchaseOrder(cellValue)
-        else:
-            items = self.retrievingItemsFromTransfer(cellValue)
+        items = self.retrievingItemsFromPurchaseOrder(cellValue)
         for item in items:
             self.itemSize, self.quantity = item
             ic(f"Item Size: {self.itemSize}, Quantity: {self.quantity}")
@@ -2128,6 +2125,10 @@ class PurchaseOrderPage(BasePage):
                 )
                 purchaseOrderID = self.db.myCursor.lastrowid
                 item["purchaseOrderID"] = purchaseOrderID
+                itemIDResults = self.db.executeDatabaseQuery(
+                    "SELECT itemID FROM Items WHERE itemName = ?", (itemName,)
+                )
+                itemID = itemIDResults[0][0] if itemIDResults else None
                 self.db.executeDatabaseQuery(
                     """
                     INSERT INTO PurchaseOrderInformation (purchaseOrderID, itemID, itemSize, quantity) 
@@ -2434,71 +2435,29 @@ class TransfersPage(BasePage):
         self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
     def transferringStock(self):
-        self.sendingStore = self.sendingStoreOptionMenu.get()
-        ic(f"Sending Store: {self.sendingStore}")
-
-        self.receivingStore = self.receivingStoreOptionMenu.get()
-        ic(f"Receving Store = {self.receivingStore}")
-
-        selectedItems = []
-        for child in self.itemsScrollFrame.winfo_children():
-            if isinstance(child, (customtkinter.CTkLabel, customtkinter.CTkEntry)):
-                if isinstance(child, customtkinter.CTkLabel):
-                    item = child.cget("text")
-                    quantity = self.itemEntry.get()
-                    selectedItems.append((item, quantity))
-        self.itemsBeingSent = selectedItems
-        ic(f"Items being sent: {self.itemsBeingSent}")
-
-        # ! DATA VALIDATION TODO
-        # * Includes checking of value input, locations being sent and received are not the same, stock levels from sending store are adequate enough
-
-        # * Sending locations
-        for (itemID, itemSize), quantity in zip(
-            self.itemsBeingSent, self.quantitiesBeingSent
-        ):
-            if self.sendingStore == "Warehouse":
-                self.db.myCursor.execute(
-                    """
-                    SELECT warehouseStock 
-                    FROM ItemStock 
-                    WHERE itemID = ?
-                    """,
-                    (itemID, itemSize),
-                )
-                self.currentWarehouseStock = self.db.myCursor.fetchall()
-                ic(f"Current Warehouse Stock: {self.currentWarehouseStock}")
-
-                if self.currentWarehouseStock > 0:
-                    self.db.myCursor.execute(
-                        """
-                        UPDATE ItemStock 
-                        SET warehouseStock = warehouseStock - ? 
-                        WHERE itemID = ? 
-                        AND itemSize = ? 
-                        """,
-                        (quantity, itemID, itemSize),
-                    )
-                else:
-                    ic("No stock available to send")
-                    tkmb.showerror(
-                        title="Error",
-                        message=f"Cannot send item with 0 stock. Items with no stock: {'items being sent with no stock'}",
-                    )
-
-        # * Receiving Locations
-        if self.receivingStore == "Lower Sloane Street":
-            self.db.myCursor.execute(
-                """
-                UPDATE ItemStock 
-                SET sloaneStock = sloaneStock + ? 
-                WHERE itemID = ? 
-                AND itemSize = ? 
-                """,
-                (quantity, itemID, itemSize),
-            )
-
         self.clearWidgets()
+        ic("Clearing Widgets")
+        self.sendingLocation = self.sendingStoreOptionMenu.get()
+        ic(f"Sending Location: {self.sendingLocation}")
+        self.receivingLocation = self.receivingStoreOptionMenu.get()
+        ic(f"Receiving Location: {self.receivingLocation}")
+        self.selectedItemName = self.selectedCell[0:5]
+        ic(f"self.selectedItemName: {self.selectedItemName}")
+        self.selectedItemSize = self.selectedCell[-2:]
+        ic(f"self.selectedItemSize: {self.selectedItemSize}")
+        self.db.myCursor.execute(
+            """
+            SELECT itemID 
+            FROM Items 
+            WHERE itemName = ? 
+            AND itemSize = ?
+            """,
+            (self.selectedItemName, self.selectedItemSize),
+        )
+        self.itemID = self.db.myCursor.fetchone()
+        ic(f"self.itemID: {self.itemID}")
+        self.quantityBeingSent = self.itemEntry.get()
+        ic(f"self.quantitiesBeingSent: {self.quantityBeingSent}")
 
 
 class ReportsPage(BasePage):
