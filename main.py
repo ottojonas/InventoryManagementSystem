@@ -2171,7 +2171,7 @@ class TransfersPage(BasePage):
             "database/inventoryDatabaseUpdated.db",
         )
         ic("TransfersPage Initialized")
-        transferNumber = self.db.fetchTransferNumber()
+        self.transferNumber = self.db.fetchTransferNumber()
 
         # The below code is fetching all items and their sizes from a database and storing them in the
         # `self.allItems` variable. It then creates a list of lists called `values`, where each inner list
@@ -2190,7 +2190,7 @@ class TransfersPage(BasePage):
 
         self.transferNumberLabel = customtkinter.CTkLabel(
             master=self.transferInformationFrame,
-            text=f"Transfer Number: {transferNumber}",
+            text=f"Transfer Number: {self.transferNumber}",
             text_color="black",
             font=self.LABELFONT,
         )
@@ -2311,7 +2311,7 @@ class TransfersPage(BasePage):
             width=300,
             height=50,
             font=self.FONT,
-            command=self.transferringStock,
+            command=self.savingTransferToTransfers,
         )
         self.confirmButton.pack(
             anchor="w",
@@ -2434,30 +2434,78 @@ class TransfersPage(BasePage):
         )
         self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
-    def transferringStock(self):
-        self.clearWidgets()
-        ic("Clearing Widgets")
+    def savingTransferToTransfers(self):
+        self.uniqueTransferNumber = self.transferNumber
         self.sendingLocation = self.sendingStoreOptionMenu.get()
         ic(f"Sending Location: {self.sendingLocation}")
         self.receivingLocation = self.receivingStoreOptionMenu.get()
         ic(f"Receiving Location: {self.receivingLocation}")
-        self.selectedItemName = self.selectedCell[0:5]
+        self.selectedItemName = self.selectedCell[0:-3]
         ic(f"self.selectedItemName: {self.selectedItemName}")
         self.selectedItemSize = self.selectedCell[-2:]
         ic(f"self.selectedItemSize: {self.selectedItemSize}")
+        self.createdAtDate = datetime.now().date()
+        ic(f"self.createdAtDate: {self.createdAtDate}")
         self.db.myCursor.execute(
             """
             SELECT itemID 
             FROM Items 
             WHERE itemName = ? 
-            AND itemSize = ?
+            AND sizes = ?
             """,
             (self.selectedItemName, self.selectedItemSize),
         )
-        self.itemID = self.db.myCursor.fetchone()
+        self.itemID = self.db.myCursor.fetchall()
         ic(f"self.itemID: {self.itemID}")
         self.quantityBeingSent = self.itemEntry.get()
         ic(f"self.quantitiesBeingSent: {self.quantityBeingSent}")
+
+        if not self.sendingLocation:
+            tkmb.showerror(title="Error", message="Please enter the senders location")
+            raise ValueError("No sender location entered")
+        if not self.receivingLocation:
+            tkmb.showerror(title="Error", message="Please enter the receivers location")
+            raise ValueError("No end location entered")
+        if self.sendingLocation == self.receivingLocation:
+            tkmb.showerror(
+                title="Error",
+                message="Cannot transfer stock to the place it is being sent from",
+            )
+            raise ValueError("sendingLocation == receivingLocation")
+        if not self.quantityBeingSent:
+            tkmb.showerror(
+                title="Error", message="One or more items is missing quantity input"
+            )
+            raise ValueError("Missing quantities")
+        try:
+            self.quantityBeingSent = int(self.quantityBeingSent)
+        except ValueError:
+            tkmb.showerror(title="Error", message="Quantity must be a number")
+            raise ValueError("Quantity entered not an integer")
+        if self.quantityBeingSent <= 0:
+            tkmb.showerror(title="Error", message="Quantity must be larger than 0")
+            raise ValueError("Quantity entered is a negative number")
+
+        for itemID in self.itemID:
+            self.transfersQuery = self.db.executeDatabaseQuery(
+                """
+                INSERT INTO Transfers (transferNumber, sendersLocation, receiversLocation, itemID, itemSize, quantity, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    self.uniqueTransferNumber,
+                    self.sendingLocation,
+                    self.receivingLocation,
+                    itemID[0],
+                    self.selectedItemSize,
+                    self.quantityBeingSent,
+                    self.createdAtDate,
+                ),
+            )
+        self.db.commit()
+        ic("Successful Commit")
+        ic(f"self.transfersQuery: {self.transfersQuery}")
+        self.clearWidgets()
+        ic("Widgets cleared")
 
 
 class ReportsPage(BasePage):
