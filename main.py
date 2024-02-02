@@ -1534,6 +1534,15 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         )
         self.updateButton.pack(side="right")
 
+        self.checkInButton = customtkinter.CTkButton(
+            self.informationFrame,
+            fg_color="black",
+            text="Check In",
+            text_color="white",
+            font=self.FONT,
+        )
+        self.checkInButton.pack(anchor="center")
+
         self.cancelButton = customtkinter.CTkButton(
             self.informationFrame,
             fg_color="black",
@@ -1678,16 +1687,6 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             ic(f"newQuantity: {self.newQuantity}")
             ic(f"itemSize: {self.itemSize}")
         self.clearWidgets()
-
-
-class TransferAndPurchaseOrderCheckInPage(BasePage):
-    def __init__(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass):
-        super().__init__(mainWindow, mainFrame, imageWrapper, mainApplicationClass)
-        self.db = SQLiteWrapper(
-            "database/inventoryDatabase.db",
-            "database/loginInfoDatabase.db",
-            "database/remindersDatabase.db",
-        )
 
 
 class PurchaseOrderPage(BasePage):
@@ -2436,6 +2435,10 @@ class TransfersPage(BasePage):
         self.itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
     def saveTransfer(self):
+        """
+        The `saveTransfer` function receives data from user input, which is then validated before being commited to the Transfers table
+        and updates the ItemStock table with the new data.
+        """
         self.uniqueTransferNumber = self.transferNumber
         self.sendingLocation = self.sendingStoreOptionMenu.get()
         ic(f"Sending Location: {self.sendingLocation}")
