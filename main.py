@@ -1534,21 +1534,13 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         )
         self.updateButton.pack(side="right")
 
-        self.checkInButton = customtkinter.CTkButton(
-            self.informationFrame,
-            fg_color="black",
-            text="Check In",
-            text_color="white",
-            font=self.FONT,
-        )
-        self.checkInButton.pack(anchor="center")
-
         self.cancelButton = customtkinter.CTkButton(
             self.informationFrame,
             fg_color="black",
             text="Cancel",
             text_color="white",
             font=self.FONT,
+            command=mainApplicationClass.openPurchaseOrderAndTransferEditingPage,
         )
         self.cancelButton.pack(side="left")
 
@@ -1563,13 +1555,33 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             side="right", anchor="center", padx=(10, 10), pady=(10, 10)
         )
 
-        self.editItemsLabel = customtkinter.CTkLabel(
+        self.enclosedItemsScrollFrame = customtkinter.CTkScrollableFrame(
             self.editingInformationFrame,
+            fg_color="white",
+            width=930,
+            height=850,
+        )
+        self.enclosedItemsScrollFrame.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10)
+        )
+
+        self.editItemsLabel = customtkinter.CTkLabel(
+            self.enclosedItemsScrollFrame,
             text="Edit Quantity Here",
             text_color="black",
             font=self.FONT,
         )
         self.editItemsLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
+        self.checkInButton = customtkinter.CTkButton(
+            self.editingInformationFrame,
+            text="Check In Stock",
+            fg_color="black",
+            text_color="white",
+            width=900,
+            height=70,
+        )
+        self.checkInButton.pack(side="bottom", padx=(10, 10), pady=(10, 10))
 
         self.displayItems(cellValue)
 
@@ -1626,7 +1638,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             self.itemSize, self.quantity = item
             ic(f"Item Size: {self.itemSize}, Quantity: {self.quantity}")
             self.itemLabel = customtkinter.CTkLabel(
-                self.editingInformationFrame,
+                self.enclosedItemsScrollFrame,
                 text=f"Item Size: {self.itemSize}, Quantity: {self.quantity}",
                 text_color="black",
                 font=self.FONT,
@@ -1634,7 +1646,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             self.itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
             itemEntry = customtkinter.CTkEntry(
-                self.editingInformationFrame,
+                self.enclosedItemsScrollFrame,
                 text_color="black",
                 fg_color="white",
                 font=self.FONT,
@@ -1687,6 +1699,100 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             ic(f"newQuantity: {self.newQuantity}")
             ic(f"itemSize: {self.itemSize}")
         self.clearWidgets()
+
+    def updatingTransferInformation(self, cellValue):
+        """
+        The 'updatingTransferInformation' function retrieves the user input and updates the data in the
+        database to the data inputted by the user.
+        """
+        items = self.retrievingItemsFromTransfer(cellValue)
+        ic(f"items: {items}")
+        for index, item in enumerate(items):
+            self.itemSize, _ = item
+            self.newQuantity = self.itemEntry[index].get()
+            ic([entry.get() for entry in self.itemEntry])
+            for _ in range(len(items)):
+                if self.newQuantity:
+                    self.db.myCursor.execute(
+                        """
+                        UPDATE Transfers
+                        SET quantity = ? 
+                        WHERE itemSize = ? 
+                        AND transferID = ? 
+                        """,
+                        (self.newQuantity, self.itemSize, cellValue["value"]),
+                    )
+                    self.db.commit()
+            ic(f"newQuantity: {self.newQuantity}")
+            ic(f"itemSize: {self.itemSize}")
+        self.clearWidgets()
+
+    def receivingPurchaseOrderStock(self, cellValue):
+        items = self.retrievingItemsFromPurchaseOrder(cellValue)
+        currentDate = datetime.now().date()
+        ic(f"items: {items}")
+        for index, item in enumerate(items):
+            self.itemSize, _ = item
+            self.checkedInQuantity = self.itemEntry[index].get()
+            ic([entry.get() for entry in self.itemEntry])
+            for _ in range(len(items)):
+                if self.checkedInQuantity:
+                    self.db.myCursor.execute(
+                        """
+                        INSERT OR IGNORE INTO ItemStock 
+                        (itemID, itemSize, warehouseStock, totalStock) VALUES (?, ?, ?, ?, 0)
+                        """,
+                        (
+                            """itemID""",
+                            self.itemSize,
+                            self.checkedInQuantity,
+                            self.checkedInQuantity,
+                        ),
+                    )
+                    self.db.commit()
+                    self.db.myCursor.execute(
+                        """
+                        UPDATE ItemStock 
+                        SET warehouseStock = warehouseStock + ?, 
+                            totalStock = totalStock + ? 
+                        WHERE itemID = ? 
+                        AND itemSize = ? 
+                        """,
+                        (
+                            self.checkedInQuantity,
+                            self.checkedInQuantity,
+                            """itemID""",
+                            self.itemSize,
+                        ),
+                    )
+                    self.db.commit()
+                    self.db.myCursor.execute(
+                        """
+                        UPDATE ItemStock
+                        SET onOrder = onOrder - ?
+                        WHERE itemID = ? 
+                        AND itemSize = ?
+                        """(
+                            self.checkedInQuantity,
+                            """itemID""",
+                            self.itemSize,
+                        )
+                    )
+                    self.db.commit()
+                    self.db.myCursor.execute(
+                        """
+                        UPDATE PurchaseOrder
+                        SET receivedDate = ? 
+                        WHERE purchaseOrderID = ? 
+                        """,
+                        (
+                            currentDate,
+                            """purchaseOrderID""",
+                        ),
+                    )
+                    self.db.commit()
+        self.clearWidgets()
+        mainApplicationClass.openPurchaseOrderListPage
 
 
 class PurchaseOrderPage(BasePage):
@@ -1853,6 +1959,7 @@ class PurchaseOrderPage(BasePage):
             width=300,
             height=50,
             font=self.FONT,
+            command=self.resetAttributes,
         )
         self.cancelButton.pack(
             anchor="e",
@@ -2330,6 +2437,7 @@ class TransfersPage(BasePage):
             width=300,
             height=50,
             font=self.FONT,
+            command=self.clearWidgets,
         )
         self.cancelButton.pack(
             anchor="e",
