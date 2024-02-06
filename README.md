@@ -32,4 +32,38 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 python main.py
 
 ```
+ToDo Items From TODO file in project:
+  Code: 
+    ☐ Generate tests for system @high
+    ☐ Data validation @high
+    ☐ Debugging more in depth and more througout the system @low
+    ☐ Fill in the design pattern functions. Need time to do this as well as will need to look at code and work out what can be implemented into the Factory and Observer Classes @low
+  
+  Testing: 
+    ☐ Create unit tests @high
+  
+  Pages to Create: 
+    ☐ Sales @high
+    ☐ Inventory @critical
+    ☐ Stock Control @high
+    ☐ Checking in Transfers and Purchase Orders - Add this to the Editing page and add a button to check in ?  @critical
+    ☐ Customers @high
+    ☐ Hire @low
+    ☐ Settings @low
+  
+  Home Page: 
+    ☐ notificationButton not being updated when there are notifications @low
+  
+  Browse Stock Movement Page: 
+    ☐ Utilise the movementOptionMenu @high / @low
+      ☐ Need to make an instance of the origin page and then call it from there (subtask) @high
+  
+  Stock Movement Editing Page: 
+    ☐ Create the method for retrieving data of transfer from data base @critical @est(1hour)
+    ☐ Saving updated information to database, without changing data that the user has not changed or updated (Transfers) @critical @est(1hour)
+    ☐ Label for which store is the sending and receiving store for transfers @critical @est(2hours)
+    ☐  Not storing itemID in ItemStock table correctly, only stores the first ID of an item instead of each item @critical
+  
+  Purchase Order Page: 
+    ☐ Not storing itemID in ItemStock table correctly, only stores the first ID of an item instead of each item @critical
 
