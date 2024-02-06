@@ -27,13 +27,14 @@ Stock Movement Editing Page:
   ☐ Create the method for retrieving data of transfer from data base @critical @est(1hour)
   ☐ Saving updated information to database, without changing data that the user has not changed or updated (Transfers) @critical @est(1hour)
   ☐ Label for which store is the sending and receiving store for transfers @critical @est(2hours)
-  ☐ Not storing itemID in ItemStock table correctly, only stores the first ID of an item instead of each item @critical
-  ☐ Checking in purchase order stock - needs data validation and to work lol @critical @est(2hours)
 
 Purchase Order Page: 
   ☐ Not storing itemID in ItemStock table correctly, only stores the first ID of an item instead of each item @critical
 
 Archive:
+  ✔ Not automatically adding stock to receiving location - just removing stock and placing it in onOrder column @critical @est(30minutes) @started(24-02-06 13:15) @done(24-02-06 13:15) @lasted(44s) @project(Transfers Page)
+  ✔ Not storing itemID in ItemStock table correctly, only stores the first ID of an item instead of each item @critical @started(24-02-06 13:09) @done(24-02-06 13:09) @lasted(13s) @project(Stock Movement Editing Page)
+  ✔ Checking in purchase order stock - needs data validation and to work lol @critical @est(2hours) @started(24-02-06 13:09) @done(24-02-06 13:09) @lasted(5s) @project(Stock Movement Editing Page)
   ✘ Search method not working - not returning searches, or when it does, it is not returning them properly @critical @est(1hour) @cancelled(24-02-01 18:19) @project(Transfers Page)
   ✔ Transferring Method @started(24-02-01 18:07) @done(24-02-01 18:07) @lasted(1s) @project(Bugs)
   ✔ Data validation for transferring stock @critical @est(1hour) @started(24-02-01 18:06) @done(24-02-01 18:06) @lasted(44s) @project(Transfers Page)

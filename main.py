@@ -1860,6 +1860,36 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             ic(f"itemSize: {self.itemSize}")
         self.clearWidgets()
 
+    def checkingInTransfer(self, cellValue):
+        items = self.retrievingItemsFromTransfer(cellValue)
+        currentDate = datetime.now().date()
+        itemID = self.retrieveItemID(cellValue)
+        if isinstance(itemID, list):
+            itemID = itemID[0][0]
+        for index, item in enumerate(items):
+            self.itemSize, _ = item
+            if isinstance(self.itemSize, list):
+                self.itemSize = self.itemSize[0]
+            checkInQuantities = self.itemEntry[index].get()
+            if isinstance(checkInQuantities, list):
+                for checkInQuantity in checkInQuantities:
+                    self.updatingDatabaseTransfer(
+                        checkInQuantities, itemID, currentDate, cellValue
+                    )
+            elif checkInQuantities is not None:
+                self.updatingDatabaseTransfer(
+                    checkInQuantities, itemID, currentDate, cellValue
+                )
+            else:
+                ic("Error: checkInQuantities is None")
+        self.clearWidgets()
+        ic("Successfully checked in stock")
+
+    def updatingDatabaseTransfer(
+        self, checkInQuantities, itemID, currentDate, cellValue
+    ):
+        pass
+
 
 class PurchaseOrderPage(BasePage):
     def __init__(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass):
@@ -2798,51 +2828,19 @@ class TransfersPage(BasePage):
                             self.selectedItemSize,
                         ),
                     )
-
-            if self.receivingLocation == "Warehouse":
-                self.db.executeDatabaseQuery(
-                    """
-                    UPDATE ItemStock 
-                    SET warehouseStock = warehouseStock + ? 
-                    WHERE itemID = ? 
-                    AND itemSize = ? 
-                    """,
-                    (
-                        self.quantityBeingSent,
-                        itemID[0],
-                        self.selectedItemSize,
-                    ),
-                )
-
-            if self.receivingLocation == "Lower Sloane Street":
-                self.db.executeDatabaseQuery(
-                    """
-                    UPDATE ItemStock 
-                    SET sloaneStock = sloaneStock + ? 
-                    WHERE itemID = ? 
-                    AND itemSize = ? 
-                    """,
-                    (
-                        self.quantityBeingSent,
-                        itemID[0],
-                        self.selectedItemSize,
-                    ),
-                )
-
-            if self.receivingLocation == "Jermyn Street":
-                self.db.executeDatabaseQuery(
-                    """
-                    UPDATE ItemStock 
-                    SET jermynStock = jermynStock + ? 
-                    WHERE itemID = ? 
-                    AND itemSize = ? 
-                    """,
-                    (
-                        self.quantityBeingSent,
-                        itemID[0],
-                        self.selectedItemSize,
-                    ),
-                )
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE ItemStock
+                SET onOrder = onOrder + 1
+                WHERE itemID = ? 
+                AND itemSize = ? 
+                """,
+                (
+                    self.quantityBeingSent,
+                    itemID[0],
+                    self.selectedItemSize,
+                ),
+            )
         self.db.commit()
         ic("Successfully committed transfer to database")
         self.clearWidgets()
