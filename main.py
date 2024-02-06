@@ -17,6 +17,7 @@ from icecream import ic
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import date2num
 from matplotlib.figure import Figure
+
 # * Related Third Party Imports
 from PIL import Image
 from tkcalendar import DateEntry
@@ -1432,8 +1433,6 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         ic("PurchaseOrderAndTransferEditingPage Initialized")
         ic(f"cellValue: {cellValue}")
 
-
-
         self.db.myCursor.execute(
             "SELECT deliveryDate FROM PurchaseOrder where purchaseOrderNumber = ?",
             (cellValue["value"],),
@@ -1541,7 +1540,9 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             text="Cancel",
             text_color="white",
             font=self.FONT,
-            command=lambda: mainApplicationClass.openPurchaseOrderAndTransferEditingPage(cellValue),
+            command=lambda: mainApplicationClass.openPurchaseOrderAndTransferEditingPage(
+                cellValue
+            ),
         )
         self.cancelButton.pack(side="left")
 
@@ -1581,7 +1582,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             text_color="white",
             width=900,
             height=70,
-            command = lambda: self.checkingInPurchaseOrder(cellValue), 
+            command=lambda: self.checkingInPurchaseOrder(cellValue),
         )
         self.checkInButton.pack(side="bottom", padx=(10, 10), pady=(10, 10))
 
@@ -1730,75 +1731,107 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             ic(f"itemSize: {self.itemSize}")
         self.clearWidgets()
 
-    def checkingInPurchaseOrder(self, cellValue): 
+    def checkingInPurchaseOrder(self, cellValue):
         items = self.retrievingItemsFromPurchaseOrder(cellValue)
         ic(f"items: {items}")
         currentDate = datetime.now().date()
+        ic(f"currentDate: {currentDate}")
         itemID = self.retrieveItemID(cellValue)
+        if isinstance(itemID, list):
+            itemID = itemID[0][0]
         purchaseOrderID = self.retrievePurchaseOrderID(cellValue)
+        if isinstance(purchaseOrderID, list):
+            purchaseOrderID = purchaseOrderID[0][0]
         for index, item in enumerate(items):
             self.itemSize, _ = item
-            self.checkInQuantity = self.itemEntry[index].get()
-            self.checkInQuantity = self.checkInQuantity[0] if self.checkInQuantity else None
+            if isinstance(self.itemSize, list):
+                self.itemSize = self.itemSize[0]
+            checkInQuantities = self.itemEntry[index].get()
             ic([entry.get() for entry in self.itemEntry])
-            for _ in range(len(items)):
-                if self.checkInQuantity:
-                    self.db.myCursor.execute(
-                        """
-                        INSERT OR IGNORE INTO ItemStock 
-                        (itemID, itemSize, warehouseStock, totalStock) VALUES (?, ?, ?, ?)
-                        """,
-                        (
-                            itemID,
-                            self.itemSize,
-                            self.checkInQuantity,
-                            self.checkInQuantity,
-                        ),
+            if isinstance(checkInQuantities, list):
+                for checkInQuantity in checkInQuantities:
+                    self.updatingDatabasePurchaseOrder(
+                        checkInQuantity,
+                        itemID,
+                        purchaseOrderID,
+                        currentDate,
+                        cellValue,
                     )
-                    self.db.commit()
-                    self.db.myCursor.execute(
-                        """
-                        UPDATE ItemStock 
-                        SET warehouseStock = warehouseStock + ?, 
-                            totalStock = totalStock + ? 
-                        WHERE itemID = ? 
-                        AND itemSize = ? 
-                        """,
-                        (
-                            self.checkInQuantity,
-                            self.checkInQuantity,
-                            itemID,
-                            self.itemSize,
-                        ),
-                    )
-                    self.db.commit()
-                    self.db.myCursor.execute(
-                        """
-                        UPDATE ItemStock
-                        SET onOrder = onOrder - ?
-                        WHERE itemID = ? 
-                        AND itemSize = ?
-                        """,
-                        (
-                            self.checkInQuantity,
-                            itemID,
-                            self.itemSize,
-                        ),
-                    )
-                    self.db.commit()
-                    self.db.myCursor.execute(
-                        """
-                        UPDATE PurchaseOrder
-                        SET receivedDate = ? 
-                        WHERE purchaseOrderID = ? 
-                        """,
-                        (
-                            currentDate,
-                            purchaseOrderID,
-                        ),
-                    )
-                    self.db.commit()
+            elif checkInQuantities is not None:
+                self.updatingDatabasePurchaseOrder(
+                    checkInQuantities,
+                    itemID,
+                    purchaseOrderID,
+                    currentDate,
+                    cellValue,
+                )
+            else:
+                ic("Error: checkInQuantities is None")
         self.clearWidgets()
+        ic("Successfully checked in stock")
+
+    def updatingDatabasePurchaseOrder(
+        self,
+        checkInQuantities,
+        itemID,
+        purchaseOrderID,
+        currentDate,
+        cellValue,
+    ):
+        self.db.myCursor.execute(
+            """
+            INSERT OR IGNORE INTO ItemStock 
+            (itemID, itemSize, warehouseStock, totalStock) 
+            VALUES (?, ?, 0, 0)
+            """,
+            (
+                itemID,
+                self.itemSize,
+            ),
+        )
+        self.db.commit()
+        self.db.myCursor.execute(
+            """
+            UPDATE ItemStock 
+            SET warehouseStock = warehouseStock + ?, 
+                totalStock = totalStock + ? 
+            WHERE itemID = ? 
+            AND itemSize = ? 
+            """,
+            (
+                checkInQuantities,
+                checkInQuantities,
+                itemID,
+                self.itemSize,
+            ),
+        )
+        self.db.commit()
+        self.db.myCursor.execute(
+            """
+            UPDATE ItemStock
+            SET onOrder = onOrder - ?
+            WHERE itemID = ? 
+            AND itemSize = ?
+            """,
+            (
+                checkInQuantities,
+                itemID,
+                self.itemSize,
+            ),
+        )
+        self.db.commit()
+        self.db.myCursor.execute(
+            """
+            UPDATE PurchaseOrder
+            SET dateReceived = ? 
+            WHERE purchaseOrderNumber = ? 
+            """,
+            (
+                currentDate,
+                cellValue["value"],
+            ),
+        )
+        self.db.commit()
 
     def updatingTransferInformation(self, cellValue):
         """
