@@ -1971,7 +1971,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             ic(f"newQuantity: {self.newQuantity}")
             ic(f"itemSize: {self.transferItemSize}")
         tkmb.showinfo(
-            title="Success", message="You have successfully received the transfer"
+            title="Success", message="Your updates have been successfully saved"
         )
         self.clearWidgets()
 
@@ -1998,6 +1998,10 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                     )
                 else:
                     ic("Error: checkInQuantities is None")
+        tkmb.showinfo(
+            title="Success",
+            message="You have successfully received the transfer. Stock has been updated accordingly.",
+        )
         self.clearWidgets()
         ic("Successfully checked in stock")
 
@@ -2013,7 +2017,24 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             (cellValue["value"],),
         )
         sendingLocation = self.db.myCursor.fetchall()
+        sendingLocation = sendingLocation[0][0] if sendingLocation else None
         ic(f"sendingLocation: {sendingLocation}")
+        if sendingLocation == "Warehouse":
+            self.db.execute(
+                """
+                UPDATE ItemStock 
+                SET warehouseStock = warehouseStock + ? 
+                WHERE itemID = ?
+                AND itemSize = ? 
+                """,
+                (
+                    int(checkInQuantities),
+                    itemID,
+                    self.transferItemSize,
+                ),
+            )
+            self.db.commit()
+
         if sendingLocation == "Lower Sloane Street":
             self.db.executeDatabaseQuery(
                 """
@@ -2023,12 +2044,27 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                 AND itemSize = ? 
                 """,
                 (
-                    checkInQuantities,
+                    int(checkInQuantities),
                     itemID,
                     self.transferItemSize,
                 ),
             )
             self.db.commit()
+
+        if sendingLocation == "Jermyn Street":
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE ItemStock 
+                SET jermynStock = jermynStock + ?
+                WHERE itemID = ? 
+                and itemSize = ? 
+                """,
+                (
+                    int(checkInQuantities),
+                    itemID,
+                    self.transferItemSize,
+                ),
+            )
 
         self.db.myCursor.execute(
             """
@@ -2039,6 +2075,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             (cellValue["value"],),
         )
         receivingLocation = self.db.myCursor.fetchall()
+        receivingLocation = receivingLocation[0][0] if receivingLocation else None
         ic(f"receivingLocation: {receivingLocation}")
         if receivingLocation == "Warehouse":
             self.db.executeDatabaseQuery(
@@ -2049,7 +2086,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                 AND itemSize = ? 
                 """,
                 (
-                    checkInQuantities,
+                    int(checkInQuantities),
                     itemID,
                     self.transferItemSize,
                 ),
@@ -2059,6 +2096,62 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                 """
                 UPDATE Transfers
                 SET receivedAt = ? 
+                WHERE transferNumber = ? 
+                """,
+                (
+                    currentDate,
+                    cellValue["value"],
+                ),
+            )
+            self.db.commit()
+
+        if receivingLocation == "Lower Sloane Street":
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE ItemStock
+                SET sloaneStock = sloaneStock + ? 
+                WHERE itemID = ? 
+                AND itemSize = ? 
+                """,
+                (
+                    int(checkInQuantities),
+                    itemID,
+                    self.transferItemSize,
+                ),
+            )
+            self.db.commit()
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE Transfers 
+                SET receivedAt = ? 
+                WHERE transferNumber = ? 
+                """,
+                (
+                    currentDate,
+                    cellValue["value"],
+                ),
+            )
+            self.db.commit()
+
+        if receivingLocation == "Jermyn Street":
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE ItemStock 
+                SET jermynStock = jermynStock + ? 
+                WHERE itemID = ? 
+                AND itemSize = ?
+                """,
+                (
+                    int(checkInQuantities),
+                    itemID,
+                    self.transferItemSize,
+                ),
+            )
+            self.db.commit()
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE Transfers 
+                SET receivedAt  = ? 
                 WHERE transferNumber = ? 
                 """,
                 (
