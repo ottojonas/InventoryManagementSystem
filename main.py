@@ -1437,36 +1437,51 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             "SELECT deliveryDate FROM PurchaseOrder where purchaseOrderNumber = ?",
             (cellValue["value"],),
         )
-        deliveryDate = self.db.myCursor.fetchone()[0]
+        result = self.db.myCursor.fetchone()
+        deliveryDate = result[0] if result is not None else None
         self.db.myCursor.execute(
             "SELECT manufacturer FROM PurchaseOrder WHERE purchaseOrderNumber = ? ",
             (cellValue["value"],),
         )
-        manufacturerID = self.db.myCursor.fetchone()[0]
+        manufacturerResult = self.db.myCursor.fetchone()
+        manufacturerID = (
+            manufacturerResult[0] if manufacturerResult is not None else None
+        )
         self.db.myCursor.execute(
             "SELECT manufacturerName FROM Manufacturers WHERE manufacturerID = ?",
             (manufacturerID,),
         )
-        manufacturerName = self.db.myCursor.fetchone()[0]
+        manufacturerNameResult = self.db.myCursor.fetchone()
+        manufacturerName = (
+            manufacturerNameResult[0] if manufacturerNameResult is not None else None
+        )
 
         self.db.myCursor.execute(
             "SELECT price FROM PurchaseOrder WHERE purchaseOrderNumber = ?",
             (cellValue["value"],),
         )
-        purchaseOrderPrice = self.db.myCursor.fetchone()[0]
+        purchaseOrderPriceResult = self.db.myCursor.fetchone()
+        purchaseOrderPrice = (
+            purchaseOrderPriceResult[0]
+            if purchaseOrderPriceResult is not None
+            else None
+        )
 
         self.db.myCursor.execute(
             "SELECT purchaseOrderID FROM PurchaseOrder WHERE purchaseOrderNumber = ? ",
             (cellValue["value"],),
         )
-        purchaseOrderID = self.db.myCursor.fetchone()[0]
+        purchaseOrderIDResult = self.db.myCursor.fetchone()
+        purchaseOrderID = (
+            purchaseOrderIDResult[0] if purchaseOrderIDResult is not None else None
+        )
 
         self.db.myCursor.execute(
             "SELECT itemID FROM PurchaseOrderInformation WHERE purchaseOrderID = ?",
             (purchaseOrderID,),
         )
-        itemID = self.db.myCursor.fetchone()[0]
-
+        itemIDResult = self.db.myCursor.fetchone()
+        itemID = itemIDResult[0] if itemIDResult is not None else None
         self.db.myCursor.execute(
             "SELECT itemName FROM Items WHERE itemID = ?", (itemID,)
         )
@@ -1524,25 +1539,13 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         )
         self.priceLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
-        self.updateButton = customtkinter.CTkButton(
-            self.informationFrame,
-            fg_color="black",
-            text="Update",
-            text_color="white",
-            font=self.FONT,
-            command=lambda: self.updatingPurchaseOrderInformation(cellValue),
-        )
-        self.updateButton.pack(side="right")
-
         self.cancelButton = customtkinter.CTkButton(
             self.informationFrame,
             fg_color="black",
             text="Cancel",
             text_color="white",
             font=self.FONT,
-            command=lambda: mainApplicationClass.openPurchaseOrderAndTransferEditingPage(
-                cellValue
-            ),
+            command=lambda: mainApplicationClass.openPurchaseOrderListPage,
         )
         self.cancelButton.pack(side="left")
 
@@ -1569,24 +1572,14 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
 
         self.editItemsLabel = customtkinter.CTkLabel(
             self.enclosedItemsScrollFrame,
-            text="Edit Quantity Here",
+            text="Edit Quantity Or Check In Stock Here",
             text_color="black",
             font=self.FONT,
         )
         self.editItemsLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
-        self.checkInButton = customtkinter.CTkButton(
-            self.editingInformationFrame,
-            text="Check In Stock",
-            fg_color="black",
-            text_color="white",
-            width=900,
-            height=70,
-            command=lambda: self.checkingInPurchaseOrder(cellValue),
-        )
-        self.checkInButton.pack(side="bottom", padx=(10, 10), pady=(10, 10))
-
-        self.displayItems(cellValue)
+        self.displayPurchaseOrderItems(cellValue)
+        self.displayTransferItems(cellValue)
 
     def retrievingItemsFromPurchaseOrder(self, cellValue):
         """
@@ -1619,7 +1612,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         """
         self.db.myCursor.execute(
             """
-        SELECT itemName, itemSize, quantity 
+        SELECT itemSize, quantity 
         FROM Transfers
         WHERE transferNumber = ? 
         """,
@@ -1627,8 +1620,9 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         )
         self.transferInformationResults = self.db.myCursor.fetchall()
         ic(f"transferInformationResults: {self.transferInformationResults}")
+        return self.transferInformationResults
 
-    def retrieveItemID(self, cellValue):
+    def retrievePurchaseOrderItemID(self, cellValue):
         self.db.myCursor.execute(
             """
             SELECT PurchaseOrderInformation.itemID
@@ -1656,9 +1650,9 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         ic(f"purchaseOrderID: {self.purchaseOrderID}")
         return self.purchaseOrderID
 
-    def displayItems(self, cellValue):
+    def displayPurchaseOrderItems(self, cellValue):
         """
-        The `displayItems` function retrieves items from stock movement and displays them along with their
+        The `displayPurchaseOrderItems` function retrieves items from stock movement and displays them along with their
         size and quantity in a customtkinter GUI.
         :param cellValue: The parameter `cellValue` is the value of a cell in a spreadsheet or table. It is
         used as input to the `retrievingItemsFromStockMovement` method to retrieve a list of items
@@ -1684,6 +1678,102 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             )
             itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
             self.itemEntry.append(itemEntry)
+
+            self.updatePurchaseOrderButton = customtkinter.CTkButton(
+                self.informationFrame,
+                fg_color="black",
+                text="Update Purchase Order",
+                text_color="white",
+                font=self.FONT,
+                command=lambda: self.updatingPurchaseOrderInformation(cellValue),
+            )
+            self.updatePurchaseOrderButton.pack(side="right")
+
+            self.checkInPurchaseOrderButton = customtkinter.CTkButton(
+                self.editingInformationFrame,
+                text="Check In Purchase Order",
+                fg_color="black",
+                text_color="white",
+                width=900,
+                height=70,
+                command=lambda: self.checkingInPurchaseOrder(cellValue),
+            )
+            self.checkInPurchaseOrderButton.pack(
+                side="bottom", padx=(10, 10), pady=(10, 10)
+            )
+
+    def retrievingTransferItemID(self, cellValue):
+        self.db.myCursor.execute(
+            """
+            SELECT itemID 
+            FROM Transfers 
+            WHERE transferNumber = ? 
+            """,
+            (cellValue["value"],),
+        )
+        self.transferItemID = self.db.myCursor.fetchall()
+        ic(f"transferItemID: {self.transferItemID}")
+        return self.transferItemID
+
+    def displayTransferItems(self, cellValue):
+        """
+        The `displayTransferItems` function retrieves items from stock movement and displays them along with their
+        size and quantity in a customtkinter GUI.
+        :param cellValue: The parameter `cellValue` is the value of a cell in a spreadsheet or table. It is
+        used as input to the `retrievingItemsFromStockMovement` method to retrieve a list of items
+        """
+        self.itemEntry = []
+        items = self.retrievingItemsFromTransfer(cellValue)
+        ic(f"items: {items}")
+        if items is None:
+            items = []
+        for item in items:
+            if len(item) == 2:
+                self.transferItemSize, self.transferQuantity = item
+                ic(
+                    f"itemSize: {self.transferItemSize}, quantity: {self.transferQuantity}"
+                )
+                self.itemLabel = customtkinter.CTkLabel(
+                    self.enclosedItemsScrollFrame,
+                    text=f"Item Size: {self.transferItemSize}, Quantity: {self.transferQuantity}",
+                    text_color="black",
+                    font=self.FONT,
+                )
+                self.itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
+                itemEntry = customtkinter.CTkEntry(
+                    self.enclosedItemsScrollFrame,
+                    text_color="black",
+                    fg_color="white",
+                    font=self.FONT,
+                )
+                itemEntry.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+                self.itemEntry.append(itemEntry)
+
+                self.updateTransferButton = customtkinter.CTkButton(
+                    self.informationFrame,
+                    fg_color="black",
+                    text="Update Transfer",
+                    text_color="white",
+                    font=self.FONT,
+                    command=lambda: self.updatingTransferInformation(cellValue),
+                )
+                self.updateTransferButton.pack(side="right")
+
+                self.checkInTransferButton = customtkinter.CTkButton(
+                    self.editingInformationFrame,
+                    text="Check In Transfer",
+                    fg_color="black",
+                    text_color="white",
+                    width=900,
+                    height=70,
+                    command=lambda: self.checkingInTransfer(cellValue),
+                )
+                self.checkInTransferButton.pack(
+                    side="bottom", padx=(10, 10), pady=(10, 10)
+                )
+
+        ic("Transfer items displayed")
 
     def clearWidgets(self):
         """
@@ -1727,16 +1817,25 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                         """,
                         (self.newQuantity, self.itemSize),
                     )
+                    self.db.commit()
             ic(f"newQuantity: {self.newQuantity}")
             ic(f"itemSize: {self.itemSize}")
+            tkmb.showinfo(
+                title="Success",
+                message="Your changes have been successfully saved",
+            )
         self.clearWidgets()
 
     def checkingInPurchaseOrder(self, cellValue):
+        """
+        Check in the items from a purchase order.
+        Args: cellValue (str): The value of the cell containing the purchase order.
+        """
         items = self.retrievingItemsFromPurchaseOrder(cellValue)
         ic(f"items: {items}")
         currentDate = datetime.now().date()
         ic(f"currentDate: {currentDate}")
-        itemID = self.retrieveItemID(cellValue)
+        itemID = self.retrievePurchaseOrderItemID(cellValue)
         if isinstance(itemID, list):
             itemID = itemID[0][0]
         purchaseOrderID = self.retrievePurchaseOrderID(cellValue)
@@ -1769,6 +1868,10 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                 ic("Error: checkInQuantities is None")
         self.clearWidgets()
         ic("Successfully checked in stock")
+        tkmb.showinfo(
+            title="Success",
+            message="You have successfully checked in the purchase order",
+        )
 
     def updatingDatabasePurchaseOrder(
         self,
@@ -1778,6 +1881,15 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         currentDate,
         cellValue,
     ):
+        """
+        Updates the database with the purchase order information.
+
+        Args: checkInQuantities (int): The quantity of items being checked in.
+        itemID (int): The ID of the item being updated.
+        purchaseOrderID (int): The ID of the purchase order.
+        currentDate (str): The current date.
+        cellValue (dict): The value of the cell.
+        """
         self.db.myCursor.execute(
             """
             INSERT OR IGNORE INTO ItemStock 
@@ -1841,7 +1953,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
         items = self.retrievingItemsFromTransfer(cellValue)
         ic(f"items: {items}")
         for index, item in enumerate(items):
-            self.itemSize, _ = item
+            self.transferItemSize, _ = item
             self.newQuantity = self.itemEntry[index].get()
             ic([entry.get() for entry in self.itemEntry])
             for _ in range(len(items)):
@@ -1853,42 +1965,108 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                         WHERE itemSize = ? 
                         AND transferID = ? 
                         """,
-                        (self.newQuantity, self.itemSize, cellValue["value"]),
+                        (self.newQuantity, self.transferItemSize, cellValue["value"]),
                     )
                     self.db.commit()
             ic(f"newQuantity: {self.newQuantity}")
-            ic(f"itemSize: {self.itemSize}")
+            ic(f"itemSize: {self.transferItemSize}")
+        tkmb.showinfo(
+            title="Success", message="You have successfully received the transfer"
+        )
         self.clearWidgets()
 
     def checkingInTransfer(self, cellValue):
         items = self.retrievingItemsFromTransfer(cellValue)
         currentDate = datetime.now().date()
-        itemID = self.retrieveItemID(cellValue)
+        itemID = self.retrievingTransferItemID(cellValue)
         if isinstance(itemID, list):
             itemID = itemID[0][0]
         for index, item in enumerate(items):
-            self.itemSize, _ = item
-            if isinstance(self.itemSize, list):
-                self.itemSize = self.itemSize[0]
-            checkInQuantities = self.itemEntry[index].get()
-            if isinstance(checkInQuantities, list):
-                for checkInQuantity in checkInQuantities:
+            if len(item) == 2:
+                self.transferItemSize, _ = item
+                if isinstance(self.transferItemSize, list):
+                    self.transferItemSize = self.transferItemSize[0]
+                checkInQuantities = self.itemEntry[index].get()
+                if isinstance(checkInQuantities, list):
+                    for checkInQuantity in checkInQuantities:
+                        self.updatingDatabaseTransfer(
+                            checkInQuantities, itemID, currentDate, cellValue
+                        )
+                elif checkInQuantities is not None:
                     self.updatingDatabaseTransfer(
                         checkInQuantities, itemID, currentDate, cellValue
                     )
-            elif checkInQuantities is not None:
-                self.updatingDatabaseTransfer(
-                    checkInQuantities, itemID, currentDate, cellValue
-                )
-            else:
-                ic("Error: checkInQuantities is None")
+                else:
+                    ic("Error: checkInQuantities is None")
         self.clearWidgets()
         ic("Successfully checked in stock")
 
     def updatingDatabaseTransfer(
         self, checkInQuantities, itemID, currentDate, cellValue
     ):
-        pass
+        self.db.myCursor.execute(
+            """
+            SELECT sendersLocation 
+            FROM Transfers 
+            WHERE transferNumber = ? 
+            """,
+            (cellValue["value"],),
+        )
+        sendingLocation = self.db.myCursor.fetchall()
+        ic(f"sendingLocation: {sendingLocation}")
+        if sendingLocation == "Lower Sloane Street":
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE ItemStock
+                SET sloaneStock = sloaneStock - ? 
+                WHERE itemID = ? 
+                AND itemSize = ? 
+                """,
+                (
+                    checkInQuantities,
+                    itemID,
+                    self.transferItemSize,
+                ),
+            )
+            self.db.commit()
+
+        self.db.myCursor.execute(
+            """
+            SELECT receiversLocation 
+            FROM Transfers
+            WHERE transferNumber = ?
+            """,
+            (cellValue["value"],),
+        )
+        receivingLocation = self.db.myCursor.fetchall()
+        ic(f"receivingLocation: {receivingLocation}")
+        if receivingLocation == "Warehouse":
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE ItemStock
+                SET warehouseStock = warehouseStock + ? 
+                WHERE itemID = ? 
+                AND itemSize = ? 
+                """,
+                (
+                    checkInQuantities,
+                    itemID,
+                    self.transferItemSize,
+                ),
+            )
+            self.db.commit()
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE Transfers
+                SET receivedAt = ? 
+                WHERE transferNumber = ? 
+                """,
+                (
+                    currentDate,
+                    cellValue["value"],
+                ),
+            )
+            self.db.commit()
 
 
 class PurchaseOrderPage(BasePage):
@@ -2377,9 +2555,11 @@ class TransfersPage(BasePage):
         ic("TransfersPage Initialized")
         self.transferNumber = self.db.fetchTransferNumber()
 
-        # The below code is fetching all items and their sizes from a database and storing them in the
-        # `self.allItems` variable. It then creates a list of lists called `values`, where each inner list
-        # contains a string representation of an item and its size.
+        """
+        The below code is fetching all items and their sizes from a database and storing them in the
+        `self.allItems` variable. It then creates a list of lists called `values`, where each inner list
+        contains a string representation of an item and its size.
+        """
         self.allItems = self.db.fetchAllItemsAndSizes()
         values = [[f"{itemInfo[0]} {itemInfo[1]}"] for itemInfo in self.allItems]
 
