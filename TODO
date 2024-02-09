@@ -9,15 +9,22 @@ Testing:
 
 Pages to Create: 
   ☐ Sales @high
-  ☐ Inventory @critical
+  ☐ Inventory @critical @started(24-02-08 14:56)
   ☐ Stock Control @high
-  ☐ Checking in Transfers and Purchase Orders - Add this to the Editing page and add a button to check in ?  @critical
   ☐ Customers @high
   ☐ Hire @low
   ☐ Settings @low
 
 Home Page: 
   ☐ notificationButton not being updated when there are notifications @low
+
+Inventory Page: 
+  ☐ Create page GUI @critical @est(1hour)
+  ☐ Create methods @critical @est(5hours)
+
+Creating And Editing Inventory Page: 
+  ☐ Create page GUI @critical @est(1hour)
+  ☐ Create method @critical @est(6hours)
 
 Browse Stock Movement Page: 
   ☐ Utilise the movementOptionMenu @high / @low
@@ -26,10 +33,9 @@ Browse Stock Movement Page:
 Purchase Order Page: 
   ☐ Not storing itemID in ItemStock table correctly, only stores the first ID of an item instead of each item @critical
 
-Checking In Transfer Page?:
-  ☐ Might have to make ? @high @est(1hour) 
-
 Archive:
+  ✔ Checking in Transfers and Purchase Orders - Add this to the Editing page and add a button to check in ?  @critical @started(24-02-08 14:58) @done(24-02-08 14:58) @lasted(14s) @project(Pages to Create)
+  ✘ Might have to make ? @high @est(1hour) @cancelled(24-02-08 14:47) @project(Checking In Transfer Page?)
   ✔ Label for which store is the sending and receiving store for transfers @critical @est(2hours) @started(24-02-08 14:45) @done(24-02-08 14:45) @lasted(44s) @project(Stock Movement Editing Page)
   ✔ Saving updated information to database, without changing data that the user has not changed or updated (Transfers) @critical @est(1hour) @started(24-02-08 14:45) @done(24-02-08 14:45) @lasted(34s) @project(Stock Movement Editing Page)
   ✔ Create the method for retrieving data of transfer from data base @critical @est(1hour) @started(24-02-08 12:46) @done(24-02-08 12:46) @lasted(24s) @project(Stock Movement Editing Page)

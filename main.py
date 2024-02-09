@@ -17,7 +17,6 @@ from icecream import ic
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import date2num
 from matplotlib.figure import Figure
-
 # * Related Third Party Imports
 from PIL import Image
 from tkcalendar import DateEntry
@@ -160,7 +159,8 @@ class SQLiteWrapper:
         return self.sales
 
     def fetchPurchaseOrderNumber(self):
-        self.myCursor.execute("SELECT MAX(purchaseOrderNumber) FROM PurchaseOrder")
+        self.myCursor.execute(
+            "SELECT MAX(purchaseOrderNumber) FROM PurchaseOrder")
         fetchedID = self.myCursor.fetchone()
         if fetchedID is not None and fetchedID[0] is not None:
             return fetchedID[0] + 1
@@ -188,7 +188,8 @@ class SQLiteWrapper:
         return [row[0] for row in self.myCursor.fetchall()]
 
     def fetchUniquePurchaseOrderNumbers(self):
-        self.myCursor.execute("SELECT DISTINCT purchaseOrderNumber FROM PurchaseOrder")
+        self.myCursor.execute(
+            "SELECT DISTINCT purchaseOrderNumber FROM PurchaseOrder")
         return [row[0] for row in self.myCursor.fetchall()]
 
     def executeDatabaseQuery(self, query, params):
@@ -419,6 +420,7 @@ class BasePage:
             height=50,
             font=self.FONT,
             compound="left",
+            command=mainApplicationClass.openInventoryPage,
         )
         self.inventoryButton.pack(
             anchor="w",
@@ -771,6 +773,24 @@ class MainApplicationClass(InventoryManagementSystemApplication, RegisterPages):
         self.currentPage.fetchReminders()
         return self.currentPage
 
+    def openInventoryPage(self):
+        self.clearMainWindow()
+        self.currentPage = InventoryPage(
+            self.mainWindow, self.mainFrame, self.imageWrapper, self
+        )
+        return self.currentPage
+
+    def openItemInformationAndEditingPage(self, cellValue):
+        self.clearMainWindow()
+        self.currentPage = ItemInformationAndEditingPage(
+            self.mainWindow,
+            self.mainFrame,
+            self.imageWrapper,
+            self,
+            cellValue,
+        )
+        return self.currentPage
+
     def openPurchaseOrderListPage(self):
         self.clearMainWindow()
         self.currentPage = BrowseStockMovementsPage(
@@ -828,7 +848,8 @@ class SignUpPage(RegisterBasePage):
             font=self.FONT,
             command=mainApplicationClass.openOpeningPage,
         )
-        self.confirmSignUpButton.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+        self.confirmSignUpButton.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.openLogInPageButton = customtkinter.CTkButton(
             self.userEntryFrame,
@@ -840,7 +861,8 @@ class SignUpPage(RegisterBasePage):
             font=self.FONT,
             command=mainApplicationClass.openLogInPage,
         )
-        self.openLogInPageButton.pack(anchor="center", padx=(10, 10), pady=(20, 20))
+        self.openLogInPageButton.pack(
+            anchor="center", padx=(10, 10), pady=(20, 20))
 
 
 class LogInPage(RegisterBasePage):
@@ -862,7 +884,8 @@ class LogInPage(RegisterBasePage):
             font=self.FONT,
             command=mainApplicationClass.openOpeningPage,
         )
-        self.confirmLogInButton.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+        self.confirmLogInButton.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.openSignUpPageButton = customtkinter.CTkButton(
             self.userEntryFrame,
@@ -874,7 +897,8 @@ class LogInPage(RegisterBasePage):
             font=self.FONT,
             command=mainApplicationClass.openSignUpPage,
         )
-        self.openSignUpPageButton.pack(anchor="center", padx=(10, 10), pady=(20, 20))
+        self.openSignUpPageButton.pack(
+            anchor="center", padx=(10, 10), pady=(20, 20))
 
 
 class OpeningPage(BasePage):
@@ -938,7 +962,8 @@ class HomePage(BasePage):
             padx=(10, 10),
             pady=(0, 10),
         )
-        self.userReminderEntry.bind("<Return>", lambda _: self.addReminderFromEntry())
+        self.userReminderEntry.bind(
+            "<Return>", lambda _: self.addReminderFromEntry())
         self.reminders = [reminder for reminder in self.fetchReminders()]
 
         self.remindersTable = CTkTable(
@@ -987,7 +1012,8 @@ class HomePage(BasePage):
             anchor="w",
             justify="left",
         )
-        self.orderNumberLabel.grid(row=0, column=0, padx=(110, 40), pady=(10, 10))
+        self.orderNumberLabel.grid(
+            row=0, column=0, padx=(110, 40), pady=(10, 10))
 
         self.orderLocationLabel = customtkinter.CTkLabel(
             self.labelRowFrame,
@@ -996,7 +1022,8 @@ class HomePage(BasePage):
             anchor="w",
             justify="left",
         )
-        self.orderLocationLabel.grid(row=0, column=1, padx=(150, 40), pady=(10, 10))
+        self.orderLocationLabel.grid(
+            row=0, column=1, padx=(150, 40), pady=(10, 10))
 
         self.dateOfSaleLabel = customtkinter.CTkLabel(
             self.labelRowFrame,
@@ -1005,7 +1032,8 @@ class HomePage(BasePage):
             anchor="w",
             justify="left",
         )
-        self.dateOfSaleLabel.grid(row=0, column=2, padx=(160, 40), pady=(10, 10))
+        self.dateOfSaleLabel.grid(
+            row=0, column=2, padx=(160, 40), pady=(10, 10))
 
         self.priceOfSaleLabel = customtkinter.CTkLabel(
             self.labelRowFrame,
@@ -1014,7 +1042,8 @@ class HomePage(BasePage):
             anchor="w",
             justify="left",
         )
-        self.priceOfSaleLabel.grid(row=0, column=3, padx=(160, 40), pady=(10, 10))
+        self.priceOfSaleLabel.grid(
+            row=0, column=3, padx=(160, 40), pady=(10, 10))
 
         self.salesTableFrame = customtkinter.CTkScrollableFrame(
             master=self.salesFrame,
@@ -1092,7 +1121,8 @@ class HomePage(BasePage):
             "SELECT DATE(dateOfSale), COUNT(*) FROM Sales GROUP BY DATE(dateOfSale)"
         )
         data = self.db.myCursor.fetchall()
-        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d")) for row in data]
+        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d"))
+                 for row in data]
         sales = [row[1] for row in data]
         ic(f"data: {data}, dates: {dates}, sales: {sales}")
         fig = Figure(figsize=(5, 6), dpi=100)
@@ -1246,6 +1276,139 @@ class HomePage(BasePage):
         self.updateRemindersTable()
 
 
+class InventoryPage(BasePage):
+    def __init__(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass):
+        super().__init__(mainWindow, mainFrame, imageWrapper, mainApplicationClass)
+        self.db = SQLiteWrapper(
+            "database/inventoryDatabase.db",
+            "database/loginInfoDatabase.db",
+            "database/remindersDatabase.db",
+        )
+        ic("InventoryPage Initialized")
+
+        self.allItems = self.db.fetchUniqueItemNames()
+        values = [[item] for item in self.allItems]
+
+        self.pageSearchContainer = customtkinter.CTkFrame(
+            self.widgetFrame,
+            fg_color="transparent",
+            width=1900,
+            height=50,
+        )
+        self.pageSearchContainer.grid_propagate(False)
+        self.pageSearchContainer.grid
+        self.userSearchEntry = customtkinter.CTkEntry(
+            self.pageSearchContainer,
+            fg_color="transparent",
+            width=1400,
+            height=40,
+            placeholder_text="Enter an Item",
+            placeholder_text_color="black",
+            text_color="black",
+            border_color="black",
+            border_width=2,
+        )
+        self.userSearchEntry.grid(row=0, column=0, padx=(10, 10), pady=(5, 5))
+
+        self.searchButton = customtkinter.CTkButton(
+            self.pageSearchContainer,
+            fg_color="transparent",
+            text="Search",
+            text_color="black",
+            hover_color="white",
+            width=200,
+            height=50,
+        )
+        self.searchButton.grid(row=0, column=1, padx=(10, 10), pady=(10, 10))
+
+        self.itemTableScrollFrame = customtkinter.CTkScrollableFrame(
+            self.widgetFrame,
+            fg_color="white",
+            width=1900,
+            height=900,
+        )
+        self.itemTableScrollFrame.pack_propagate(False)
+        self.itemTableScrollFrame.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10))
+
+        self.tableOfContents = CTkTable(
+            self.itemTableScrollFrame,
+            values=values,
+            colors=["#ffffff", "#ffffff"],
+            hover_color="grey",
+            text_color="black",
+            header_color=False,
+            justify="center",
+            corner_radius=0,
+            font=self.FONT,
+            command=mainApplicationClass.openItemInformationAndEditingPage,
+        )
+        self.tableOfContents.grid_propagate(False)
+        self.tableOfContents.grid(sticky="nsew")
+
+
+class ItemInformationAndEditingPage(BasePage):
+    def __init__(
+        self, mainWindow, mainFrame, imageWrapper, mainApplicationClass, cellValue
+    ):
+        super().__init__(mainWindow, mainFrame, imageWrapper, mainApplicationClass)
+        ic("ItemInformationAndEditingPage Initialized")
+        self.db = SQLiteWrapper(
+            "database/inventoryDatabase.db",
+            "database/loginInfoDatabase.db",
+            "database/remindersDatabase.db",
+        )
+
+        self.userEntryFrame = customtkinter.CTkFrame(
+            self.widgetFrame,
+            fg_color="white",
+            width=1900,
+            height=1100,
+        )
+        self.userEntryFrame.pack_propagate(False)
+        self.userEntryFrame.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+
+        self.itemNameLabel = customtkinter.CTkLabel(
+            self.userEntryFrame,
+            text="Item Name Label Placeholder",
+            text_color="black",
+            font=self.LABELFONT,
+        )
+        self.itemNameLabel.grid(row = 0, column = 0, padx = (40, 40), pady = (40, 40))
+
+        self.sizesLabel = customtkinter.CTkLabel(
+            self.userEntryFrame,
+            text = "Sizes Label Placeholder", 
+            text_color = "black", 
+            font = self.LABELFONT, 
+        )
+        self.sizesLabel.grid(row = 0, column = 1, padx = (40, 40), pady = (40, 40))
+
+        self.skuNumberLabel = customtkinter.CTkLabel(
+            self.userEntryFrame,
+            text="SKU Number Label Placeholder",
+            text_color="black",
+            font=self.FONT,
+        )
+        self.skuNumberLabel.grid(row = 1, column = 0, padx = (40, 40), pady = (40, 40))
+
+        self.supplierLabel = customtkinter.CTkLabel(
+            self.userEntryFrame, 
+            text = "Supplier Label Placeholder", 
+            text_color = "black",
+            font = self.FONT, 
+        )
+        self.supplierLabel.grid(row = 2, column = 0, padx = (40, 40), pady = (40, 40))
+        
+        self.categoryLabel = customtkinter.CTkLabel(
+            self.userEntryFrame, 
+            text = "Category Label Placeholder", 
+            text_color = "black", 
+            font = self.FONT, 
+        )
+        self.categoryLabel.grid(row = 3, column = 0, padx = (40, 40), pady = (40, 40))
+
+
 class BrowseStockMovementsPage(BasePage):
     def __init__(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass):
         super().__init__(mainWindow, mainFrame, imageWrapper, mainApplicationClass)
@@ -1266,7 +1429,8 @@ class BrowseStockMovementsPage(BasePage):
             height=50,
         )
         self.pageSearchContainer.pack_propagate(False)
-        self.pageSearchContainer.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+        self.pageSearchContainer.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.userSearchEntry = customtkinter.CTkEntry(
             self.pageSearchContainer,
@@ -1279,7 +1443,7 @@ class BrowseStockMovementsPage(BasePage):
             border_color="black",
             border_width=2,
         )
-        self.userSearchEntry.grid(row=0, column=0, padx=(10, 10), pady=(10, 10))
+        self.userSearchEntry.grid(row=0, column=0, padx=(10, 10), pady=(5, 5))
 
         self.searchButton = customtkinter.CTkButton(
             self.pageSearchContainer,
@@ -1303,7 +1467,8 @@ class BrowseStockMovementsPage(BasePage):
             variable=self.movementOptionMenuStringVar,
             values=["Purchase Orders", "Transfers"],
         )
-        self.movementOptionMenu.grid(row=0, column=2, padx=(10, 10), pady=(10, 10))
+        self.movementOptionMenu.grid(
+            row=0, column=2, padx=(10, 10), pady=(10, 10))
 
         self.itemTableScrollFrame = customtkinter.CTkScrollableFrame(
             self.widgetFrame,
@@ -1312,7 +1477,8 @@ class BrowseStockMovementsPage(BasePage):
             height=900,
         )
         self.itemTableScrollFrame.pack_propagate(False)
-        self.itemTableScrollFrame.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+        self.itemTableScrollFrame.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.tableOfContents = CTkTable(
             self.itemTableScrollFrame,
@@ -1504,7 +1670,8 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
 
         self.stockMovementNumberLabel = customtkinter.CTkLabel(
             self.informationFrame,
-            text=f"Stock Movement Number: {cellValue['value']}, Item: {itemName}",
+            text=f"Stock Movement Number: {
+                cellValue['value']}, Item: {itemName}",
             text_color="black",
             font=self.FONT,
         )
@@ -1600,7 +1767,8 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             (cellValue["value"],),
         )
         self.purchaseOrderInformationResults = self.db.myCursor.fetchall()
-        ic(f"purchaseOrderInformationResults: {self.purchaseOrderInformationResults}")
+        ic(f"purchaseOrderInformationResults: {
+           self.purchaseOrderInformationResults}")
         return self.purchaseOrderInformationResults
 
     def retrievingItemsFromTransfer(self, cellValue):
@@ -1685,7 +1853,8 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                 text="Update Purchase Order",
                 text_color="white",
                 font=self.FONT,
-                command=lambda: self.updatingPurchaseOrderInformation(cellValue),
+                command=lambda: self.updatingPurchaseOrderInformation(
+                    cellValue),
             )
             self.updatePurchaseOrderButton.pack(side="right")
 
@@ -1731,15 +1900,18 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             if len(item) == 2:
                 self.transferItemSize, self.transferQuantity = item
                 ic(
-                    f"itemSize: {self.transferItemSize}, quantity: {self.transferQuantity}"
+                    f"itemSize: {self.transferItemSize}, quantity: {
+                        self.transferQuantity}"
                 )
                 self.itemLabel = customtkinter.CTkLabel(
                     self.enclosedItemsScrollFrame,
-                    text=f"Item Size: {self.transferItemSize}, Quantity: {self.transferQuantity}",
+                    text=f"Item Size: {self.transferItemSize}, Quantity: {
+                        self.transferQuantity}",
                     text_color="black",
                     font=self.FONT,
                 )
-                self.itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+                self.itemLabel.pack(
+                    anchor="center", padx=(10, 10), pady=(10, 10))
 
                 itemEntry = customtkinter.CTkEntry(
                     self.enclosedItemsScrollFrame,
@@ -1756,7 +1928,8 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                     text="Update Transfer",
                     text_color="white",
                     font=self.FONT,
-                    command=lambda: self.updatingTransferInformation(cellValue),
+                    command=lambda: self.updatingTransferInformation(
+                        cellValue),
                 )
                 self.updateTransferButton.pack(side="right")
 
@@ -1965,7 +2138,8 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                         WHERE itemSize = ? 
                         AND transferID = ? 
                         """,
-                        (self.newQuantity, self.transferItemSize, cellValue["value"]),
+                        (self.newQuantity, self.transferItemSize,
+                         cellValue["value"]),
                     )
                     self.db.commit()
             ic(f"newQuantity: {self.newQuantity}")
@@ -2501,7 +2675,8 @@ class PurchaseOrderPage(BasePage):
         )
         if rows:
             self.sku = rows[0][0]
-            self.itemLabel.configure(text=f"{self.selectedItem.get()}(SKU: {self.sku})")
+            self.itemLabel.configure(
+                text=f"{self.selectedItem.get()}(SKU: {self.sku})")
         else:
             self.itemLabel.configure(
                 text=f"{self.selectedItem.get()}, (SKU: Not Found)"
@@ -2553,7 +2728,8 @@ class PurchaseOrderPage(BasePage):
         try:
             quantity = int(quantity)
         except ValueError:
-            tkmb.showerror(title="Error", message="Quantities must be a number")
+            tkmb.showerror(
+                title="Error", message="Quantities must be a number")
             raise TypeError("Quantity must be an integer")
         if quantity < 0:
             tkmb.showerror(
@@ -2562,7 +2738,8 @@ class PurchaseOrderPage(BasePage):
             )
             raise ValueError("Quantity must be 0 or larger")
         if deliveryDate <= currentDate:
-            tkmb.showerror(title="Error", message="Delivery Date must be in the future")
+            tkmb.showerror(
+                title="Error", message="Delivery Date must be in the future")
             raise ValueError("Delivery Date must be in the future")
         itemIDResults = self.db.executeDatabaseQuery(
             "SELECT itemID FROM Items WHERE itemName = ?", (itemName,)
@@ -2571,7 +2748,8 @@ class PurchaseOrderPage(BasePage):
         results = self.db.executeDatabaseQuery(
             "SELECT MAX(purchaseOrderNumber) FROM PurchaseOrder", ()
         )
-        purchaseOrderNumber = results[0][0] + 1 if results[0][0] is not None else 1
+        purchaseOrderNumber = results[0][0] + \
+            1 if results[0][0] is not None else 1
 
         purchaseOrderInformation = f"""
         purchaseOrderNumber: {purchaseOrderNumber}
@@ -2584,7 +2762,8 @@ class PurchaseOrderPage(BasePage):
         """
         userConfirmation = tkmb.askyesno(
             title="Confirm Purchase Order",
-            message=f"Here is a breakdown of your purchase order:\n {purchaseOrderInformation} \nSelect 'YES' to proceed?",
+            message=f"Here is a breakdown of your purchase order:\n {
+                purchaseOrderInformation} \nSelect 'YES' to proceed?",
         )
         if userConfirmation:
             for item in items:
@@ -2654,7 +2833,8 @@ class TransfersPage(BasePage):
         contains a string representation of an item and its size.
         """
         self.allItems = self.db.fetchAllItemsAndSizes()
-        values = [[f"{itemInfo[0]} {itemInfo[1]}"] for itemInfo in self.allItems]
+        values = [[f"{itemInfo[0]} {itemInfo[1]}"]
+                  for itemInfo in self.allItems]
 
         self.transferInformationFrame = customtkinter.CTkFrame(
             master=self.widgetFrame,
@@ -2760,7 +2940,8 @@ class TransfersPage(BasePage):
             height=680,
         )
         self.searchedItemScrollFrame.pack_propagate(False)
-        self.searchedItemScrollFrame.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+        self.searchedItemScrollFrame.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.itemListTable = CTkTable(
             self.searchedItemScrollFrame,
@@ -2891,7 +3072,8 @@ class TransfersPage(BasePage):
         else:
             ic(f"selectedRowValues is not a list: {self.selectedRowValues}")
 
-        self.selectedRowValuesString = ", ".join(map(str, self.selectedRowValues))
+        self.selectedRowValuesString = ", ".join(
+            map(str, self.selectedRowValues))
         ic(f"selectedRowValues: {self.selectedRowValues}")
         ic(f"selectedRowValuesString: {self.selectedRowValuesString}")
 
@@ -2943,10 +3125,12 @@ class TransfersPage(BasePage):
         ic(f"self.quantitiesBeingSent: {self.quantityBeingSent}")
 
         if not self.sendingLocation:
-            tkmb.showerror(title="Error", message="Please enter the senders location")
+            tkmb.showerror(
+                title="Error", message="Please enter the senders location")
             raise ValueError("No sender location entered")
         if not self.receivingLocation:
-            tkmb.showerror(title="Error", message="Please enter the receivers location")
+            tkmb.showerror(
+                title="Error", message="Please enter the receivers location")
             raise ValueError("No end location entered")
         if self.sendingLocation == self.receivingLocation:
             tkmb.showerror(
@@ -2965,7 +3149,8 @@ class TransfersPage(BasePage):
             tkmb.showerror(title="Error", message="Quantity must be a number")
             raise ValueError("Quantity entered not an integer")
         if self.quantityBeingSent <= 0:
-            tkmb.showerror(title="Error", message="Quantity must be larger than 0")
+            tkmb.showerror(
+                title="Error", message="Quantity must be larger than 0")
             raise ValueError("Quantity entered is a negative number")
 
         for itemID in self.itemID:
@@ -3233,7 +3418,8 @@ class ReportsPage(BasePage):
             variable=self.selectedItem,
             values=uniqueCategories,
         )
-        self.catagoryOptionMenu.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+        self.catagoryOptionMenu.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.exportReportButton = customtkinter.CTkButton(
             master=self.userReportGenerationFrame,
@@ -3289,7 +3475,8 @@ class ReportsPage(BasePage):
             font=self.LABELFONT,
             text_color="black",
         )
-        self.activitiesFrameLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+        self.activitiesFrameLabel.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.activitiesFrameInfo = customtkinter.CTkLabel(
             self.activitiesFrame,
@@ -3297,7 +3484,8 @@ class ReportsPage(BasePage):
             font=self.FONT,
             text_color="black",
         )
-        self.activitiesFrameInfo.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+        self.activitiesFrameInfo.pack(
+            anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.chartCanvas = customtkinter.CTkFrame(
             self.chartFrame, fg_color="transparent", width=950, height=280
@@ -3348,13 +3536,13 @@ class ReportsPage(BasePage):
                     else:
                         self.db.myCursor.execute(
                             f"""
-                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
-                            FROM Sales 
-                            JOIN Items 
-                            ON Sales.itemID = Items.itemID 
-                            JOIN Categories 
-                            ON Items.categoryID = Categories.categoryID 
-                            WHERE Categories.categoryName = '{selectedCategory}' 
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale
+                            FROM Sales
+                            JOIN Items
+                            ON Sales.itemID = Items.itemID
+                            JOIN Categories
+                            ON Items.categoryID = Categories.categoryID
+                            WHERE Categories.categoryName = '{selectedCategory}'
                             AND Sales.dateOfSale = CURRENT_DATE
                             """
                         )
@@ -3363,28 +3551,28 @@ class ReportsPage(BasePage):
                     if selectedCategory == "All":
                         self.db.myCursor.execute(
                             f"""
-                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
-                            FROM Sales 
-                            JOIN Items 
-                            ON Sales.itemID = Items.itemID 
-                            JOIN Categories 
-                            ON Items.categoryID = Categories.categoryID 
-                            WHERE Sales.dateOfSale 
-                            BETWEEN '{startOfLastWeek}' 
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale
+                            FROM Sales
+                            JOIN Items
+                            ON Sales.itemID = Items.itemID
+                            JOIN Categories
+                            ON Items.categoryID = Categories.categoryID
+                            WHERE Sales.dateOfSale
+                            BETWEEN '{startOfLastWeek}'
                             AND '{endOfLastWeek}'
                             """
                         )
                     else:
                         self.db.myCursor.execute(
                             f"""
-                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
-                            FROM Sales 
-                            JOIN Items 
-                            ON Sales.itemID = Items.itemID 
-                            JOIN Categories ON Items.categoryID = Categories.categoryID 
-                            WHERE Categories.categoryName = '{selectedCategory}' 
-                            AND Sales.dateOfSale 
-                            BETWEEN '{startOfLastWeek}' 
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale
+                            FROM Sales
+                            JOIN Items
+                            ON Sales.itemID = Items.itemID
+                            JOIN Categories ON Items.categoryID = Categories.categoryID
+                            WHERE Categories.categoryName = '{selectedCategory}'
+                            AND Sales.dateOfSale
+                            BETWEEN '{startOfLastWeek}'
                             AND '{endOfLastWeek}'
                             """
                         )
@@ -3393,29 +3581,29 @@ class ReportsPage(BasePage):
                     if selectedCategory == "All":
                         self.db.myCursor(
                             f"""
-                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
-                            FROM Sales 
-                            JOIN Items 
-                            ON Sales.itemID = Items.itemID 
-                            JOIN Categories 
-                            ON Items.categoryID = Categories.categoryID 
-                            WHERE Sales.dateOfSale 
-                            BETWEEN '{startOfLastMonth}' 
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale
+                            FROM Sales
+                            JOIN Items
+                            ON Sales.itemID = Items.itemID
+                            JOIN Categories
+                            ON Items.categoryID = Categories.categoryID
+                            WHERE Sales.dateOfSale
+                            BETWEEN '{startOfLastMonth}'
                             AND '{endOfLastMonth}'
                             """
                         )
                     else:
                         self.db.myCursor.execute(
                             f"""
-                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
-                            FROM Sales 
-                            JOIN Items 
-                            ON Sales.itemID = Items.itemID 
-                            JOIN Categories 
-                            ON Items.categoryID = Categories.categoryID 
-                            WHERE Categories.categoryName = '{selectedCategory}' 
-                            AND Sales.dateOfSale 
-                            BETWEEN '{startOfLastMonth}' 
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale
+                            FROM Sales
+                            JOIN Items
+                            ON Sales.itemID = Items.itemID
+                            JOIN Categories
+                            ON Items.categoryID = Categories.categoryID
+                            WHERE Categories.categoryName = '{selectedCategory}'
+                            AND Sales.dateOfSale
+                            BETWEEN '{startOfLastMonth}'
                             AND '{endOfLastMonth}'
                             """
                         )
@@ -3424,29 +3612,29 @@ class ReportsPage(BasePage):
                     if selectedCategory == "All":
                         self.db.myCursor.execute(
                             f"""
-                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
-                            FROM Sales 
-                            JOIN Items 
-                            ON Sales.itemID = Items.itemID 
-                            JOIN Categories 
-                            ON Items.categoryID = Categories.categoryID 
-                            WHERE Sales.dateOfSale 
-                            BETWEEN '{startOfLastYear}' 
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale
+                            FROM Sales
+                            JOIN Items
+                            ON Sales.itemID = Items.itemID
+                            JOIN Categories
+                            ON Items.categoryID = Categories.categoryID
+                            WHERE Sales.dateOfSale
+                            BETWEEN '{startOfLastYear}'
                             AND '{endOfLastYear}'
                             """
                         )
                     else:
                         self.db.myCursor.execute(
                             f"""
-                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale 
-                            FROM Sales 
-                            JOIN Items 
-                            ON Sales.itemID = Items.itemID 
-                            JOIN Categories 
-                            ON Items.categoryID = Categories.categoryID 
-                            WHERE Categories.categoryName = '{selectedCategory}' 
-                            AND Sales.dateOfSale 
-                            BETWEEN '{startOfLastYear}' 
+                            SELECT Sales.orderNumber, Items.itemName, Sales.quantity, Sales.priceOfSale, Sales.dateOfSale
+                            FROM Sales
+                            JOIN Items
+                            ON Sales.itemID = Items.itemID
+                            JOIN Categories
+                            ON Items.categoryID = Categories.categoryID
+                            WHERE Categories.categoryName = '{selectedCategory}'
+                            AND Sales.dateOfSale
+                            BETWEEN '{startOfLastYear}'
                             AND '{endOfLastYear}'
                             """
                         )
@@ -3467,7 +3655,8 @@ class ReportsPage(BasePage):
                     ic("Data has been successfully export: {}".format(dirpath))
                     tkmb.showinfo(
                         title="Success",
-                        message=f"Report has been successfully exported: {dirpath}",
+                        message=f"Report has been successfully exported: {
+                            dirpath}",
                     )
                 else:
                     ic("Could not export file")
@@ -3515,7 +3704,8 @@ class ReportsPage(BasePage):
             """
         )
         data = self.db.myCursor.fetchall()
-        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d")) for row in data]
+        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d"))
+                 for row in data]
         sales = [row[1] for row in data]
         fig = Figure(figsize=(5, 6), dpi=100)
         a = fig.add_subplot(111)
