@@ -17,6 +17,7 @@ from icecream import ic
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import date2num
 from matplotlib.figure import Figure
+
 # * Related Third Party Imports
 from PIL import Image
 from tkcalendar import DateEntry
@@ -1121,8 +1122,7 @@ class HomePage(BasePage):
             "SELECT DATE(dateOfSale), COUNT(*) FROM Sales GROUP BY DATE(dateOfSale)"
         )
         data = self.db.myCursor.fetchall()
-        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d"))
-                 for row in data]
+        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d"))for row in data]
         sales = [row[1] for row in data]
         ic(f"data: {data}, dates: {dates}, sales: {sales}")
         fig = Figure(figsize=(5, 6), dpi=100)
@@ -1370,12 +1370,68 @@ class ItemInformationAndEditingPage(BasePage):
 
         self.itemNameLabel = customtkinter.CTkLabel(
             self.userEntryFrame,
-            text="Item Name Label Placeholder",
+            text=f"Item Name: {self.fetchingSelectedItemName(cellValue)}",
             text_color="black",
             font=self.LABELFONT,
         )
         self.itemNameLabel.grid(row = 0, column = 0, padx = (40, 40), pady = (40, 40))
 
+        self.itemNameEditingEntry = customtkinter.CTkEntry(
+            self.userEntryFrame, 
+            text_color = "black", 
+            fg_color = "white", 
+            font = self.FONT, 
+        )
+        self.itemNameEditingEntry.grid(row = 1, column = 0, padx = (40, 40), pady = (10, 10))
+
+        self.skuNumberLabel = customtkinter.CTkLabel(
+            self.userEntryFrame,
+            text=f"SKU Number: {self.fetchingSelectedItemSKU(cellValue)}",
+            text_color="black",
+            font=self.LABELFONT,
+        )
+        self.skuNumberLabel.grid(row = 2, column = 0, padx = (40, 40), pady = (40, 40))
+
+        self.skuNumberEditingEntry = customtkinter.CTkEntry(
+            self.userEntryFrame, 
+            text_color = "black", 
+            fg_color = "white", 
+            font = self.FONT, 
+        )
+        self.skuNumberEditingEntry.grid(row = 3, column = 0, padx = (40, 40), pady = (10, 10))
+
+        self.supplierLabel = customtkinter.CTkLabel(
+            self.userEntryFrame, 
+            text = f"Supplier: {self.fetchingSelectedItemSupplier(cellValue)}", 
+            text_color = "black",
+            font = self.LABELFONT, 
+        )
+        self.supplierLabel.grid(row = 4, column = 0, padx = (40, 40), pady = (40, 40))
+        
+        self.supplierEditingEntry = customtkinter.CTkEntry(
+            self.userEntryFrame, 
+            text_color = "black", 
+            fg_color = "white", 
+            font = self.FONT, 
+        )
+        self.supplierEditingEntry.grid(row = 5, column = 0, padx = (40, 40), pady = (10, 10))
+        
+        self.categoryLabel = customtkinter.CTkLabel(
+            self.userEntryFrame, 
+            text = f"Category: {self.fetchingSelectedItemCategory(cellValue)}", 
+            text_color = "black", 
+            font = self.LABELFONT, 
+        )
+        self.categoryLabel.grid(row = 6, column = 0, padx = (40, 40), pady = (40, 40))
+        
+        self.categoryEditingEntry = customtkinter.CTkEntry(
+            self.userEntryFrame, 
+            text_color = "black", 
+            fg_color = "white",
+            font = self.FONT, 
+        )
+        self.categoryEditingEntry.grid(row = 7, column = 0, padx = (40, 40), pady = (10, 10))
+        
         self.sizesLabel = customtkinter.CTkLabel(
             self.userEntryFrame,
             text = "Sizes Label Placeholder", 
@@ -1384,29 +1440,131 @@ class ItemInformationAndEditingPage(BasePage):
         )
         self.sizesLabel.grid(row = 0, column = 1, padx = (40, 40), pady = (40, 40))
 
-        self.skuNumberLabel = customtkinter.CTkLabel(
-            self.userEntryFrame,
-            text="SKU Number Label Placeholder",
-            text_color="black",
-            font=self.FONT,
-        )
-        self.skuNumberLabel.grid(row = 1, column = 0, padx = (40, 40), pady = (40, 40))
-
-        self.supplierLabel = customtkinter.CTkLabel(
+        self.sizeEntry = customtkinter.CTkEntry(
             self.userEntryFrame, 
-            text = "Supplier Label Placeholder", 
-            text_color = "black",
-            font = self.FONT, 
-        )
-        self.supplierLabel.grid(row = 2, column = 0, padx = (40, 40), pady = (40, 40))
-        
-        self.categoryLabel = customtkinter.CTkLabel(
-            self.userEntryFrame, 
-            text = "Category Label Placeholder", 
             text_color = "black", 
+            fg_color = "white", 
             font = self.FONT, 
         )
-        self.categoryLabel.grid(row = 3, column = 0, padx = (40, 40), pady = (40, 40))
+        self.sizeEntry.bind("<Return>", self.addSizeEntry)
+        self.sizeEntry.grid(row = 1, column = 1, padx = (40, 40), pady = (20, 20))
+        
+        self.sizeList = []
+        self.entryRow = 2
+        
+        self.creatingExistingItemSizeEntries()
+        
+    def addSizeEntry(self, event): 
+        size = self.sizeEntry.get()
+        self.sizeList.append(size)
+        newEntry = customtkinter.CTkEntry(
+            self.userEntryFrame, 
+            text_color = "black", 
+            fg_color = "white", 
+            font = self.FONT, 
+        )
+        newEntry.bind("<Return>", self.addSizeEntry)
+        newEntry.grid(row = self.entryRow, column = 1, padx = (40, 40), pady = (20, 20))
+        self.entryRow += 1
+        
+        
+        
+    def fetchingSelectedItemName(self, cellValue): 
+        self.selectedItemName = cellValue["value"]
+        ic(f"selectedItemName: {self.selectedItemName}")
+        return self.selectedItemName
+
+    def fetchingSelectedItemSKU(self, cellValue): 
+        self.db.myCursor.execute(
+            """
+            SELECT DISTINCT sku
+            FROM Items
+            WHERE itemName = ? 
+            """, 
+            (cellValue["value"],)
+        )
+        result = self.db.myCursor.fetchall()
+        self.selectedItemSkuNumber = ', '.join([str(r[0]) for r in result])
+        ic(f"selectedItemSkuNumber: {self.selectedItemSkuNumber}")
+        return self.selectedItemSkuNumber
+
+    def fetchingSelectedItemSupplier(self, cellValue): 
+        self.db.myCursor.execute(
+            """
+            SELECT DISTINCT manufacturerID
+            FROM Items
+            WHERE itemName = ? 
+            """,
+            (cellValue["value"],)
+        )
+        manufacturerID = self.db.myCursor.fetchall()[0]
+        self.db.myCursor.execute(
+            """
+            SELECT manufacturerName 
+            FROM Manufacturers 
+            WHERE manufacturerID = ? 
+            """, 
+            (manufacturerID)
+        )
+        result = self.db.myCursor.fetchall()
+        self.manufacturerName = ', '.join([str(r[0]) for r in result])
+        ic(f"manufacturerName: {self.manufacturerName}")
+        return self.manufacturerName
+
+    def fetchingSelectedItemCategory(self, cellValue): 
+        self.db.myCursor.execute(
+            """
+            SELECT DISTINCT categoryID 
+            FROM Items 
+            WHERE itemName = ? 
+            """, 
+            (cellValue["value"],)
+        )
+        categoryID = self.db.myCursor.fetchall()[0]
+        self.db.myCursor.execute(
+            """
+            SELECT categoryName 
+            FROM Categories 
+            WHERE categoryID = ? 
+            """, 
+            (categoryID)
+        )
+        result = self.db.myCursor.fetchall()
+        self.categoryName = ', '.join([str(r[0]) for r in result])
+        ic(f"categoryName: {self.categoryName}")
+        return self.categoryName
+
+    def fetchingSelectedItemSizes(self, cellValue): 
+        self.db.myCursor.execute(
+            """
+            SELECT sizes 
+            FROM Items 
+            WHERE itemName = ? 
+            """, 
+            (cellValue["value"],),
+        )
+        self.itemSizes = self.db.myCursor.fetchall()
+        ic(f"itemSizes: {self.itemSizes}")
+        return self.itemSizes
+    
+    def creatingExistingItemSizeEntries(self): 
+        for index, size in enumerate(self.fetchingSelectedItemSizes()): 
+            self.sizeLabel = customtkinter.CTkLabel(
+                self.userEntryFrame,
+                text = f"Size {index+1}: {size}", 
+                text_color = "black", 
+                fg_color = "white", 
+                font = self.FONT,  
+            )
+            self.sizeLabel.grid(row = index, column = 1, padx = (40, 40), pady = (10, 10))            
+            self.sizeEntry = customtkinter.CTkEntry(
+                self.userEntryFrame, 
+                text_color = "black", 
+                fg_color = "white", 
+                font = self.FONT, 
+            )
+            self.sizeEntry.insert(0, size)
+            self.sizeEntry.grid(row = index, column = 1)
 
 
 class BrowseStockMovementsPage(BasePage):
@@ -3704,8 +3862,7 @@ class ReportsPage(BasePage):
             """
         )
         data = self.db.myCursor.fetchall()
-        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d"))
-                 for row in data]
+        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d"))for row in data]
         sales = [row[1] for row in data]
         fig = Figure(figsize=(5, 6), dpi=100)
         a = fig.add_subplot(111)
