@@ -17,7 +17,6 @@ from icecream import ic
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import date2num
 from matplotlib.figure import Figure
-
 # * Related Third Party Imports
 from PIL import Image
 from tkcalendar import DateEntry
@@ -160,8 +159,7 @@ class SQLiteWrapper:
         return self.sales
 
     def fetchPurchaseOrderNumber(self):
-        self.myCursor.execute(
-            "SELECT MAX(purchaseOrderNumber) FROM PurchaseOrder")
+        self.myCursor.execute("SELECT MAX(purchaseOrderNumber) FROM PurchaseOrder")
         fetchedID = self.myCursor.fetchone()
         if fetchedID is not None and fetchedID[0] is not None:
             return fetchedID[0] + 1
@@ -189,8 +187,7 @@ class SQLiteWrapper:
         return [row[0] for row in self.myCursor.fetchall()]
 
     def fetchUniquePurchaseOrderNumbers(self):
-        self.myCursor.execute(
-            "SELECT DISTINCT purchaseOrderNumber FROM PurchaseOrder")
+        self.myCursor.execute("SELECT DISTINCT purchaseOrderNumber FROM PurchaseOrder")
         return [row[0] for row in self.myCursor.fetchall()]
 
     def executeDatabaseQuery(self, query, params):
@@ -792,6 +789,17 @@ class MainApplicationClass(InventoryManagementSystemApplication, RegisterPages):
         )
         return self.currentPage
 
+    def openItemCreationPage(self, cellValue): 
+        self.clearMainWindow()
+        self.currentPage = ItemCreationPage(
+            self.mainWindow, 
+            self.mainFrame, 
+            self.imageWrapper, 
+            self, 
+            cellValue, 
+        )
+        return self.currentPage
+
     def openPurchaseOrderListPage(self):
         self.clearMainWindow()
         self.currentPage = BrowseStockMovementsPage(
@@ -849,8 +857,7 @@ class SignUpPage(RegisterBasePage):
             font=self.FONT,
             command=mainApplicationClass.openOpeningPage,
         )
-        self.confirmSignUpButton.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10))
+        self.confirmSignUpButton.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.openLogInPageButton = customtkinter.CTkButton(
             self.userEntryFrame,
@@ -862,8 +869,7 @@ class SignUpPage(RegisterBasePage):
             font=self.FONT,
             command=mainApplicationClass.openLogInPage,
         )
-        self.openLogInPageButton.pack(
-            anchor="center", padx=(10, 10), pady=(20, 20))
+        self.openLogInPageButton.pack(anchor="center", padx=(10, 10), pady=(20, 20))
 
 
 class LogInPage(RegisterBasePage):
@@ -885,8 +891,7 @@ class LogInPage(RegisterBasePage):
             font=self.FONT,
             command=mainApplicationClass.openOpeningPage,
         )
-        self.confirmLogInButton.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10))
+        self.confirmLogInButton.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.openSignUpPageButton = customtkinter.CTkButton(
             self.userEntryFrame,
@@ -898,8 +903,7 @@ class LogInPage(RegisterBasePage):
             font=self.FONT,
             command=mainApplicationClass.openSignUpPage,
         )
-        self.openSignUpPageButton.pack(
-            anchor="center", padx=(10, 10), pady=(20, 20))
+        self.openSignUpPageButton.pack(anchor="center", padx=(10, 10), pady=(20, 20))
 
 
 class OpeningPage(BasePage):
@@ -963,8 +967,7 @@ class HomePage(BasePage):
             padx=(10, 10),
             pady=(0, 10),
         )
-        self.userReminderEntry.bind(
-            "<Return>", lambda _: self.addReminderFromEntry())
+        self.userReminderEntry.bind("<Return>", lambda _: self.addReminderFromEntry())
         self.reminders = [reminder for reminder in self.fetchReminders()]
 
         self.remindersTable = CTkTable(
@@ -1013,8 +1016,7 @@ class HomePage(BasePage):
             anchor="w",
             justify="left",
         )
-        self.orderNumberLabel.grid(
-            row=0, column=0, padx=(110, 40), pady=(10, 10))
+        self.orderNumberLabel.grid(row=0, column=0, padx=(110, 40), pady=(10, 10))
 
         self.orderLocationLabel = customtkinter.CTkLabel(
             self.labelRowFrame,
@@ -1023,8 +1025,7 @@ class HomePage(BasePage):
             anchor="w",
             justify="left",
         )
-        self.orderLocationLabel.grid(
-            row=0, column=1, padx=(150, 40), pady=(10, 10))
+        self.orderLocationLabel.grid(row=0, column=1, padx=(150, 40), pady=(10, 10))
 
         self.dateOfSaleLabel = customtkinter.CTkLabel(
             self.labelRowFrame,
@@ -1033,8 +1034,7 @@ class HomePage(BasePage):
             anchor="w",
             justify="left",
         )
-        self.dateOfSaleLabel.grid(
-            row=0, column=2, padx=(160, 40), pady=(10, 10))
+        self.dateOfSaleLabel.grid(row=0, column=2, padx=(160, 40), pady=(10, 10))
 
         self.priceOfSaleLabel = customtkinter.CTkLabel(
             self.labelRowFrame,
@@ -1043,8 +1043,7 @@ class HomePage(BasePage):
             anchor="w",
             justify="left",
         )
-        self.priceOfSaleLabel.grid(
-            row=0, column=3, padx=(160, 40), pady=(10, 10))
+        self.priceOfSaleLabel.grid(row=0, column=3, padx=(160, 40), pady=(10, 10))
 
         self.salesTableFrame = customtkinter.CTkScrollableFrame(
             master=self.salesFrame,
@@ -1122,7 +1121,7 @@ class HomePage(BasePage):
             "SELECT DATE(dateOfSale), COUNT(*) FROM Sales GROUP BY DATE(dateOfSale)"
         )
         data = self.db.myCursor.fetchall()
-        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d"))for row in data]
+        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d")) for row in data]
         sales = [row[1] for row in data]
         ic(f"data: {data}, dates: {dates}, sales: {sales}")
         fig = Figure(figsize=(5, 6), dpi=100)
@@ -1328,8 +1327,7 @@ class InventoryPage(BasePage):
             height=900,
         )
         self.itemTableScrollFrame.pack_propagate(False)
-        self.itemTableScrollFrame.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10))
+        self.itemTableScrollFrame.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.tableOfContents = CTkTable(
             self.itemTableScrollFrame,
@@ -1359,143 +1357,157 @@ class ItemInformationAndEditingPage(BasePage):
             "database/remindersDatabase.db",
         )
 
-        self.userEntryFrame = customtkinter.CTkFrame(
+        self.itemInformationUserEditingFrame = customtkinter.CTkFrame(
             self.widgetFrame,
             fg_color="white",
-            width=1900,
-            height=1100,
+            width=930,
+            height=990,
         )
-        self.userEntryFrame.pack_propagate(False)
-        self.userEntryFrame.pack(anchor="center", padx=(10, 10), pady=(10, 10))
+        self.itemInformationUserEditingFrame.grid_propagate(False)
+        self.itemInformationUserEditingFrame.pack_propagate(False)
+        self.itemInformationUserEditingFrame.grid(
+            row=0, column=0, padx=(10, 10), pady=(10, 10), sticky="nsew"
+        )
+
+        self.sizeEditingUserEntryFrame = customtkinter.CTkFrame(
+            self.widgetFrame,
+            fg_color="white",
+            width=930,
+            height=950,
+        )
+        self.sizeEditingUserEntryFrame.grid_propagate(False)
+        self.sizeEditingUserEntryFrame.pack_propagate(False)
+        self.sizeEditingUserEntryFrame.grid(
+            row=0, column=1, padx=(10, 10), pady=(10, 10), sticky="nsew"
+        )
 
         self.itemNameLabel = customtkinter.CTkLabel(
-            self.userEntryFrame,
+            self.itemInformationUserEditingFrame,
             text=f"Item Name: {self.fetchingSelectedItemName(cellValue)}",
             text_color="black",
             font=self.LABELFONT,
         )
-        self.itemNameLabel.grid(row = 0, column = 0, padx = (40, 40), pady = (40, 40))
+        self.itemNameLabel.grid(row=0, column=0, padx=(40, 40), pady=(40, 40), sticky = "nsew")
 
         self.itemNameEditingEntry = customtkinter.CTkEntry(
-            self.userEntryFrame, 
-            text_color = "black", 
-            fg_color = "white", 
-            font = self.FONT, 
+            self.itemInformationUserEditingFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
         )
-        self.itemNameEditingEntry.grid(row = 1, column = 0, padx = (40, 40), pady = (10, 10))
+        self.itemNameEditingEntry.grid(row=1, column=0, padx=(40, 40), pady=(10, 10), sticky = "nsew")
 
         self.skuNumberLabel = customtkinter.CTkLabel(
-            self.userEntryFrame,
+            self.itemInformationUserEditingFrame,
             text=f"SKU Number: {self.fetchingSelectedItemSKU(cellValue)}",
             text_color="black",
             font=self.LABELFONT,
         )
-        self.skuNumberLabel.grid(row = 2, column = 0, padx = (40, 40), pady = (40, 40))
+        self.skuNumberLabel.grid(row=2, column=0, padx=(40, 40), pady=(40, 40), sticky = "nsew")
 
         self.skuNumberEditingEntry = customtkinter.CTkEntry(
-            self.userEntryFrame, 
-            text_color = "black", 
-            fg_color = "white", 
-            font = self.FONT, 
+            self.itemInformationUserEditingFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
         )
-        self.skuNumberEditingEntry.grid(row = 3, column = 0, padx = (40, 40), pady = (10, 10))
+        self.skuNumberEditingEntry.grid(row=3, column=0, padx=(40, 40), pady=(10, 10), sticky = "nsew")
 
         self.supplierLabel = customtkinter.CTkLabel(
-            self.userEntryFrame, 
-            text = f"Supplier: {self.fetchingSelectedItemSupplier(cellValue)}", 
-            text_color = "black",
-            font = self.LABELFONT, 
+            self.itemInformationUserEditingFrame,
+            text=f"Supplier: {self.fetchingSelectedItemSupplier(cellValue)}",
+            text_color="black",
+            font=self.LABELFONT,
         )
-        self.supplierLabel.grid(row = 4, column = 0, padx = (40, 40), pady = (40, 40))
-        
-        self.supplierEditingEntry = customtkinter.CTkEntry(
-            self.userEntryFrame, 
-            text_color = "black", 
-            fg_color = "white", 
-            font = self.FONT, 
-        )
-        self.supplierEditingEntry.grid(row = 5, column = 0, padx = (40, 40), pady = (10, 10))
-        
-        self.categoryLabel = customtkinter.CTkLabel(
-            self.userEntryFrame, 
-            text = f"Category: {self.fetchingSelectedItemCategory(cellValue)}", 
-            text_color = "black", 
-            font = self.LABELFONT, 
-        )
-        self.categoryLabel.grid(row = 6, column = 0, padx = (40, 40), pady = (40, 40))
-        
-        self.categoryEditingEntry = customtkinter.CTkEntry(
-            self.userEntryFrame, 
-            text_color = "black", 
-            fg_color = "white",
-            font = self.FONT, 
-        )
-        self.categoryEditingEntry.grid(row = 7, column = 0, padx = (40, 40), pady = (10, 10))
-        
-        self.sizesLabel = customtkinter.CTkLabel(
-            self.userEntryFrame,
-            text = "Sizes Label Placeholder", 
-            text_color = "black", 
-            font = self.LABELFONT, 
-        )
-        self.sizesLabel.grid(row = 0, column = 1, padx = (40, 40), pady = (40, 40))
+        self.supplierLabel.grid(row=4, column=0, padx=(40, 40), pady=(40, 40), sticky = "nsew")
 
-        self.sizeEntry = customtkinter.CTkEntry(
-            self.userEntryFrame, 
-            text_color = "black", 
-            fg_color = "white", 
-            font = self.FONT, 
+        self.supplierEditingEntry = customtkinter.CTkEntry(
+            self.itemInformationUserEditingFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
         )
-        self.sizeEntry.bind("<Return>", self.addSizeEntry)
-        self.sizeEntry.grid(row = 1, column = 1, padx = (40, 40), pady = (20, 20))
-        
+        self.supplierEditingEntry.grid(row=5, column=0, padx=(40, 40), pady=(10, 10), sticky = "nsew")
+
+        self.categoryLabel = customtkinter.CTkLabel(
+            self.itemInformationUserEditingFrame,
+            text=f"Category: {self.fetchingSelectedItemCategory(cellValue)}",
+            text_color="black",
+            font=self.LABELFONT,
+        )
+        self.categoryLabel.grid(row=6, column=0, padx=(40, 40), pady=(40, 40), sticky = "nsew")
+
+        self.categoryEditingEntry = customtkinter.CTkEntry(
+            self.itemInformationUserEditingFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
+        )
+        self.categoryEditingEntry.grid(row=7, column=0, padx=(40, 40), pady=(10, 10), sticky = "nsew")
+
+        self.saveButton = customtkinter.CTkButton(
+            self.itemInformationUserEditingFrame, 
+            text = "Save Changes", 
+            fg_color = "black", 
+            text_color = "white", 
+            width = 300, 
+            height = 50,
+            commmand = self.updatingItemDatabase(cellValue), 
+        )
+        self.saveButton.grid(row = 8, column = 0, padx = (40, 40), pady = (40, 40), sticky = "nsew")
+
+        self.sizesLabel = customtkinter.CTkLabel(
+            self.sizeEditingUserEntryFrame,
+            text="Sizes Label Placeholder",
+            text_color="black",
+            font=self.LABELFONT,
+        )
+        self.sizesLabel.grid(row=0, column=1, padx=(10, 10), pady=(10, 10), sticky = "nsew")
+
         self.sizeList = []
         self.entryRow = 2
-        
-        self.creatingExistingItemSizeEntries()
-        
-    def addSizeEntry(self, event): 
+        self.creatingExistingItemSizeEntries(cellValue)
+
+    def addSizeEntry(self, event):
         size = self.sizeEntry.get()
         self.sizeList.append(size)
         newEntry = customtkinter.CTkEntry(
-            self.userEntryFrame, 
-            text_color = "black", 
-            fg_color = "white", 
-            font = self.FONT, 
+            self.sizeEditingUserEntryFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
         )
         newEntry.bind("<Return>", self.addSizeEntry)
-        newEntry.grid(row = self.entryRow, column = 1, padx = (40, 40), pady = (20, 20))
+        newEntry.grid(row=self.entryRow, column=1, padx=(40, 40), sticky = "nsew")
         self.entryRow += 1
-        
-        
-        
-    def fetchingSelectedItemName(self, cellValue): 
+
+    def fetchingSelectedItemName(self, cellValue):
         self.selectedItemName = cellValue["value"]
         ic(f"selectedItemName: {self.selectedItemName}")
         return self.selectedItemName
 
-    def fetchingSelectedItemSKU(self, cellValue): 
+    def fetchingSelectedItemSKU(self, cellValue):
         self.db.myCursor.execute(
             """
             SELECT DISTINCT sku
             FROM Items
             WHERE itemName = ? 
-            """, 
-            (cellValue["value"],)
+            """,
+            (cellValue["value"],),
         )
         result = self.db.myCursor.fetchall()
-        self.selectedItemSkuNumber = ', '.join([str(r[0]) for r in result])
+        self.selectedItemSkuNumber = ", ".join([str(r[0]) for r in result])
         ic(f"selectedItemSkuNumber: {self.selectedItemSkuNumber}")
         return self.selectedItemSkuNumber
 
-    def fetchingSelectedItemSupplier(self, cellValue): 
+    def fetchingSelectedItemSupplier(self, cellValue):
         self.db.myCursor.execute(
             """
             SELECT DISTINCT manufacturerID
             FROM Items
             WHERE itemName = ? 
             """,
-            (cellValue["value"],)
+            (cellValue["value"],),
         )
         manufacturerID = self.db.myCursor.fetchall()[0]
         self.db.myCursor.execute(
@@ -1503,22 +1515,22 @@ class ItemInformationAndEditingPage(BasePage):
             SELECT manufacturerName 
             FROM Manufacturers 
             WHERE manufacturerID = ? 
-            """, 
-            (manufacturerID)
+            """,
+            (manufacturerID),
         )
         result = self.db.myCursor.fetchall()
-        self.manufacturerName = ', '.join([str(r[0]) for r in result])
+        self.manufacturerName = ", ".join([str(r[0]) for r in result])
         ic(f"manufacturerName: {self.manufacturerName}")
         return self.manufacturerName
 
-    def fetchingSelectedItemCategory(self, cellValue): 
+    def fetchingSelectedItemCategory(self, cellValue):
         self.db.myCursor.execute(
             """
             SELECT DISTINCT categoryID 
             FROM Items 
             WHERE itemName = ? 
-            """, 
-            (cellValue["value"],)
+            """,
+            (cellValue["value"],),
         )
         categoryID = self.db.myCursor.fetchall()[0]
         self.db.myCursor.execute(
@@ -1526,45 +1538,337 @@ class ItemInformationAndEditingPage(BasePage):
             SELECT categoryName 
             FROM Categories 
             WHERE categoryID = ? 
-            """, 
-            (categoryID)
+            """,
+            (categoryID),
         )
         result = self.db.myCursor.fetchall()
-        self.categoryName = ', '.join([str(r[0]) for r in result])
+        self.categoryName = ", ".join([str(r[0]) for r in result])
         ic(f"categoryName: {self.categoryName}")
         return self.categoryName
 
-    def fetchingSelectedItemSizes(self, cellValue): 
+    def fetchingSelectedItemSizes(self, cellValue):
         self.db.myCursor.execute(
             """
             SELECT sizes 
             FROM Items 
             WHERE itemName = ? 
-            """, 
+            """,
             (cellValue["value"],),
         )
-        self.itemSizes = self.db.myCursor.fetchall()
+        self.itemSizes = [result[0] for result in self.db.myCursor.fetchall()]
         ic(f"itemSizes: {self.itemSizes}")
         return self.itemSizes
-    
-    def creatingExistingItemSizeEntries(self): 
-        for index, size in enumerate(self.fetchingSelectedItemSizes()): 
+
+    def creatingExistingItemSizeEntries(self, cellValue):
+        for index, size in enumerate(self.fetchingSelectedItemSizes(cellValue)):
             self.sizeLabel = customtkinter.CTkLabel(
-                self.userEntryFrame,
-                text = f"Size {index+1}: {size}", 
-                text_color = "black", 
-                fg_color = "white", 
-                font = self.FONT,  
+                self.sizeEditingUserEntryFrame,
+                text=f"Item Size: {size}",
+                text_color="black",
+                fg_color="white",
+                font=self.FONT,
             )
-            self.sizeLabel.grid(row = index, column = 1, padx = (40, 40), pady = (10, 10))            
-            self.sizeEntry = customtkinter.CTkEntry(
-                self.userEntryFrame, 
-                text_color = "black", 
-                fg_color = "white", 
-                font = self.FONT, 
+            self.sizeLabel.grid(row=self.entryRow, column=1, padx=(10, 10), sticky = "nsew")
+            sizeEntry = customtkinter.CTkEntry(
+                self.sizeEditingUserEntryFrame,
+                text_color="black",
+                fg_color="white",
+                font=self.FONT,
             )
-            self.sizeEntry.insert(0, size)
-            self.sizeEntry.grid(row = index, column = 1)
+            self.entryRow += 1
+            sizeEntry.grid(row=self.entryRow, column=1, padx=(10, 10), sticky = "nsew")
+            self.sizeList.append(sizeEntry)
+            self.entryRow += 1
+
+    def updatingItemDatabase(self, cellValue):
+        updatedItemName = self.itemNameEditingEntry.get()
+        updatedSkuNumber = self.skuNumberEditingEntry.get()
+        updatedManufacturer = self.supplierEditingEntry.get()
+        updatedCategory = self.categoryEditingEntry.get()
+        self.db.executeDatabaseQuery(
+            """
+            UPDATE Items
+            SET itemName = ? 
+            sku = ? 
+            WHERE itemName = ? 
+            """, 
+            (
+                updatedItemName, 
+                updatedSkuNumber, 
+                cellValue["value"], 
+            ), 
+        )
+        self.db.commit()
+        self.db.myCursor.execute(
+            """
+            SELECT * 
+            FROM Manufacturers
+            WHERE manufacturerName = ? 
+            """, 
+            (updatedManufacturer,),
+        )
+        supplierRecord = self.db.myCursor.fetchone()
+        if supplierRecord:
+            self.db.myCursor.execute(
+                """
+                SELECT manufacturerID 
+                FROM Manufacturers
+                WHERE manufacturerName = ? 
+                """, 
+                (updatedManufacturer,),
+            )
+            updatedSupplierID = self.db.myCursor.fetchone() 
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE Items 
+                SET manufacturer = ? 
+                WHERE itemName = ? 
+                """, 
+                (updatedSupplierID, cellValue["value"],),
+            )
+        else: 
+            newSupplierConfirmation = tkmb.askyesno(title = "New Supplier Entered", message = "The Supplier you have entered is not currently on the system, would you like to add them?")
+            if newSupplierConfirmation: 
+                self.db.executeDatabaseQuery(
+                    """
+                    INSERT INTO Manufacturers
+                    manufacturerName = ? 
+                    """
+                    (updatedManufacturer,),
+                )
+                self.db.commit()
+                self.db.myCursor.execute(
+                    """
+                    SELECT manufacturerID 
+                    FROM Manufacturers 
+                    WHERE manufacturerName = ? 
+                    """
+                    (updatedManufacturer,),
+                )
+                supplierRecord = self.db.myCursor.fetchone()
+                if supplierRecord:
+                    self.db.myCursor.execute(
+                        """
+                        SELECT manufacturerID 
+                        FROM Manufacturers
+                        WHERE manufacturerName = ? 
+                        """, 
+                        (updatedManufacturer,),
+                    )
+                    updatedSupplierID = self.db.myCursor.fetchone() 
+                    self.db.executeDatabaseQuery(
+                        """
+                        UPDATE Items 
+                        SET manufacturer = ? 
+                        WHERE itemName = ? 
+                        """, 
+                        (updatedSupplierID, cellValue["value"],),
+                    )
+        self.db.myCursor.execute(
+            """
+            SELECT * 
+            FROM Categories
+            WHERE categoryName = ? 
+            """
+            (updatedCategory,),
+        )
+        categoryRecord = self.db.myCursor.fetchone()
+        if categoryRecord: 
+            self.db.myCursor.execute(
+                """
+                SELECT categoryID 
+                FROM Categories 
+                WHERE categoryName = ?
+                """
+                (updatedCategory,),
+            )
+            updatedCategoryID = self.db.myCursor.fetchone()
+            self.db.executeDatabaseQuery(
+                """
+                UPDATE Items 
+                SET category = ? 
+                WHERE itemName = ? 
+                """
+                (updatedCategoryID, cellValue["value"],),
+            )
+        else: 
+            newCategoryConfirmation = tkmb.askyesno(title = "New Category Entered", message = "The Category you have entered is not currently on the system, would you like to add it?")
+            if newCategoryConfirmation: 
+                self.db.executeDatabaseQuery(
+                    """
+                    INSERT INTO Categories 
+                    categoryName = ? 
+                    """
+                    (updatedCategory,), 
+                )
+                self.db.myCursor.execute(
+                    """
+                    SELECT categoryID 
+                    FROM Categories 
+                    WHERE categoryName = ? 
+                    """
+                    (updatedCategory,),
+                )
+                categoryRecord = self.db.myCursor.fetchone()
+                if categoryRecord: 
+                    self.db.myCursor.execute(
+                        """
+                        SELECT categoryID 
+                        FROM Categories 
+                        WHERE categoryName = ?
+                        """
+                        (updatedCategory,),
+                    )
+                    updatedCategoryID = self.db.myCursor.fetchone()
+                    self.db.executeDatabaseQuery(
+                        """
+                        UPDATE Items 
+                        SET category = ? 
+                        WHERE itemName = ? 
+                        """
+                        (updatedCategoryID, cellValue["value"],),
+                    )
+
+
+class ItemCreationPage(BasePage): 
+    def __init__(self, mainWindow, mainFrame, imageWrapper, mainApplicationClass, cellValue): 
+        super().__init__(mainWindow, mainFrame, imageWrapper, mainApplicationClass)
+        self.db = SQLiteWrapper(
+            "database/inventoryDatabase.db", 
+            "database/loginInfoDatabase.db", 
+            "database/remindersDatabase.db", 
+        )
+        ic("ItemCreationPage Initialized")
+
+        self.itemInformationUserEntryFrame = customtkinter.CTkFrame(
+            self.widgetFrame,
+            fg_color="white",
+            width=930,
+            height=990,
+        )
+        self.itemInformationUserEntryFrame.grid_propagate(False)
+        self.itemInformationUserEntryFrame.pack_propagate(False)
+        self.itemInformationUserEntryFrame.grid(
+            row=0, column=0, padx=(10, 10), pady=(10, 10), sticky="nsew"
+        )
+
+        self.sizeEntryFrame = customtkinter.CTkFrame(
+            self.widgetFrame,
+            fg_color="white",
+            width=930,
+            height=950,
+        )
+        self.sizeEntryFrame.grid_propagate(False)
+        self.sizeEntryFrame.pack_propagate(False)
+        self.sizeEntryFrame.grid(
+            row=0, column=1, padx=(10, 10), pady=(10, 10), sticky="nsew"
+        )
+
+        self.itemNameLabel = customtkinter.CTkLabel(
+            self.itemInformationUserEntryFrame,
+            text="Item Name: ",
+            text_color="black",
+            font=self.LABELFONT,
+        )
+        self.itemNameLabel.grid(row=0, column=0, padx=(40, 40), pady=(40, 40), sticky = "nsew")
+
+        self.itemNameEntry = customtkinter.CTkEntry(
+            self.itemInformationUserEntryFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
+        )
+        self.itemNameEntry.grid(row=1, column=0, padx=(40, 40), pady=(10, 10), sticky = "nsew")
+
+        self.skuNumberLabel = customtkinter.CTkLabel(
+            self.itemInformationUserEntryFrame,
+            text="SKU Number: ",
+            text_color="black",
+            font=self.LABELFONT,
+        )
+        self.skuNumberLabel.grid(row=2, column=0, padx=(40, 40), pady=(40, 40), sticky = "nsew")
+
+        self.skuNumberEntry = customtkinter.CTkEntry(
+            self.itemInformationUserEntryFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
+        )
+        self.skuNumberEntry.grid(row=3, column=0, padx=(40, 40), pady=(10, 10), sticky = "nsew")
+
+        self.supplierLabel = customtkinter.CTkLabel(
+            self.itemInformationUserEntryFrame,
+            text="Supplier: ",
+            text_color="black",
+            font=self.LABELFONT,
+        )
+        self.supplierLabel.grid(row=4, column=0, padx=(40, 40), pady=(40, 40), sticky = "nsew")
+
+        self.supplierEntry = customtkinter.CTkEntry(
+            self.itemInformationUserEntryFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
+        )
+        self.supplierEntry.grid(row=5, column=0, padx=(40, 40), pady=(10, 10), sticky = "nsew")
+
+        self.categoryLabel = customtkinter.CTkLabel(
+            self.itemInformationUserEntryFrame,
+            text="Category: ",
+            text_color="black",
+            font=self.LABELFONT,
+        )
+        self.categoryLabel.grid(row=6, column=0, padx=(40, 40), pady=(40, 40), sticky = "nsew")
+
+        self.categoryEntry = customtkinter.CTkEntry(
+            self.itemInformationUserEntryFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
+        )
+        self.categoryEntry.grid(row=7, column=0, padx=(40, 40), pady=(10, 10), sticky = "nsew")
+
+        self.saveButton = customtkinter.CTkButton(
+            self.itemInformationUserEntryFrame, 
+            text = "Save Changes", 
+            fg_color = "black", 
+            text_color = "white", 
+            width = 300, 
+            height = 50,
+            commmand = self.updatingItemDatabase(cellValue), 
+        )
+        self.saveButton.grid(row = 8, column = 0, padx = (40, 40), pady = (40, 40), sticky = "nsew")
+
+        self.sizesLabel = customtkinter.CTkLabel(
+            self.sizeEntryFrame,
+            text="Sizes Label Placeholder",
+            text_color="black",
+            font=self.LABELFONT,
+        )
+        self.sizesLabel.grid(row=0, column=1, padx=(10, 10), pady=(10, 10), sticky = "nsew")
+
+        self.sizeList = []
+        self.entryRow = 2
+        self.creatingExistingItemSizeEntries(cellValue)
+
+    def addSizeEntry(self, event):
+        size = self.sizeEntry.get()
+        self.sizeList.append(size)
+        newEntry = customtkinter.CTkEntry(
+            self.sizeEntryFrame,
+            text_color="black",
+            fg_color="white",
+            font=self.FONT,
+        )
+        newEntry.bind("<Return>", self.addSizeEntry)
+        newEntry.grid(row=self.entryRow, column=1, padx=(40, 40), sticky = "nsew")
+        self.entryRow += 1
+        
+    def saveItemToDatabase(self): 
+        itemName = self.itemNameEntry.get()
+        itemSku = self.skuNumberEntry.get()
+        itemSupplier = self.supplierEntry.get()
+        itemCategory = self.categoryEntry.get()
 
 
 class BrowseStockMovementsPage(BasePage):
@@ -1587,8 +1891,7 @@ class BrowseStockMovementsPage(BasePage):
             height=50,
         )
         self.pageSearchContainer.pack_propagate(False)
-        self.pageSearchContainer.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10))
+        self.pageSearchContainer.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.userSearchEntry = customtkinter.CTkEntry(
             self.pageSearchContainer,
@@ -1625,8 +1928,7 @@ class BrowseStockMovementsPage(BasePage):
             variable=self.movementOptionMenuStringVar,
             values=["Purchase Orders", "Transfers"],
         )
-        self.movementOptionMenu.grid(
-            row=0, column=2, padx=(10, 10), pady=(10, 10))
+        self.movementOptionMenu.grid(row=0, column=2, padx=(10, 10), pady=(10, 10))
 
         self.itemTableScrollFrame = customtkinter.CTkScrollableFrame(
             self.widgetFrame,
@@ -1635,8 +1937,7 @@ class BrowseStockMovementsPage(BasePage):
             height=900,
         )
         self.itemTableScrollFrame.pack_propagate(False)
-        self.itemTableScrollFrame.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10))
+        self.itemTableScrollFrame.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.tableOfContents = CTkTable(
             self.itemTableScrollFrame,
@@ -1925,8 +2226,10 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
             (cellValue["value"],),
         )
         self.purchaseOrderInformationResults = self.db.myCursor.fetchall()
-        ic(f"purchaseOrderInformationResults: {
-           self.purchaseOrderInformationResults}")
+        ic(
+            f"purchaseOrderInformationResults: {
+           self.purchaseOrderInformationResults}"
+        )
         return self.purchaseOrderInformationResults
 
     def retrievingItemsFromTransfer(self, cellValue):
@@ -2011,8 +2314,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                 text="Update Purchase Order",
                 text_color="white",
                 font=self.FONT,
-                command=lambda: self.updatingPurchaseOrderInformation(
-                    cellValue),
+                command=lambda: self.updatingPurchaseOrderInformation(cellValue),
             )
             self.updatePurchaseOrderButton.pack(side="right")
 
@@ -2068,8 +2370,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                     text_color="black",
                     font=self.FONT,
                 )
-                self.itemLabel.pack(
-                    anchor="center", padx=(10, 10), pady=(10, 10))
+                self.itemLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
                 itemEntry = customtkinter.CTkEntry(
                     self.enclosedItemsScrollFrame,
@@ -2086,8 +2387,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                     text="Update Transfer",
                     text_color="white",
                     font=self.FONT,
-                    command=lambda: self.updatingTransferInformation(
-                        cellValue),
+                    command=lambda: self.updatingTransferInformation(cellValue),
                 )
                 self.updateTransferButton.pack(side="right")
 
@@ -2296,8 +2596,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                         WHERE itemSize = ? 
                         AND transferID = ? 
                         """,
-                        (self.newQuantity, self.transferItemSize,
-                         cellValue["value"]),
+                        (self.newQuantity, self.transferItemSize, cellValue["value"]),
                     )
                     self.db.commit()
             ic(f"newQuantity: {self.newQuantity}")
@@ -2833,8 +3132,7 @@ class PurchaseOrderPage(BasePage):
         )
         if rows:
             self.sku = rows[0][0]
-            self.itemLabel.configure(
-                text=f"{self.selectedItem.get()}(SKU: {self.sku})")
+            self.itemLabel.configure(text=f"{self.selectedItem.get()}(SKU: {self.sku})")
         else:
             self.itemLabel.configure(
                 text=f"{self.selectedItem.get()}, (SKU: Not Found)"
@@ -2886,8 +3184,7 @@ class PurchaseOrderPage(BasePage):
         try:
             quantity = int(quantity)
         except ValueError:
-            tkmb.showerror(
-                title="Error", message="Quantities must be a number")
+            tkmb.showerror(title="Error", message="Quantities must be a number")
             raise TypeError("Quantity must be an integer")
         if quantity < 0:
             tkmb.showerror(
@@ -2896,8 +3193,7 @@ class PurchaseOrderPage(BasePage):
             )
             raise ValueError("Quantity must be 0 or larger")
         if deliveryDate <= currentDate:
-            tkmb.showerror(
-                title="Error", message="Delivery Date must be in the future")
+            tkmb.showerror(title="Error", message="Delivery Date must be in the future")
             raise ValueError("Delivery Date must be in the future")
         itemIDResults = self.db.executeDatabaseQuery(
             "SELECT itemID FROM Items WHERE itemName = ?", (itemName,)
@@ -2906,8 +3202,7 @@ class PurchaseOrderPage(BasePage):
         results = self.db.executeDatabaseQuery(
             "SELECT MAX(purchaseOrderNumber) FROM PurchaseOrder", ()
         )
-        purchaseOrderNumber = results[0][0] + \
-            1 if results[0][0] is not None else 1
+        purchaseOrderNumber = results[0][0] + 1 if results[0][0] is not None else 1
 
         purchaseOrderInformation = f"""
         purchaseOrderNumber: {purchaseOrderNumber}
@@ -2991,8 +3286,7 @@ class TransfersPage(BasePage):
         contains a string representation of an item and its size.
         """
         self.allItems = self.db.fetchAllItemsAndSizes()
-        values = [[f"{itemInfo[0]} {itemInfo[1]}"]
-                  for itemInfo in self.allItems]
+        values = [[f"{itemInfo[0]} {itemInfo[1]}"] for itemInfo in self.allItems]
 
         self.transferInformationFrame = customtkinter.CTkFrame(
             master=self.widgetFrame,
@@ -3098,8 +3392,7 @@ class TransfersPage(BasePage):
             height=680,
         )
         self.searchedItemScrollFrame.pack_propagate(False)
-        self.searchedItemScrollFrame.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10))
+        self.searchedItemScrollFrame.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.itemListTable = CTkTable(
             self.searchedItemScrollFrame,
@@ -3230,8 +3523,7 @@ class TransfersPage(BasePage):
         else:
             ic(f"selectedRowValues is not a list: {self.selectedRowValues}")
 
-        self.selectedRowValuesString = ", ".join(
-            map(str, self.selectedRowValues))
+        self.selectedRowValuesString = ", ".join(map(str, self.selectedRowValues))
         ic(f"selectedRowValues: {self.selectedRowValues}")
         ic(f"selectedRowValuesString: {self.selectedRowValuesString}")
 
@@ -3283,12 +3575,10 @@ class TransfersPage(BasePage):
         ic(f"self.quantitiesBeingSent: {self.quantityBeingSent}")
 
         if not self.sendingLocation:
-            tkmb.showerror(
-                title="Error", message="Please enter the senders location")
+            tkmb.showerror(title="Error", message="Please enter the senders location")
             raise ValueError("No sender location entered")
         if not self.receivingLocation:
-            tkmb.showerror(
-                title="Error", message="Please enter the receivers location")
+            tkmb.showerror(title="Error", message="Please enter the receivers location")
             raise ValueError("No end location entered")
         if self.sendingLocation == self.receivingLocation:
             tkmb.showerror(
@@ -3307,8 +3597,7 @@ class TransfersPage(BasePage):
             tkmb.showerror(title="Error", message="Quantity must be a number")
             raise ValueError("Quantity entered not an integer")
         if self.quantityBeingSent <= 0:
-            tkmb.showerror(
-                title="Error", message="Quantity must be larger than 0")
+            tkmb.showerror(title="Error", message="Quantity must be larger than 0")
             raise ValueError("Quantity entered is a negative number")
 
         for itemID in self.itemID:
@@ -3576,8 +3865,7 @@ class ReportsPage(BasePage):
             variable=self.selectedItem,
             values=uniqueCategories,
         )
-        self.catagoryOptionMenu.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10))
+        self.catagoryOptionMenu.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.exportReportButton = customtkinter.CTkButton(
             master=self.userReportGenerationFrame,
@@ -3633,8 +3921,7 @@ class ReportsPage(BasePage):
             font=self.LABELFONT,
             text_color="black",
         )
-        self.activitiesFrameLabel.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10))
+        self.activitiesFrameLabel.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.activitiesFrameInfo = customtkinter.CTkLabel(
             self.activitiesFrame,
@@ -3642,8 +3929,7 @@ class ReportsPage(BasePage):
             font=self.FONT,
             text_color="black",
         )
-        self.activitiesFrameInfo.pack(
-            anchor="center", padx=(10, 10), pady=(10, 10))
+        self.activitiesFrameInfo.pack(anchor="center", padx=(10, 10), pady=(10, 10))
 
         self.chartCanvas = customtkinter.CTkFrame(
             self.chartFrame, fg_color="transparent", width=950, height=280
@@ -3862,7 +4148,7 @@ class ReportsPage(BasePage):
             """
         )
         data = self.db.myCursor.fetchall()
-        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d"))for row in data]
+        dates = [date2num(datetime.strptime(row[0], "%Y-%m-%d")) for row in data]
         sales = [row[1] for row in data]
         fig = Figure(figsize=(5, 6), dpi=100)
         a = fig.add_subplot(111)
