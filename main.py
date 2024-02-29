@@ -17,6 +17,7 @@ from icecream import ic
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import date2num
 from matplotlib.figure import Figure
+
 # * Related Third Party Imports
 from PIL import Image
 from tkcalendar import DateEntry
@@ -1847,6 +1848,14 @@ class ItemCreationPage(BasePage):
         )
         self.sizesLabel.grid(row=0, column=1, padx=(10, 10), pady=(10, 10), sticky = "nsew")
 
+        self.sizeEntry = customtkinter.CTkEntry(
+            self.sizeEntryFrame, 
+            fg_color = "white", 
+            text_color = "black", 
+            font = self.FONT, 
+        )
+        self.sizeEntry.grid(row = 1, column = 0, padx = (10, 10), pady = (10, 10), sticky = "nsew")
+
         self.sizeList = []
         self.entryRow = 2
         self.creatingExistingItemSizeEntries(cellValue)
@@ -1869,6 +1878,121 @@ class ItemCreationPage(BasePage):
         itemSku = self.skuNumberEntry.get()
         itemSupplier = self.supplierEntry.get()
         itemCategory = self.categoryEntry.get()
+        self.db.myCursor.execute(
+            """
+            SELECT itemName 
+            FROM Items 
+            WHERE itemName = ? 
+            """, 
+            (itemName,),
+        )
+        itemNameCheck = self.db.myCursor.fetchall()
+        if itemNameCheck is not None: 
+            tkmb.showerror(
+                title = "Error", 
+                message = "Item already exists. Please enter a unique item name." 
+            )
+        self.db.myCursor.execute(
+            """
+            SELECT sku 
+            FROM Items
+            WHERE sku = ? 
+            """
+            (itemSku,),
+        )
+        itemSkuCheck = self.db.myCursor.fetchall()
+        if itemSkuCheck is not None: 
+            tkmb.showerror(
+                title = "Error", 
+                message = "The SKU entered already exists. Please enter a unique SKU number."
+            )
+        self.db.myCursor.execute(
+            """
+            SELECT manufacturerID 
+            FROM Manufacturers 
+            WHERE manufacturerName = ? 
+            """, 
+            (itemSupplier,), 
+        )
+        supplierID = self.db.myCursor.fetchone()
+        if supplierID is None: 
+            newSupplierConfirmation = tkmb.askyesno(
+                title = "New Supplier", 
+                message = "The supplier you have entered is not currently on the system, would you like to add them?"
+            )
+            if newSupplierConfirmation: 
+                self.db.executeDatabaseQuery(
+                    """
+                    INSERT INTO Manufacturers
+                    manufacturerName = ? 
+                    """, 
+                    (itemSupplier,),
+                )
+                self.db.commit()
+                self.db.myCursor.execute(
+                    """
+                    SELECT manufacturerID 
+                    FROM Manufacturers 
+                    WHERE manufacturerID = ? 
+                    """, 
+                    (itemSupplier,),
+                )
+                newItemSupplierID = self.db.myCursor.fetchone()
+            else: 
+                pass 
+        else: 
+            pass 
+        self.db.myCursor.execute(
+            """
+            SELECT categoryID 
+            FROM Categories 
+            WHERE Category = ? 
+            """, 
+            (itemCategory,),
+        )
+        categoryID = self.db.myCursor.fetchone()
+        if categoryID is None: 
+            newCategoryConfirmation = tkmb.askyesno(
+                title = "New Category",
+                message = "The category you have entered is not currently in the system, would you like to add it?"
+            )
+            if newCategoryConfirmation: 
+                self.db.executeDatabaseQuery(
+                    """
+                    INSERT INTO Categories 
+                    categoryName = ? 
+                    """, 
+                    (itemCategory,),
+                )
+                self.db.commit()
+                self.db.myCursor.execute(
+                    """
+                    SELECT categoryID 
+                    FROM Categories 
+                    WHERE categoryName = ? 
+                    """, 
+                    (itemCategory,),
+                )
+                newCategoryID = self.db.myCursor.fetchone()
+            else: 
+                pass 
+        else: 
+            pass 
+        self.db.myCursor.execute(
+            """
+            INSERT INTO Items 
+            itemName = ? 
+            manufacturerID = ? 
+            categoryID = ?
+            sku = ?  
+            """, 
+            (itemName, newItemSupplierID, newCategoryID, itemSku,),
+        )
+        self.db.commit()
+        tkmb.showinfo(
+            title = "Success", 
+            message = "You have successfully added a new item to the system",
+        )
 
 
 class BrowseStockMovementsPage(BasePage):
