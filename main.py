@@ -17,7 +17,6 @@ from icecream import ic
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import date2num
 from matplotlib.figure import Figure
-
 # * Related Third Party Imports
 from PIL import Image
 from tkcalendar import DateEntry
@@ -779,9 +778,9 @@ class MainApplicationClass(InventoryManagementSystemApplication, RegisterPages):
         )
         return self.currentPage
 
-    def openItemInformationAndEditingPage(self, cellValue):
+    def openItemInformationEditingPage(self, cellValue):
         self.clearMainWindow()
-        self.currentPage = ItemInformationAndEditingPage(
+        self.currentPage = ItemInformationEditingPage(
             self.mainWindow,
             self.mainFrame,
             self.imageWrapper,
@@ -1346,7 +1345,7 @@ class InventoryPage(BasePage):
         self.tableOfContents.grid(sticky="nsew")
 
 
-class ItemInformationAndEditingPage(BasePage):
+class ItemInformationEditingPage(BasePage):
     def __init__(
         self, mainWindow, mainFrame, imageWrapper, mainApplicationClass, cellValue
     ):
@@ -1939,9 +1938,7 @@ class ItemCreationPage(BasePage):
                 )
                 newItemSupplierID = self.db.myCursor.fetchone()
             else: 
-                pass 
-        else: 
-            pass 
+                return 
         self.db.myCursor.execute(
             """
             SELECT categoryID 
@@ -1975,24 +1972,27 @@ class ItemCreationPage(BasePage):
                 )
                 newCategoryID = self.db.myCursor.fetchone()
             else: 
-                pass 
-        else: 
-            pass 
-        self.db.myCursor.execute(
-            """
-            INSERT INTO Items 
-            itemName = ? 
-            manufacturerID = ? 
-            categoryID = ?
-            sku = ?  
-            """, 
-            (itemName, newItemSupplierID, newCategoryID, itemSku,),
-        )
-        self.db.commit()
-        tkmb.showinfo(
-            title = "Success", 
-            message = "You have successfully added a new item to the system",
-        )
+                return 
+        for size in self.sizeList: 
+            self.db.myCursor.execute(
+                """
+                INSERT INTO Items 
+                (
+                    itemName,
+                    manufacturerID, 
+                    categoryID, 
+                    sku, 
+                    sizes
+                )
+                VALUES (?, ?, ?, ?, ?)
+                """, 
+                (itemName, newItemSupplierID, newCategoryID, itemSku, size,),
+            )
+            self.db.commit()
+            tkmb.showinfo(
+                title = "Success", 
+                message = "You have successfully added a new item to the system",
+            )
 
 
 class BrowseStockMovementsPage(BasePage):
@@ -2621,6 +2621,7 @@ class PurchaseOrderAndTransferEditingPage(BasePage):
                 )
             else:
                 ic("Error: checkInQuantities is None")
+                tkmb.showerror(title = "Error", message = "There are check in quatities that are 0")
         self.clearWidgets()
         ic("Successfully checked in stock")
         tkmb.showinfo(
@@ -4086,7 +4087,6 @@ class ReportsPage(BasePage):
         try:
             with open(f"{safeTimeString}.csv", "w") as exportedFile:
                 csvPen = csv.writer(exportedFile, delimiter=",")
-
                 if reportType == "daily":
                     if selectedCategory == "All":
                         self.db.myCursor.execute(
